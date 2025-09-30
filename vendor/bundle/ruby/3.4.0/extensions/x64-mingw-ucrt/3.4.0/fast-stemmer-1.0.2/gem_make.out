@@ -1,0 +1,20 @@
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/fast-stemmer-1.0.2/ext
+C:/Ruby34-x64/bin/ruby.exe extconf.rb
+creating Makefile
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/fast-stemmer-1.0.2/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-9b5baj sitelibdir\=./.gem.20250930-31416-9b5baj clean
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/fast-stemmer-1.0.2/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-9b5baj sitelibdir\=./.gem.20250930-31416-9b5baj
+generating stemmer-x64-mingw-ucrt.def
+compiling porter.c
+compiling porter_wrap.c
+linking shared-object stemmer.so
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/fast-stemmer-1.0.2/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-9b5baj sitelibdir\=./.gem.20250930-31416-9b5baj install
+/usr/bin/install -c -m 0755 stemmer.so ./.gem.20250930-31416-9b5baj
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/fast-stemmer-1.0.2/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-9b5baj sitelibdir\=./.gem.20250930-31416-9b5baj clean

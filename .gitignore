@@ -1,4 +1,5 @@
 _site
+<<<<<<< HEAD
 _posts/_draft
 _posts/_archive
 _archive
@@ -11,3 +12,11 @@ node_modules
 .jekyll-cache
 */.DS_Store
 */*/.DS_Store
+=======
+.bundle
+.DS_Store
+.jekyll-cache
+.jekyll-metadata
+.sass-cache
+Gemfile.lock
+>>>>>>> 01b5b3ba47b23071dd683b0700d15e8413e0da9c

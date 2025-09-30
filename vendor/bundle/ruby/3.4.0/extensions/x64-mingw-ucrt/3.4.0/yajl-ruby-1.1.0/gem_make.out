@@ -1,0 +1,49 @@
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/yajl-ruby-1.1.0/ext/yajl
+C:/Ruby34-x64/bin/ruby.exe extconf.rb
+creating Makefile
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/yajl-ruby-1.1.0/ext/yajl
+make DESTDIR\= sitearchdir\=./.gem.20250930-29628-n4xcjv sitelibdir\=./.gem.20250930-29628-n4xcjv clean
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/yajl-ruby-1.1.0/ext/yajl
+make DESTDIR\= sitearchdir\=./.gem.20250930-29628-n4xcjv sitelibdir\=./.gem.20250930-29628-n4xcjv
+generating yajl-x64-mingw-ucrt.def
+compiling yajl.c
+compiling yajl_alloc.c
+compiling yajl_buf.c
+compiling yajl_encode.c
+compiling yajl_ext.c
+yajl_ext.c: In function 'yajl_encode_part':
+yajl_ext.c:117:21: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+  117 |     yajl_gen_status status;
+      |                     ^~~~~~
+In file included from C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/dosish.h:38,
+                 from C:/Ruby34-x64/include/ruby-3.4.0/ruby/defines.h:78,
+                 from C:/Ruby34-x64/include/ruby-3.4.0/ruby/ruby.h:25,
+                 from C:/Ruby34-x64/include/ruby-3.4.0/ruby.h:38,
+                 from yajl_ext.h:32,
+                 from yajl_ext.c:24:
+yajl_ext.c: In function 'rb_yajl_parser_parse':
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/win32.h:203:14: warning: variable 'stati128' set but not used [-Wunused-but-set-variable]
+  203 | #define stat stati128
+      |              ^~~~~~~~
+yajl_ext.c:442:17: note: in expansion of macro 'stat'
+  442 |     yajl_status stat;
+      |                 ^~~~
+In file included from C:/Ruby34-x64/include/ruby-3.4.0/ruby/ruby.h:27:
+yajl_ext.c: In function 'rb_yajl_encoder_enable_json_gem_ext':
+yajl_ext.c:852:22: error: 'rb_cFixnum' undeclared (first use in this function); did you mean 'rb_cFile'?
+  852 |     rb_define_method(rb_cFixnum, "to_json", rb_yajl_json_ext_fixnum_to_json, -1);
+      |                      ^~~~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/anyargs.h:362:79: note: in definition of macro 'rb_define_method'
+  362 | #define rb_define_method(klass, mid, func, arity)           rb_define_method((klass), (mid), (VALUE (*)(ANYARGS))(func), (arity))
+      |                                                                               ^~~~~
+yajl_ext.c:852:22: note: each undeclared identifier is reported only once for each function it appears in
+  852 |     rb_define_method(rb_cFixnum, "to_json", rb_yajl_json_ext_fixnum_to_json, -1);
+      |                      ^~~~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/anyargs.h:362:79: note: in definition of macro 'rb_define_method'
+  362 | #define rb_define_method(klass, mid, func, arity)           rb_define_method((klass), (mid), (VALUE (*)(ANYARGS))(func), (arity))
+      |                                                                               ^~~~~
+make: *** [Makefile:251：yajl_ext.o] 错误 1
+
+make failed, exit code 2

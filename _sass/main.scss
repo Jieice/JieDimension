@@ -1,0 +1,65 @@
+---
+# Only the main files need this front matter.
+---
+
+@import "minima";
+
+/* 在这里添加你的自定义样式 */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.wrapper {
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 0 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header.site-header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+}
+
+.site-title {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.site-nav {
+    margin-top: 10px;
+}
+
+.site-nav .page-link {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+.site-nav .page-link:hover {
+    text-decoration: underline;
+}
+
+.post-content {
+    padding: 20px 0;
+}
+
+footer.site-footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    border-radius: 0 0 8px 8px;
+}

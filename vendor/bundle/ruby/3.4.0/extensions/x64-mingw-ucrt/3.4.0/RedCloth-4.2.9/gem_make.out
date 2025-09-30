@@ -1,0 +1,45 @@
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/RedCloth-4.2.9/ext/redcloth_scan
+C:/Ruby34-x64/bin/ruby.exe extconf.rb
+checking for main() in -lc... no
+creating Makefile
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/RedCloth-4.2.9/ext/redcloth_scan
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-aig5ny sitelibdir\=./.gem.20250930-31416-aig5ny clean
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/RedCloth-4.2.9/ext/redcloth_scan
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-aig5ny sitelibdir\=./.gem.20250930-31416-aig5ny
+generating redcloth_scan-x64-mingw-ucrt.def
+compiling redcloth_attributes.c
+ragel/redcloth_attributes.c.rl: In function 'redcloth_attribute_parser':
+ragel/redcloth_attributes.c.rl:22:1: warning: old-style function definition [-Wold-style-definition]
+ragel/redcloth_attributes.c.rl:27:11: warning: variable 'act' set but not used [-Wunused-but-set-variable]
+ragel/redcloth_attributes.c.rl: In function 'redcloth_attributes':
+ragel/redcloth_attributes.c.rl:42:1: warning: old-style function definition [-Wold-style-definition]
+ragel/redcloth_attributes.c.rl: In function 'redcloth_link_attributes':
+ragel/redcloth_attributes.c.rl:51:1: warning: old-style function definition [-Wold-style-definition]
+compiling redcloth_inline.c
+ragel/redcloth_inline.c.rl: In function 'red_block':
+ragel/redcloth_inline.c.rl:100:9: warning: variable 'attr_regs' set but not used [-Wunused-but-set-variable]
+ragel/redcloth_inline.c.rl: In function 'redcloth_inline':
+ragel/redcloth_inline.c.rl:146:1: warning: old-style function definition [-Wold-style-definition]
+ragel/redcloth_inline.c.rl: In function 'rb_str_cat_escaped':
+ragel/redcloth_inline.c.rl:171:1: warning: old-style function definition [-Wold-style-definition]
+ragel/redcloth_inline.c.rl: In function 'rb_str_cat_escaped_for_preformatted':
+ragel/redcloth_inline.c.rl:181:1: warning: old-style function definition [-Wold-style-definition]
+ragel/redcloth_inline.c.rl: In function 'redcloth_inline2':
+ragel/redcloth_inline.c.rl:191:1: warning: old-style function definition [-Wold-style-definition]
+compiling redcloth_scan.c
+ragel/redcloth_scan.c.rl: In function 'redcloth_transform':
+ragel/redcloth_scan.c.rl:29:1: warning: old-style function definition [-Wold-style-definition]
+ragel/redcloth_scan.c.rl: In function 'redcloth_transform2':
+ragel/redcloth_scan.c.rl:69:1: warning: old-style function definition [-Wold-style-definition]
+ragel/redcloth_scan.c.rl: In function 'redcloth_to':
+ragel/redcloth_scan.c.rl:203:1: warning: old-style function definition [-Wold-style-definition]
+linking shared-object redcloth_scan.so
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/RedCloth-4.2.9/ext/redcloth_scan
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-aig5ny sitelibdir\=./.gem.20250930-31416-aig5ny install
+/usr/bin/install -c -m 0755 redcloth_scan.so ./.gem.20250930-31416-aig5ny
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/RedCloth-4.2.9/ext/redcloth_scan
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-aig5ny sitelibdir\=./.gem.20250930-31416-aig5ny clean

@@ -1,0 +1,19 @@
+- title: 首页
+  url: "/"
+  side: left
+
+- title: 游戏介绍
+  url: "/game-info/"
+  side: left
+
+- title: 游戏下载
+  url: "/download/"
+  side: left
+
+- title: 开发日志
+  url: "/blog/"
+  side: left
+
+- title: "联系我"
+  url: "/contact/"
+  side: right
