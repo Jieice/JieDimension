@@ -27,4 +27,4 @@ end
 require "rubygems"
 require "bundler/setup"
 
-load Gem.bin_path("sass-embedded", "sass")
+load Gem.bin_path("sass", "sass")

@@ -1,4 +1,4 @@
-@ruby -x "%~f0" %*
+@"C:\Ruby34-x64\bin\ruby.exe" -x "%~f0" %*
 @exit /b %ERRORLEVEL%
 
 #!/usr/bin/env ruby

@@ -1,0 +1,40 @@
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/rdiscount-2.1.7/ext
+C:/Ruby34-x64/bin/ruby.exe extconf.rb
+checking for random()... no
+checking for srandom()... no
+checking for rand()... yes
+checking for srand()... yes
+checking size of unsigned long... 4
+checking size of unsigned int... 4
+creating Makefile
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/rdiscount-2.1.7/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-27980-85v1gu sitelibdir\=./.gem.20250930-27980-85v1gu clean
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/rdiscount-2.1.7/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-27980-85v1gu sitelibdir\=./.gem.20250930-27980-85v1gu
+generating rdiscount-x64-mingw-ucrt.def
+compiling Csio.c
+compiling amalloc.c
+compiling basename.c
+compiling css.c
+compiling docheader.c
+compiling dumptree.c
+compiling emmatch.c
+compiling flags.c
+compiling generate.c
+generate.c: In function 'p_or_nothing':
+generate.c:602:1: warning: old-style function definition [-Wold-style-definition]
+  602 | p_or_nothing(p)
+      | ^~~~~~~~~~~~
+compiling github_flavoured.c
+compiling html5.c
+compiling markdown.c
+compiling mkdio.c
+compiling mktags.c
+mktags.c:44:1: error: return type defaults to 'int' [-Wimplicit-int]
+   44 | main()
+      | ^~~~
+make: *** [Makefile:251：mktags.o] 错误 1
+
+make failed, exit code 2

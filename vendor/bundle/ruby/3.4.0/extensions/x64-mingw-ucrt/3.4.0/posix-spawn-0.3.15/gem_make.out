@@ -1,0 +1,18 @@
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/posix-spawn-0.3.15/ext
+C:/Ruby34-x64/bin/ruby.exe extconf.rb
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/posix-spawn-0.3.15/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-u8alzk sitelibdir\=./.gem.20250930-31416-u8alzk clean
+make: *** 没有规则可制作目标“clean”。 停止。
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/posix-spawn-0.3.15/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-u8alzk sitelibdir\=./.gem.20250930-31416-u8alzk
+make: 对“default”无需做任何事。
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/posix-spawn-0.3.15/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-u8alzk sitelibdir\=./.gem.20250930-31416-u8alzk install
+make: 对“install”无需做任何事。
+
+current directory: D:/Blog/my-awesome-blog/vendor/bundle/ruby/3.4.0/gems/posix-spawn-0.3.15/ext
+make DESTDIR\= sitearchdir\=./.gem.20250930-31416-u8alzk sitelibdir\=./.gem.20250930-31416-u8alzk clean
+make: *** 没有规则可制作目标“clean”。 停止。

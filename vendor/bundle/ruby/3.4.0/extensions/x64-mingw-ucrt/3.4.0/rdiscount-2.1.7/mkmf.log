@@ -1,0 +1,273 @@
+have_func: checking for random()... -------------------- no
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest.exe -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong conftest.c -L. -LC:/Ruby34-x64/lib -L. -pipe -s -fstack-protector-strong -lpthread -Wl,--no-as-needed     -lx64-ucrt-ruby340  -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi -lbcrypt  "
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <winsock2.h>
+4: #include <windows.h>
+5: int main(int argc, char **argv)
+6: {
+7:   return !!argv[argc];
+8: }
+/* end */
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest.exe -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong conftest.c -L. -LC:/Ruby34-x64/lib -L. -pipe -s -fstack-protector-strong -lpthread -Wl,--no-as-needed     -lx64-ucrt-ruby340  -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi -lbcrypt  "
+conftest.c: In function 't':
+conftest.c:17:57: error: 'random' undeclared (first use in this function); did you mean 'rand'?
+   17 | int t(void) { void ((*volatile p)()); p = (void ((*)()))random; return !p; }
+      |                                                         ^~~~~~
+      |                                                         rand
+conftest.c:17:57: note: each undeclared identifier is reported only once for each function it appears in
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <winsock2.h>
+ 4: #include <windows.h>
+ 5: 
+ 6: /*top*/
+ 7: extern int t(void);
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     int (* volatile tp)(void)=(int (*)(void))&t;
+12:     printf("%d", (*tp)());
+13:   }
+14: 
+15:   return !!argv[argc];
+16: }
+17: int t(void) { void ((*volatile p)()); p = (void ((*)()))random; return !p; }
+/* end */
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest.exe -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong conftest.c -L. -LC:/Ruby34-x64/lib -L. -pipe -s -fstack-protector-strong -lpthread -Wl,--no-as-needed     -lx64-ucrt-ruby340  -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi -lbcrypt  "
+C:/Ruby34-x64/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\Users\Jieice\AppData\Local\Temp\ccr744ze.o:conftest.c:(.text+0x5): undefined reference to `random'
+collect2.exe: error: ld returned 1 exit status
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <winsock2.h>
+ 4: #include <windows.h>
+ 5: 
+ 6: /*top*/
+ 7: extern int t(void);
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     int (* volatile tp)(void)=(int (*)(void))&t;
+12:     printf("%d", (*tp)());
+13:   }
+14: 
+15:   return !!argv[argc];
+16: }
+17: extern void random();
+18: int t(void) { random(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for srandom()... -------------------- no
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest.exe -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong conftest.c -L. -LC:/Ruby34-x64/lib -L. -pipe -s -fstack-protector-strong -lpthread -Wl,--no-as-needed     -lx64-ucrt-ruby340  -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi -lbcrypt  "
+conftest.c: In function 't':
+conftest.c:17:57: error: 'srandom' undeclared (first use in this function); did you mean 'srand'?
+   17 | int t(void) { void ((*volatile p)()); p = (void ((*)()))srandom; return !p; }
+      |                                                         ^~~~~~~
+      |                                                         srand
+conftest.c:17:57: note: each undeclared identifier is reported only once for each function it appears in
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <winsock2.h>
+ 4: #include <windows.h>
+ 5: 
+ 6: /*top*/
+ 7: extern int t(void);
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     int (* volatile tp)(void)=(int (*)(void))&t;
+12:     printf("%d", (*tp)());
+13:   }
+14: 
+15:   return !!argv[argc];
+16: }
+17: int t(void) { void ((*volatile p)()); p = (void ((*)()))srandom; return !p; }
+/* end */
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest.exe -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong conftest.c -L. -LC:/Ruby34-x64/lib -L. -pipe -s -fstack-protector-strong -lpthread -Wl,--no-as-needed     -lx64-ucrt-ruby340  -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi -lbcrypt  "
+C:/Ruby34-x64/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\Users\Jieice\AppData\Local\Temp\ccZpttJ2.o:conftest.c:(.text+0x5): undefined reference to `srandom'
+collect2.exe: error: ld returned 1 exit status
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <winsock2.h>
+ 4: #include <windows.h>
+ 5: 
+ 6: /*top*/
+ 7: extern int t(void);
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     int (* volatile tp)(void)=(int (*)(void))&t;
+12:     printf("%d", (*tp)());
+13:   }
+14: 
+15:   return !!argv[argc];
+16: }
+17: extern void srandom();
+18: int t(void) { srandom(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rand()... -------------------- yes
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest.exe -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong conftest.c -L. -LC:/Ruby34-x64/lib -L. -pipe -s -fstack-protector-strong -lpthread -Wl,--no-as-needed     -lx64-ucrt-ruby340  -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi -lbcrypt  "
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <winsock2.h>
+ 4: #include <windows.h>
+ 5: 
+ 6: /*top*/
+ 7: extern int t(void);
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     int (* volatile tp)(void)=(int (*)(void))&t;
+12:     printf("%d", (*tp)());
+13:   }
+14: 
+15:   return !!argv[argc];
+16: }
+17: int t(void) { void ((*volatile p)()); p = (void ((*)()))rand; return !p; }
+/* end */
+
+--------------------
+
+have_func: checking for srand()... -------------------- yes
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest.exe -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong conftest.c -L. -LC:/Ruby34-x64/lib -L. -pipe -s -fstack-protector-strong -lpthread -Wl,--no-as-needed     -lx64-ucrt-ruby340  -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi -lbcrypt  "
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <winsock2.h>
+ 4: #include <windows.h>
+ 5: 
+ 6: /*top*/
+ 7: extern int t(void);
+ 8: int main(int argc, char **argv)
+ 9: {
+10:   if (argc > 1000000) {
+11:     int (* volatile tp)(void)=(int (*)(void))&t;
+12:     printf("%d", (*tp)());
+13:   }
+14: 
+15:   return !!argv[argc];
+16: }
+17: int t(void) { void ((*volatile p)()); p = (void ((*)()))srand; return !p; }
+/* end */
+
+--------------------
+
+check_sizeof: checking size of unsigned long... -------------------- 4
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong   -c conftest.c"
+conftest.c:9:5: error: size of array 'conftest_const' is negative
+    9 | int conftest_const[(sizeof((*rbcv_ptr_)) < 0) ? 1 : -1];
+      |     ^~~~~~~~~~~~~~
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <winsock2.h>
+4: #include <windows.h>
+5: typedef unsigned long rbcv_typedef_;
+6: rbcv_typedef_ *rbcv_ptr_;
+7: 
+8: /*top*/
+9: int conftest_const[(sizeof((*rbcv_ptr_)) < 0) ? 1 : -1];
+/* end */
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest.exe -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong conftest.c -L. -LC:/Ruby34-x64/lib -L. -pipe -s -fstack-protector-strong -lpthread -Wl,--no-as-needed     -lx64-ucrt-ruby340  -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi -lbcrypt  "
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <winsock2.h>
+ 4: #include <windows.h>
+ 5: typedef unsigned long rbcv_typedef_;
+ 6: rbcv_typedef_ *rbcv_ptr_;
+ 7: 
+ 8: #include <stdio.h>
+ 9: /*top*/
+10: typedef unsigned
+11: #ifdef PRI_LL_PREFIX
+12: #define PRI_CONFTEST_PREFIX PRI_LL_PREFIX
+13: LONG_LONG
+14: #else
+15: #define PRI_CONFTEST_PREFIX "l"
+16: long
+17: #endif
+18: conftest_type;
+19: conftest_type conftest_const = (conftest_type)(sizeof((*rbcv_ptr_)));
+20: int main() {printf("%"PRI_CONFTEST_PREFIX"u\n", conftest_const); return 0;}
+/* end */
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 ./conftest |
+--------------------
+
+check_sizeof: checking size of unsigned int... -------------------- 4
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong   -c conftest.c"
+conftest.c:9:5: error: size of array 'conftest_const' is negative
+    9 | int conftest_const[(sizeof((*rbcv_ptr_)) < 0) ? 1 : -1];
+      |     ^~~~~~~~~~~~~~
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <winsock2.h>
+4: #include <windows.h>
+5: typedef unsigned int rbcv_typedef_;
+6: rbcv_typedef_ *rbcv_ptr_;
+7: 
+8: /*top*/
+9: int conftest_const[(sizeof((*rbcv_ptr_)) < 0) ? 1 : -1];
+/* end */
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest.exe -IC:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt -IC:/Ruby34-x64/include/ruby-3.4.0/ruby/backward -IC:/Ruby34-x64/include/ruby-3.4.0 -I. -D_WIN32_WINNT=0x0600 -D__MINGW_USE_VC2005_COMPAT -D_FILE_OFFSET_BITS=64  -O3 -fstack-protector-strong conftest.c -L. -LC:/Ruby34-x64/lib -L. -pipe -s -fstack-protector-strong -lpthread -Wl,--no-as-needed     -lx64-ucrt-ruby340  -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi -lbcrypt  "
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <winsock2.h>
+ 4: #include <windows.h>
+ 5: typedef unsigned int rbcv_typedef_;
+ 6: rbcv_typedef_ *rbcv_ptr_;
+ 7: 
+ 8: #include <stdio.h>
+ 9: /*top*/
+10: typedef unsigned
+11: #ifdef PRI_LL_PREFIX
+12: #define PRI_CONFTEST_PREFIX PRI_LL_PREFIX
+13: LONG_LONG
+14: #else
+15: #define PRI_CONFTEST_PREFIX "l"
+16: long
+17: #endif
+18: conftest_type;
+19: conftest_type conftest_const = (conftest_type)(sizeof((*rbcv_ptr_)));
+20: int main() {printf("%"PRI_CONFTEST_PREFIX"u\n", conftest_const); return 0;}
+/* end */
+
+PATH=".;C:/Ruby34-x64/lib;C:\Ruby34-x64\bin;C:\Ruby34-x64\msys64\ucrt64\bin;C:\Ruby34-x64\msys64\usr\bin;c:\\Users\\Jieice\\.trae\\sdks\\workspaces\\83951d72\\versions\\node\\current;c:\\Users\\Jieice\\.trae\\sdks\\versions\\node\\current;c:\Users\Jieice\.trae\sdks\workspaces\83951d72\versions\node\current;c:\Users\Jieice\.trae\sdks\versions\node\current;C:\Program Files (x86)\platform-tools\adb.exe;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\VS code\Microsoft VS Code\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;D:\Games\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe;D:\AiChat\cursor\resources\app\bin;C:\Users\Jieice\.local\bin;d:\AiChat\Trae\bin;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Jieice\AppData\Local\Programs\Python\Python313\;C:\Users\Jieice\AppData\Local\Microsoft\WindowsApps;C:\Users\Jieice\.dotnet\tools;D:\Python\pycham\PyCharm 2023.3.2\bin;C:\ffmpeg\bin;C:\Users\Jieice\AppData\Roaming\npm;C:\Users\Jieice\AppData\Local\GitHubDesktop\bin;C:\Users\Jieice\AppData\Local\Programs\Ollama" ASAN_OPTIONS=detect_leaks=0 ./conftest |
+--------------------
+
