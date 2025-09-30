@@ -1,34 +1,10 @@
 backend:
   name: github
-<<<<<<< HEAD
-  repo: Huxpro/huxpro.github.io # 替换为你的仓库名称，例如：你的用户名/你的仓库名
+  repo: Jieice/JieDimension # 使用您指定的GitHub仓库
   branch: master # 替换为你的主分支名称，通常是 master 或 main
   base_url: https://github.com # 如果你的仓库在 GitHub Enterprise 上，需要修改
   auth_scope: repo # 确保有足够的权限
-  app_id: YOUR_GITHUB_OAUTH_APP_ID # 稍后替换为你的 GitHub OAuth App ID
-
-media_folder: "img/uploads" # 媒体文件将上传到这个文件夹
-public_folder: "/img/uploads" # 媒体文件在网站上的公共路径
-
-collections:
-  - name: "blog" # 集合的名称
-    label: "Blog Posts" # 在 CMS 界面中显示的名称
-    folder: "_posts" # 你的博客文章所在的文件夹
-    create: true # 允许在 CMS 中创建新文章
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # 文章文件名的格式
-    fields: # 定义文章的字段
-      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Subtitle", name: "subtitle", widget: "string", required: false}
-      - {label: "Date", name: "date", widget: "datetime"}
-      - {label: "Author", name: "author", widget: "string", default: "Hux"} # 替换为你的作者名
-      - {label: "Tags", name: "tags", widget: "list", required: false}
-      - {label: "Category", name: "category", widget: "string", required: false}
-      - {label: "Featured Image", name: "header-img", widget: "image", required: false}
-      - {label: "Body", name: "body", widget: "markdown"}
-=======
-  repo: Jieice/JieDimension # 使用您指定的GitHub仓库
-  branch: gh-pages # GitHub Pages默认分支
+  app_id: Ov23liDgpQIKNTVRrKwZ # 替换为你的 GitHub OAuth App ID
 
 media_folder: "images" # 媒体文件将存储在仓库的images文件夹中
 public_folder: "/images" # 媒体文件的公共URL
@@ -69,4 +45,3 @@ collections:
       - {label: "摘要", name: "teaser", widget: "text", required: false}
       - {label: "永久链接", name: "permalink", widget: "string"}
       - {label: "内容", name: "body", widget: "markdown"}
->>>>>>> 01b5b3ba47b23071dd683b0700d15e8413e0da9c
