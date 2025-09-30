@@ -46,7 +46,6 @@ logo: "logo.png"
 
 # Plugins
 plugins:
-  
     - jekyll-gist
     - jekyll-paginate
 
