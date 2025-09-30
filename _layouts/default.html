@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  </head>
+  <body>
+    {{ content }}
+    <footer>
+      <p>Powered by Jekyll and Trae AI. &copy; {{ site.time | date: '%Y' }} {{ site.title }}</p>
+    </footer>
+  </body>
+</html>
