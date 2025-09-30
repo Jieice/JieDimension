@@ -1,33 +1,33 @@
 ---
 layout: page
 sidebar: left
-subheadline: Templates
-title:  "Page/Post With Left Sidebar"
-teaser: "This is a example of page/post with a sidebar on the left."
+subheadline: 模板
+title:  "带左侧边栏的页面/文章"
+teaser: "这是一个带左侧边栏的页面/文章示例。"
 breadcrumb: true
 tags:
-    - post format
+    - 文章格式
 categories:
-    - design
+    - 设计
 image:
     thumb: gallery-example-3-thumb.jpg
     title: gallery-example-3.jpg
     caption_url: http://unsplash.com
 ---
-*Feeling Responsive* shows metadata by default. The default behaviour can be changed via `config.yml`. To show metadata at the end of a page/post just add the following to front matter:
+*Feeling Responsive* 默认显示元数据。默认行为可以通过 `config.yml` 更改。要在页面/文章末尾显示元数据，只需在 Front Matter 中添加以下内容：
 <!--more-->
 
 ~~~
 show_meta: true
 ~~~
 
-If you don't want to show metadata, it's simple again:
+如果您不想显示元数据，也很简单：
 
 ~~~
 show_meta: false
 ~~~
 
 
-## Other Post Formats
+## 其他文章格式
 {: .t60 }
-{% include list-posts tag='post format' %}
+{% include list-posts tag='文章格式' %}

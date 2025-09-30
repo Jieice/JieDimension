@@ -1,9 +1,13 @@
 ---
-layout              : page
-title               : "Contact"
-meta_title          : "Contact and use our contact form"
-subheadline         : "Contact Form"
-teaser              : "Get in touch with me? Use the contact form."
-permalink           : "/contact/"
+layout: page
+title: "联系我们"
+subtitle: "如果您有任何问题，请随时与我们联系。"
 ---
-If you need a fabulous contact form for your website, I suggest you use the free version of [Wufoo](http://www.wufoo.com/)
+
+如果您有任何问题，请随时通过以下方式与我们联系：
+
+**电子邮件:** your-email@example.com
+
+**电话:** +123 456 7890
+
+**地址:** 您的地址，城市，国家

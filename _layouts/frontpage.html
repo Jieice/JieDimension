@@ -16,16 +16,16 @@ format: frontpage
 *
 {% endcomment %}
 <div class="row t60">
-	{% if page.widget1.image or page.widget1.video or page.widget1.title %}
-		{% include _frontpage-widget.html widget=page.widget1 %}
+	{% if site.data.language.homepage.widget1.image or site.data.language.homepage.widget1.video or site.data.language.homepage.widget1.title %}
+		{% include _frontpage-widget.html widget=site.data.language.homepage.widget1 %}
 	{% endif %}
 
-	{% if page.widget2.image or page.widget2.video or page.widget2.title %}
-		{% include _frontpage-widget.html widget=page.widget2 %}
+	{% if site.data.language.homepage.widget2.image or site.data.language.homepage.widget2.video or site.data.language.homepage.widget2.title %}
+		{% include _frontpage-widget.html widget=site.data.language.homepage.widget2 %}
 	{% endif %}
 
-	{% if page.widget3.image or page.widget3.video or page.widget3.title %}
-		{% include _frontpage-widget.html widget=page.widget3 %}
+	{% if site.data.language.homepage.widget3.image or site.data.language.homepage.widget3.video or site.data.language.homepage.widget3.title %}
+		{% include _frontpage-widget.html widget=site.data.language.homepage.widget3 %}
 	{% endif %}
 </div><!-- /.row -->
 
@@ -41,10 +41,10 @@ format: frontpage
 {% else %}
 {% capture url %}{{ site.url }}{{ site.baseurl }}{% endcapture %}
 {% endif %}
-{% if page.callforaction %}
+{% if site.data.language.homepage.callforaction %}
     <div class="row t60 b60">
         <div class="small-12 text-center columns">
-            <a class="button large radius {{ page.callforaction.style }}" href="{{ url }}{{ page.callforaction.url }}"{% if page.callforaction.url contains 'http' %} target="_blank" {% endif %}>{{ page.callforaction.text }}</a>
+            <a class="button large radius {{ site.data.language.homepage.callforaction.style }}" href="{{ url }}{{ site.data.language.homepage.callforaction.url }}"{% if site.data.language.homepage.callforaction.url contains 'http' %} target="_blank" {% endif %}>{{ site.data.language.homepage.callforaction.text }}</a>
         </div><!-- /.small-12.columns -->
     </div><!-- /.row -->
 {% endif %}

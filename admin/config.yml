@@ -1,0 +1,44 @@
+backend:
+  name: github
+  repo: Jieice/JieDimension # 使用您指定的GitHub仓库
+  branch: gh-pages # GitHub Pages默认分支
+
+media_folder: "images" # 媒体文件将存储在仓库的images文件夹中
+public_folder: "/images" # 媒体文件的公共URL
+
+# 启用编辑预览
+show_preview_links: true
+
+collections:
+  - name: "posts" # 用于在路由中标识集合
+    label: "博客文章" # 在UI中显示的名称
+    folder: "_posts/design" # 存储文件的文件夹路径
+    create: true # 允许用户创建新文件
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # 文件名模板
+    fields: # 要编辑的字段
+      - {label: "布局", name: "layout", widget: "hidden", default: "page"}
+      - {label: "副标题", name: "subheadline", widget: "string"}
+      - {label: "标题", name: "title", widget: "string"}
+      - {label: "摘要", name: "teaser", widget: "text"}
+      - {label: "分类", name: "categories", widget: "list"}
+      - {label: "标签", name: "tags", widget: "list"}
+      - {label: "显示头部", name: "header", widget: "select", options: ["yes", "no"], default: "no"}
+      - {label: "图片", name: "image", widget: "object", fields: [
+          {label: "标题图片", name: "title", widget: "image", required: false},
+          {label: "缩略图", name: "thumb", widget: "image", required: false},
+          {label: "首页图片", name: "homepage", widget: "image", required: false},
+          {label: "图片说明", name: "caption", widget: "string", required: false},
+          {label: "说明链接", name: "caption_url", widget: "string", required: false}
+        ]}
+      - {label: "内容", name: "body", widget: "markdown"}
+      
+  - name: "pages" # 用于在路由中标识集合
+    label: "页面" # 在UI中显示的名称
+    folder: "pages" # 存储文件的文件夹路径
+    create: true # 允许用户创建新文件
+    fields: # 要编辑的字段
+      - {label: "布局", name: "layout", widget: "select", options: ["page", "page-fullwidth"], default: "page"}
+      - {label: "标题", name: "title", widget: "string"}
+      - {label: "摘要", name: "teaser", widget: "text", required: false}
+      - {label: "永久链接", name: "permalink", widget: "string"}
+      - {label: "内容", name: "body", widget: "markdown"}

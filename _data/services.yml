@@ -1,17 +1,13 @@
-- menu_name: "Services"
-
-- name: "Contact"
-  url: "/contact/"
-  title: "Contact"
-
-- name: "RSS"
-  url: "/feed.xml"
-  title: "Subscribe to RSS Feed"
-
-- name: "Atom"
-  url: "/atom.xml"
-  title: "Subscribe to Atom Feed"
-
-- name: "sitemap.xml"
-  url: "/sitemap.xml"
-  title: "Sitemap for Google Webmaster Tools"
+services:
+  - name: "电子邮件"
+    url: "mailto:your-email@example.com"
+    icon: "fas fa-envelope"
+  - name: "电话"
+    url: "tel:+1234567890"
+    icon: "fas fa-phone"
+  - name: "地址"
+    url: "https://maps.google.com/?q=Your%20Address"
+    icon: "fas fa-map-marker-alt"
+  - name: "网站"
+    url: "https://example.com"
+    icon: "fas fa-globe"
