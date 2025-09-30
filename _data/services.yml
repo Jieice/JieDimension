@@ -1,0 +1,13 @@
+services:
+  - name: "电子邮件"
+    url: "mailto:your-email@example.com"
+    icon: "fas fa-envelope"
+  - name: "电话"
+    url: "tel:+1234567890"
+    icon: "fas fa-phone"
+  - name: "地址"
+    url: "https://maps.google.com/?q=Your%20Address"
+    icon: "fas fa-map-marker-alt"
+  - name: "网站"
+    url: "https://example.com"
+    icon: "fas fa-globe"
