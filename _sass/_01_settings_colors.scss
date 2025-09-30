@@ -107,7 +107,8 @@ $topbar-menu-icon-color-toggled: $ci-6;
 /* Footer
 ------------------------------------------------------------------- */
 
-$footer-bg          : $grey-8;
+$topbar-bg-color    : linear-gradient(to right, $ci-1, $ci-2);
+$footer-bg          : linear-gradient(to right, $grey-8, $grey-13);
 $footer-color       : #fff;
 $footer-link-color  : $ci-6;
 

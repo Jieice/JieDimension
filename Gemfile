@@ -15,3 +15,8 @@ group :jekyll_plugins do
   gem 'faraday-retry'
 end
 
+gem "jekyll-feed"
+gem "base64"
+gem "bigdecimal"
+gem "kramdown-parser-gfm"
+

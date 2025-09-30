@@ -1434,8 +1434,8 @@ $topbar-breakpoint: #{lower-bound($large-range)}; // Change to 9999px for always
 $topbar-media-query: "only screen and (min-width: #{$topbar-breakpoint})" !default;
 
 // Divider Styles
-$topbar-divider-border-bottom: solid 0px scale-color($topbar-bg-color, $lightness: 23%);
-$topbar-divider-border-top: solid 0px scale-color($topbar-bg-color, $lightness: -50%);
+$topbar-divider-border-bottom: solid 0px $topbar-bg-color;
+$topbar-divider-border-top: solid 0px $topbar-bg-color;
 
 // Sticky Class
 // $topbar-sticky-class: ".sticky";

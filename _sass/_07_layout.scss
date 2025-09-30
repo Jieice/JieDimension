@@ -36,9 +36,9 @@ body.video p,
 body.video a,
 body.video blockquote:before,
 body.video blockquote:after,
-body.video cite a, { color: #fff; }
-body.video cite a:visited, { color: #fff; }
-body.video cite { color: #fff; }
+body.video cite a { color: #fff; }
+body.video cite a:visited { color: #fff; }
+
 
 
 
@@ -361,3 +361,24 @@ body.video cite { color: #fff; }
 .pr5  { padding-right: 5px !important; }
 .pr10 { padding-right: 10px !important; }
 .pr20 { padding-right: 20px !important; }
+
+#header-home {
+    height: 500px; /* Adjust height as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    .homepage-hero-content {
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.5em;
+            font-weight: normal;
+        }
+    }
+}
