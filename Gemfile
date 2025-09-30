@@ -1,14 +1,17 @@
 source 'https://rubygems.org'
 
-gem 'github-pages', group: :jekyll_plugins
+gem 'jekyll', '~> 3.10.0'
 
 group :jekyll_plugins do
   gem 'jekyll-gist'
   gem 'jekyll-paginate'
-  # 移除不兼容的jekyll-asciidoc插件
+  gem 'jekyll-github-metadata'
+  gem 'jekyll-seo-tag'
+  gem 'jekyll-relative-links'
+  gem 'jekyll-optional-front-matter'
+  gem 'jekyll-readme-index'
+  gem 'jekyll-default-layout'
+  gem 'jekyll-titles-from-headings'
+  gem 'faraday-retry'
 end
-
-# 移除相关依赖
-# gem 'asciidoctor', '~> 1.5.4'
-# gem 'coderay', '1.1.1'
 
