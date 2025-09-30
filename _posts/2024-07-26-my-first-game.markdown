@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "我的第一款游戏：JieDimension"
+title:  "我的第一款游戏"
 date:   2024-07-26 10:00:00 +0800
 categories: game-dev
 ---
