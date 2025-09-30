@@ -58,15 +58,15 @@ $modules: (
     }
 
     @else if unit($value)=="em" {
-      @return calc($value / 1em);
+      @return $value / 1em;
     }
 
     @else if unit($value)=="px" {
-      @return calc($value / 1px);
+      @return $value / 1px;
     }
 
     @else if unit($value)=="pt" {
-      @return calc($value / 1pt);
+      @return $value / 1pt;
     }
   }
 
