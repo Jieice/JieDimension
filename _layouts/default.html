@@ -36,7 +36,15 @@
     <!-- 页脚 -->
     <footer class="site-footer">
         <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author.name_cn }} ({{ site.author.name }})</p>
-        <p>{{ site.tagline }} | <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></p>
+        <p>{{ site.tagline }}</p>
+        <p style="margin-top: 0.5rem;">
+            📧 <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+            <span style="margin: 0 1rem; opacity: 0.5;">|</span>
+            💬 QQ群：<span style="color: var(--accent-primary); font-weight: 600;">756205360</span>
+        </p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.7;">
+            欢迎加入讨论游戏开发、分享创意想法！
+        </p>
     </footer>
 </body>
 
