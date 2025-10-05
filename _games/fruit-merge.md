@@ -25,6 +25,8 @@ links:
 
 ## 🎮 在线试玩
 
+### 💻 PC 端试玩（推荐）
+
 <div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden; max-width: 800px; margin: 2rem auto; background: var(--bg-secondary); border-radius: 12px;">
   <iframe 
     src="/JieDimension/assets/games/fruit-merge-game/index.html"
@@ -39,12 +41,37 @@ links:
      target="_blank" 
      class="btn"
      style="margin: 0.5rem;">
-    🎮 全屏模式
+    🎮 全屏模式（推荐）
   </a>
   <a href="/JieDimension/games/" 
      class="btn btn-secondary"
      style="margin: 0.5rem;">
     ← 返回游戏列表
+  </a>
+</div>
+
+### 📱 手机端游玩
+
+<div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; border-left: 4px solid var(--accent-primary);">
+  <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+    ⚠️ <strong>手机用户注意</strong>：游戏支持触摸操作，但为了最佳体验，建议：
+  </p>
+  <ol style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+    <li>点击上方 <strong>"全屏模式"</strong> 按钮打开独立页面</li>
+    <li>横屏游玩（效果更好）</li>
+    <li>确保网络流畅，等待游戏完全加载</li>
+  </ol>
+  <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+    💡 如果嵌入窗口无法操作，必须使用全屏模式
+  </p>
+</div>
+
+<div style="text-align: center; margin: 1.5rem 0;">
+  <a href="/JieDimension/assets/games/fruit-merge-game/index.html" 
+     target="_blank" 
+     class="btn"
+     style="font-size: 1.1rem; padding: 1rem 2rem;">
+    📱 手机端全屏游玩
   </a>
 </div>
 
@@ -110,14 +137,25 @@ links:
 
 ## 📱 移动端支持
 
-本游戏完美支持移动设备！
+本游戏支持移动设备触摸操作：
 
-- ✅ 手机竖屏游玩
-- ✅ 触摸操作流畅
+- ✅ 支持触摸点击投放水果
 - ✅ 自适应屏幕尺寸
-- ✅ 性能优化
+- ⚠️ **建议横屏游玩**（体验更好）
+- 💡 **使用全屏模式**（避免iframe限制）
 
-**扫码在手机上玩**（部署后可用）
+### 手机游玩步骤
+
+1. 点击 **"全屏模式"** 按钮
+2. 横屏显示手机
+3. 点击屏幕投放水果
+4. 尽情享受！
+
+### 操作说明（手机）
+
+- **投放水果**：点击/触摸屏幕任意位置
+- **暂停游戏**：点击右上角暂停按钮
+- **重新开始**：游戏结束后点击重新开始
 
 ---
 

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>水果合成 - 移动端优化版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .tip {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        .tip strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 10px 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover,
+        .btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .steps {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .steps ol {
+            padding-left: 20px;
+        }
+
+        .steps li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        @media (orientation: landscape) {
+            body::before {
+                content: "✅ 横屏模式 - 最佳体验！";
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                background: rgba(76, 175, 80, 0.9);
+                padding: 8px 15px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="icon">🍎🍊🍉</div>
+        <h1>水果合成</h1>
+        <p>欢迎来到移动端优化版！</p>
+
+        <div class="tip">
+            <strong>📱 最佳游玩方式</strong>
+            请横屏显示手机以获得最佳游戏体验！
+        </div>
+
+        <div class="steps">
+            <strong>🎮 游玩步骤：</strong>
+            <ol>
+                <li>点击下方"开始游戏"</li>
+                <li>横屏显示手机</li>
+                <li>触摸屏幕投放水果</li>
+                <li>合成更大的水果得分！</li>
+            </ol>
+        </div>
+
+        <a href="index.html" class="btn">🎮 开始游戏</a>
+        <br>
+        <a href="/JieDimension/" class="btn btn-secondary">← 返回首页</a>
+
+        <p style="font-size: 0.9rem; margin-top: 30px; opacity: 0.7;">
+            界维互动 (JieDimension) 出品
+        </p>
+    </div>
+
+    <script>
+        // 检测横屏并自动跳转
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            // 如果已经是横屏，3秒后自动跳转
+            setTimeout(() => {
+                if (confirm('检测到横屏模式！是否立即开始游戏？')) {
+                    window.location.href = 'index.html';
+                }
+            }, 1000);
+        }
+
+        // 监听屏幕旋转
+        window.addEventListener('orientationchange', () => {
+            if (window.matchMedia("(orientation: landscape)").matches) {
+                alert('太好了！现在是横屏模式，游戏体验更佳！');
+            }
+        });
+    </script>
+</body>
+
+</html>
