@@ -1,0 +1,23 @@
+---
+layout: default
+title: 游戏作品
+description: 界维互动的游戏作品集
+---
+
+<div class="container">
+    <h1 class="section-title">游戏作品</h1>
+
+    <div class="games-grid">
+        {% for game in site.games %}
+        <a href="{{ game.url | relative_url }}" class="game-card" style="text-decoration: none;">
+            <div class="game-thumbnail">{{ game.icon | default: "🎮" }}</div>
+            <div class="game-info">
+                <h3 class="game-title">{{ game.title }}</h3>
+                <span class="game-platform">{{ game.platform }}</span>
+                <p class="game-description">{{ game.excerpt | strip_html | truncate: 150 }}</p>
+                <p class="game-status">{{ game.status }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
