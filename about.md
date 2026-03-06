@@ -40,10 +40,12 @@ description: 关于界维互动工作室
   </div>
 
   <div class="about-section">
-    <h2>📬 联系方式</h2>
+    <h2>📬 联系我们 & 关注</h2>
     <div class="contact-info" style="color: var(--text-secondary); line-height: 2;">
       <p><strong>邮箱：</strong><a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></p>
-      <p><strong>工作室：</strong>{{ site.author.name_cn }} ({{ site.author.name }})</p>
+      <p><strong>Bilibili：</strong><a href="https://space.bilibili.com/27840409" target="_blank" rel="noopener noreferrer">点击前往我的B站主页</a></p>
+      <p><strong>抖音：</strong><a href="https://v.douyin.com/bZLdhqIbKFQ/" target="_blank" rel="noopener noreferrer">点击前往我的抖音主页</a></p>
+      <p><strong>工作室QQ群：</strong> 756205360</p>
     </div>
     <p style="color: var(--text-muted); margin-top: 1.5rem;">
       欢迎交流合作、反馈建议，或仅仅是聊聊游戏开发的那些事！
