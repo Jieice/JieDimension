@@ -1,16 +1,31 @@
 ---
 layout: default
-title: 页面未找到
+title: 页面未找到 (404)
 ---
 
-<div class="container" style="text-align: center; padding: 4rem 2rem;">
-    <div style="font-size: 6rem; margin-bottom: 1rem;">🎮</div>
-    <h1 style="font-size: 3rem; margin-bottom: 1rem;">404</h1>
-    <p style="font-size: 1.5rem; color: var(--text-secondary); margin-bottom: 2rem;">
-        抱歉，这个页面不存在
-    </p>
-    <p style="color: var(--text-muted); margin-bottom: 2rem;">
-        你访问的页面可能已被移动、删除，或者从未存在过。
-    </p>
-    <a href="{{ '/' | relative_url }}" class="btn">返回首页</a>
+<div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; position: relative;">
+    
+    <!-- Background glowing effect for 404 -->
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: radial-gradient(circle, var(--accent-primary), transparent 70%); opacity: 0.2; filter: blur(50px); z-index: -1;"></div>
+
+    <div style="font-size: 8rem; line-height: 1; margin-bottom: 1rem; font-family: 'Outfit', sans-serif; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 40px rgba(139, 92, 246, 0.4);">
+        404
+    </div>
+    
+    <h1 style="font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--text-primary);">
+        信号丢失...
+    </h1>
+    
+    <div style="background: var(--bg-surface); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); padding: 2rem; border-radius: 16px; max-width: 500px; margin-bottom: 2.5rem;">
+        <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6;">
+            指挥官，你似乎偏离了航线。<br>你访问的扇区可能已被清除、转移，或者在当前的宇宙维度中从未存在过。
+        </p>
+        <p style="color: var(--accent-secondary); font-family: monospace; font-size: 0.9rem;">
+            > ERR_ORBIT_NOT_FOUND
+        </p>
+    </div>
+    
+    <a href="{{ '/' | relative_url }}" class="btn" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+        🚀 重新启动引擎并返回母港
+    </a>
 </div>

@@ -1,7 +1,7 @@
 ---
 title: 界维守卫
-platform: Android / iOS
-icon: 🎯
+platform: 移动端 (iOS/Android)
+image: /assets/images/games/mobile-defender.jpg
 status: 即将上线 TapTap
 date: 2025-10-05
 links:

@@ -1,7 +1,7 @@
 ---
 title: 水果合成
-platform: Web / HTML5
-icon: 🍎
+platform: Web / 移动端
+image: /assets/images/games/fruit-merge.jpg
 status: 在线试玩
 date: 2025-10-05
 links:

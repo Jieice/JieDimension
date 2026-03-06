@@ -7,6 +7,21 @@
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
     <meta name="description" content="{{ page.description | default: site.description }}">
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ site.url }}{{ page.url | relative_url }}">
+    <meta property="og:title" content="{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}">
+    <meta property="og:description" content="{{ page.description | default: site.description }}">
+    <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ site.url }}{{ page.url | relative_url }}">
+    <meta property="twitter:title" content="{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}">
+    <meta property="twitter:description" content="{{ page.description | default: site.description }}">
+    <meta property="twitter:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/og-image.jpg">
+
     {% seo %}
     {% feed_meta %}
 </head>
@@ -50,6 +65,7 @@
             欢迎加入讨论游戏开发、分享创意想法！
         </p>
     </footer>
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
 
 </html>

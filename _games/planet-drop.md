@@ -1,7 +1,7 @@
 ---
 title: Planet Drop / 星球合成
 platform: Web / HTML5
-icon: 🌍
+image: /assets/images/games/planet-drop.jpg
 status: 在线游玩 | itch.io
 date: 2025-10-06
 links:

@@ -1,7 +1,7 @@
 ---
 title: 面具之下
 platform: Windows PC
-icon: 🎭
+image: /assets/images/games/horror-game.jpg
 status: 开发中
 date: 2025-10-05
 links:
