@@ -29,6 +29,25 @@
     
     /* Transitions */
     --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Video Background */
+    --video-opacity: 0.85;
+}
+
+body.theme-light {
+    --bg-base: #f1f5f9;
+    --bg-surface: rgba(255, 255, 255, 0.5);
+    --bg-surface-hover: rgba(255, 255, 255, 0.7);
+    
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    
+    --glass-border: rgba(0, 0, 0, 0.15);
+    --glass-border-highlight: rgba(0, 0, 0, 0.3);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    
+    --video-opacity: 0.95; /* Brighter for light theme */
 }
 
 * {
@@ -42,11 +61,25 @@ body {
     background-color: var(--bg-base);
     color: var(--text-primary);
     line-height: 1.6;
-    background-image: 
-        radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.15), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.15), transparent 25%);
     background-attachment: fixed;
     overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* --- Background Video Container --- */
+#bg-video-container {
+    position: fixed;
+    top: 0; left: 0; 
+    width: 100vw; height: 100vh;
+    z-index: -2;
+    overflow: hidden;
+    background-color: var(--bg-base);
+}
+#bg-video {
+    width: 100%; height: 100%; 
+    object-fit: cover;
+    opacity: var(--video-opacity);
+    transition: opacity 1s ease-in-out;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -279,6 +312,40 @@ h1, h2, h3, h4, h5, h6 {
 .back-to-top:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px var(--glow-primary);
+}
+
+/* --- Theme Controls --- */
+.theme-controls {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    display: flex;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--bg-surface);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: var(--glass-shadow);
+    background: var(--bg-surface-hover);
 }
 
 /* --- Game Cards Grid --- */

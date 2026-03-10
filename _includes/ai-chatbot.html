@@ -268,7 +268,8 @@
     </button>
 </div>
 
-<!-- 不再使用 Puter.js -->
+<!-- 引入 Puter.js -->
+<script src="https://js.puter.com/v2/"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const toggleBtn = document.getElementById('puter-chat-toggle');
@@ -344,37 +345,24 @@
             showLoading();
             
             try {
-                // 转换为标准的 OpenAI Messages 格式
-                let messages = [
-                    { role: "system", content: "系统提示：你是 JieDimension 网站的专属 AI 助手。该网站展示了主理人的开源游戏和 Blender 作品。请保持回答简短、友好。" }
-                ];
+                // 构建包含人设和上下文的 Prompt
+                let systemPrompt = "系统提示：你是 JieDimension 网站的专属 AI 助手。该网站展示了主理人的开源游戏和 Blender 作品。请保持回答简短、友好。";
                 
+                // 将历史记录拼接到请求中以支持多轮对话
+                let context = systemPrompt + "\n\n";
                 chatHistory.forEach(msg => {
-                    messages.push({ role: msg.role, content: msg.content });
+                    context += `${msg.role === 'user' ? '用户' : 'AI'}: ${msg.content}\n`;
                 });
+                context += "AI:";
                 
-                // 使用自定义 API 节点
-                const response = await fetch('https://api.268526.eu.cc/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer sk-N0RtVvKqubIOrDifDreyBRKNjK16KeCd4726rzmzy1qroial'
-                    },
-                    body: JSON.stringify({
-                        model: 'gpt-5.4', // 根据你的需求，请求 gpt-5.4
-                        messages: messages,
-                        temperature: 0.7
-                    })
-                });
+                // 调用 Puter.js 原生 API
+                // 默认使用最新支持的模型如 gpt-5.4 或系统推荐默认模型
+                let response = await puter.ai.chat(context, { model: 'gpt-5-nano' });
                 
                 removeLoading();
                 
-                if (!response.ok) {
-                    throw new Error(`API Error: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                const replyText = data.choices[0].message.content;
+                // 获取回复文本
+                const replyText = typeof response === 'string' ? response : (response?.message?.content || String(response));
                 
                 addMessage(replyText, 'bot');
                 chatHistory.push({ role: 'assistant', content: replyText });
