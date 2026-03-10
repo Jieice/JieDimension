@@ -59,8 +59,9 @@ desktop.ini
 *.psd
 *.ai
 
-# 视频文件（太大，用外链）
+# 视频文件（太大，用外链，但背景视频允许）
 *.mp4
+!assets/images/bgs/*.mp4
 *.avi
 *.mov
 *.mkv

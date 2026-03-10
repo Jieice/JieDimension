@@ -29,6 +29,8 @@
     
     /* Transitions */
     --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --content-max-width: 1040px;
+    --control-size: 46px;
     
     /* Video Background */
     --video-opacity: 0.85;
@@ -101,9 +103,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-container {
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 0.9rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -139,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .site-nav {
     display: flex;
-    gap: 2.5rem;
+    gap: 1.75rem;
     align-items: center;
 }
 
@@ -174,21 +176,21 @@ h1, h2, h3, h4, h5, h6 {
 
 /* --- Container --- */
 .container {
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 /* --- Hero Section --- */
 .hero {
     text-align: center;
-    padding: 6rem 2rem;
-    margin: 2rem 0 4rem;
+    padding: 4.5rem 1.5rem;
+    margin: 1.5rem 0 3rem;
     background: var(--bg-surface);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
+    border-radius: 22px;
     box-shadow: var(--glass-shadow);
     position: relative;
     overflow: hidden;
@@ -233,7 +235,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero h1 {
-    font-size: 4rem;
+    font-size: 3.2rem;
     margin-bottom: 1rem;
     background: linear-gradient(to right, #ffffff, #a5b4fc);
     -webkit-background-clip: text;
@@ -244,25 +246,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero .tagline {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--accent-secondary);
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     letter-spacing: 0.05em;
 }
 
 .hero-description {
-    font-size: 1.15rem;
+    font-size: 1.02rem;
     color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto 2.5rem;
+    max-width: 540px;
+    margin: 0 auto 2rem;
     line-height: 1.8;
 }
 
 /* --- Section Titles --- */
 .section-title {
-    font-size: 2.5rem;
-    margin: 4rem 0 2.5rem;
+    font-size: 2.15rem;
+    margin: 3rem 0 2rem;
     text-align: center;
     color: var(--text-primary);
     position: relative;
@@ -282,14 +284,14 @@ h1, h2, h3, h4, h5, h6 {
 /* --- Back to Top Button --- */
 .back-to-top {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
+    bottom: 20px;
+    right: 20px;
+    width: var(--control-size);
+    height: var(--control-size);
     border-radius: 50%;
     background: var(--accent-gradient);
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     border: none;
     box-shadow: 0 4px 15px var(--glow-primary);
     cursor: pointer;
@@ -317,25 +319,25 @@ h1, h2, h3, h4, h5, h6 {
 /* --- Theme Controls --- */
 .theme-controls {
     position: fixed;
-    bottom: 30px;
-    left: 30px;
+    bottom: 20px;
+    left: 20px;
     display: flex;
-    gap: 15px;
+    gap: 12px;
     z-index: 1000;
 }
 
 .control-btn {
-    width: 50px;
-    height: 50px;
+    width: var(--control-size);
+    height: var(--control-size);
     border-radius: 50%;
     background: var(--bg-surface);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     color: var(--text-primary);
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: var(--transition-smooth);
     display: flex;
     align-items: center;
@@ -351,9 +353,9 @@ h1, h2, h3, h4, h5, h6 {
 /* --- Game Cards Grid --- */
 .games-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 2.5rem;
-    margin-bottom: 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
 }
 
 .game-card {
@@ -378,7 +380,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .game-thumbnail {
     width: 100%;
-    height: 220px;
+    height: 190px;
     background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
     display: flex;
     align-items: center;
@@ -404,14 +406,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .game-info {
-    padding: 2rem;
+    padding: 1.5rem;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
 .game-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin-bottom: 0.75rem;
     color: var(--text-primary);
     transition: var(--transition-smooth);
@@ -474,7 +476,7 @@ h1, h2, h3, h4, h5, h6 {
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
-    padding: 2rem;
+    padding: 1.5rem;
     transition: var(--transition-smooth);
     position: relative;
     overflow: hidden;
@@ -534,7 +536,7 @@ h1, h2, h3, h4, h5, h6 {
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 24px;
-    padding: 3rem;
+    padding: 2rem;
     margin-top: 2rem;
 }
 
@@ -632,8 +634,8 @@ h1, h2, h3, h4, h5, h6 {
 .site-footer {
     background: rgba(10, 11, 16, 0.8);
     border-top: 1px solid var(--glass-border);
-    padding: 4rem 2rem;
-    margin-top: 6rem;
+    padding: 3rem 1.5rem;
+    margin-top: 4rem;
     text-align: center;
     color: var(--text-muted);
 }
@@ -656,8 +658,8 @@ h1, h2, h3, h4, h5, h6 {
 /* --- Blender Gallery --- */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
     margin-top: 2rem;
 }
 
@@ -716,32 +718,59 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 768px) {
     .nav-container {
         flex-direction: column;
-        gap: 1.5rem;
-        padding: 1.5rem;
+        gap: 1.2rem;
+        padding: 1.25rem 1rem;
     }
-    
+
     .site-nav {
         gap: 1rem;
         flex-wrap: wrap;
         justify-content: center;
     }
-    
+
+    .container {
+        padding: 1rem;
+    }
+
     .hero {
-        padding: 4rem 1.5rem;
+        padding: 3.25rem 1.1rem;
     }
-    
+
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2.25rem;
     }
-    
+
     .hero .tagline {
+        font-size: 1.05rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .games-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .theme-controls {
+        left: 16px;
+        bottom: 16px;
+        gap: 10px;
+    }
+
+    .back-to-top {
+        right: 16px;
+        bottom: 16px;
+    }
+
+    .control-btn,
+    .back-to-top {
+        width: 42px;
+        height: 42px;
         font-size: 1.2rem;
     }
-    
-    .section-title {
-        font-size: 2rem;
-    }
-    
+
     .post-content {
         padding: 1.5rem;
     }

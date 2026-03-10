@@ -8,14 +8,12 @@
     <meta name="description" content="{{ page.description | default: site.description }}">
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 
-    <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ site.url }}{{ page.url | relative_url }}">
     <meta property="og:title" content="{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}">
     <meta property="og:description" content="{{ page.description | default: site.description }}">
     <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/og-image.jpg">
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ site.url }}{{ page.url | relative_url }}">
     <meta property="twitter:title" content="{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}">
@@ -27,14 +25,12 @@
 </head>
 
 <body>
-    <!-- 动态视频背景 -->
     <div id="bg-video-container">
-        <video id="bg-video" autoplay loop muted playsinline>
+        <video id="bg-video" autoplay loop muted playsinline preload="metadata" poster="{{ '/assets/images/og-image.jpg' | relative_url }}">
             <source src="{{ '/assets/images/bgs/bg_dark.mp4' | relative_url }}" type="video/mp4" id="bg-video-source">
         </video>
     </div>
 
-    <!-- 导航栏 -->
     <header class="site-header">
         <nav class="nav-container">
             <a href="{{ '/' | relative_url }}" class="site-title">
@@ -50,14 +46,12 @@
         </nav>
     </header>
 
-    <!-- 主内容 -->
     <main>
         {{ content }}
     </main>
 
     {% include ai-chatbot.html %}
 
-    <!-- 页脚 -->
     <footer class="site-footer">
         <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author.name_cn }} ({{ site.author.name }})</p>
         <p>{{ site.tagline }}</p>
@@ -75,19 +69,19 @@
         </p>
     </footer>
 
-    <!-- 主题控制与背景音乐 -->
     <div class="theme-controls">
-        <button id="theme-toggle" class="control-btn" title="切换主题">🌗</button>
-        <button id="bgm-toggle" class="control-btn" title="播放/暂停音乐">🎵</button>
-        <audio id="bgm-audio" loop autoplay src="{{ '/assets/bgm/bgm1.mp3' | relative_url }}"></audio>
+        <button id="theme-toggle" class="control-btn" type="button" title="切换主题" aria-label="切换主题">🌗</button>
+        <button id="bgm-toggle" class="control-btn" type="button" title="播放背景音乐" aria-label="播放背景音乐" aria-pressed="false">🎵</button>
+        <audio id="bgm-audio" loop preload="none" data-src="{{ '/assets/bgm/bgm1.mp3' | relative_url }}"></audio>
     </div>
 
     <script>
-        // --- 动态壁纸与主题切换逻辑 ---
         const body = document.body;
         const themeToggle = document.getElementById('theme-toggle');
         const bgVideoSource = document.getElementById('bg-video-source');
         const bgVideo = document.getElementById('bg-video');
+        const bgmToggle = document.getElementById('bgm-toggle');
+        const bgmAudio = document.getElementById('bgm-audio');
 
         const themes = [
             { id: 'dark', text: '🌙', src: "{{ '/assets/images/bgs/bg_dark.mp4' | relative_url }}", class: '' },
@@ -95,36 +89,69 @@
             { id: 'pixel', text: '👾', src: "{{ '/assets/images/bgs/bg_pixel.mp4' | relative_url }}", class: '' }
         ];
 
-        let currentThemeIndex = 0;
+        let currentThemeIndex = new Date().getHours() >= 6 && new Date().getHours() < 18 ? 1 : 0;
+        let bgmStartedOnce = false;
 
-        // 自动根据时间检测主题
-        const hour = new Date().getHours();
-        if (hour >= 6 && hour < 18) {
-            currentThemeIndex = 1; // 早上到傍晚用白光主题
-        } else {
-            currentThemeIndex = 0; // 晚上用黑暗主题
+        function setVideoOpacity() {
+            bgVideo.style.opacity = getComputedStyle(document.body).getPropertyValue('--video-opacity').trim() || '0.85';
+        }
+
+        function playVideo() {
+            bgVideo.muted = true;
+            const playPromise = bgVideo.play();
+
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(() => {});
+            }
         }
 
         function applyTheme(index, isInit = false) {
             const theme = themes[index];
-            body.className = theme.class;
+            body.classList.toggle('theme-light', theme.class === 'theme-light');
             themeToggle.innerText = theme.text;
 
-            // 切换视频并作淡入淡出过渡
+            const revealVideo = () => {
+                setVideoOpacity();
+                playVideo();
+            };
+
             if (!isInit) {
                 bgVideo.style.opacity = 0;
                 setTimeout(() => {
-                    bgVideoSource.src = theme.src;
+                    bgVideoSource.setAttribute('src', theme.src);
                     bgVideo.load();
-                    bgVideo.play().then(() => {
-                        bgVideo.style.opacity = getComputedStyle(document.body).getPropertyValue('--video-opacity').trim() || 0.85;
-                    }).catch(e => console.error(e));
-                }, 500); // 等待淡出
-            } else {
-                bgVideoSource.src = theme.src;
-                bgVideo.load();
-                // We don't try to play () here because Safari/Chrome block autoplay sometimes.
-                // The autoplay attribute takes care of it natively.
+                    bgVideo.addEventListener('loadeddata', revealVideo, { once: true });
+                }, 350);
+                return;
+            }
+
+            bgVideoSource.setAttribute('src', theme.src);
+            bgVideo.load();
+            bgVideo.addEventListener('loadeddata', revealVideo, { once: true });
+        }
+
+        function syncBgmUi(isPlaying) {
+            bgmToggle.style.opacity = isPlaying ? '1' : '0.55';
+            bgmToggle.setAttribute('aria-pressed', String(isPlaying));
+            bgmToggle.title = isPlaying ? '暂停背景音乐' : '播放背景音乐';
+            bgmToggle.style.animation = isPlaying ? 'float 2s infinite ease-in-out alternate' : 'none';
+        }
+
+        function ensureBgmSource() {
+            if (!bgmAudio.getAttribute('src')) {
+                bgmAudio.setAttribute('src', bgmAudio.dataset.src);
+                bgmAudio.load();
+            }
+        }
+
+        async function startBgm() {
+            ensureBgmSource();
+
+            try {
+                await bgmAudio.play();
+                bgmStartedOnce = true;
+            } catch (error) {
+                syncBgmUi(false);
             }
         }
 
@@ -133,28 +160,34 @@
             applyTheme(currentThemeIndex);
         });
 
-        // 初始化
-        applyTheme(currentThemeIndex, true);
+        bgmToggle.addEventListener('click', async (event) => {
+            event.stopPropagation();
 
-        // --- BGM 播放逻辑 ---
-        const bgmToggle = document.getElementById('bgm-toggle');
-        const bgmAudio = document.getElementById('bgm-audio');
-        let isPlaying = false;
-
-        // 初始降低透明度表示未启用
-        bgmToggle.style.opacity = '0.5';
-
-        bgmToggle.addEventListener('click', () => {
-            if (isPlaying) {
-                bgmAudio.pause();
-                bgmToggle.style.opacity = '0.5';
-            } else {
-                bgmAudio.play();
-                bgmToggle.style.opacity = '1';
-                bgmToggle.style.animation = 'float 2s infinite ease-in-out alternate'; // 加入律动动画
+            if (bgmAudio.paused) {
+                await startBgm();
+                return;
             }
-            isPlaying = !isPlaying;
+
+            bgmAudio.pause();
         });
+
+        document.addEventListener('pointerdown', async (event) => {
+            if (bgmStartedOnce) {
+                return;
+            }
+
+            if (event.target instanceof Element && event.target.closest('.theme-controls')) {
+                return;
+            }
+
+            await startBgm();
+        }, { once: true });
+
+        bgmAudio.addEventListener('play', () => syncBgmUi(true));
+        bgmAudio.addEventListener('pause', () => syncBgmUi(false));
+
+        applyTheme(currentThemeIndex, true);
+        syncBgmUi(false);
     </script>
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
