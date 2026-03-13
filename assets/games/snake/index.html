@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Snake</title>
+    <meta name="description" content="Classic Snake with keyboard and touch controls.">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <main class="app-shell">
+        <section class="panel">
+            <header class="panel-header">
+                <div>
+                    <p class="eyebrow">Classic Snake</p>
+                    <h1>Grid movement. Food. Score. One more run.</h1>
+                </div>
+                <div class="scoreboard" aria-label="Scoreboard">
+                    <div class="stat">
+                        <span class="stat-label">Score</span>
+                        <strong id="score">0</strong>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Length</span>
+                        <strong id="length">3</strong>
+                    </div>
+                </div>
+            </header>
+
+            <div class="toolbar">
+                <p id="status" class="status" aria-live="polite">Press an arrow key, WASD, or tap a direction to start.</p>
+                <div class="actions">
+                    <button id="pause-button" type="button">Start</button>
+                    <button id="restart-button" type="button" class="secondary">Restart</button>
+                </div>
+            </div>
+
+            <div class="game-layout">
+                <div class="board-frame">
+                    <div id="board" class="board" role="grid" aria-label="Snake game board"></div>
+                </div>
+
+                <aside class="sidebar">
+                    <section class="card">
+                        <h2>Controls</h2>
+                        <ul>
+                            <li>Move with Arrow keys or WASD</li>
+                            <li>Pause with Space, Enter, or the button</li>
+                            <li>Restart with R or the button</li>
+                        </ul>
+                    </section>
+
+                    <section class="card">
+                        <h2>Touch pad</h2>
+                        <div class="touch-pad" aria-label="Touch controls">
+                            <button type="button" class="pad-button up" data-direction="up" aria-label="Move up">Up</button>
+                            <button type="button" class="pad-button left" data-direction="left" aria-label="Move left">Left</button>
+                            <button type="button" class="pad-button right" data-direction="right" aria-label="Move right">Right</button>
+                            <button type="button" class="pad-button down" data-direction="down" aria-label="Move down">Down</button>
+                        </div>
+                    </section>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="./game.js"></script>
+</body>
+</html>

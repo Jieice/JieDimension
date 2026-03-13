@@ -1,0 +1,47 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="32" fill="#0A0B10"/>
+  <rect x="48" y="48" width="1104" height="534" rx="28" fill="url(#panel)"/>
+  <g opacity="0.32">
+    <path d="M180 120H1020" stroke="#1E293B" stroke-width="4"/>
+    <path d="M180 180H1020" stroke="#1E293B" stroke-width="4"/>
+    <path d="M180 240H1020" stroke="#1E293B" stroke-width="4"/>
+    <path d="M180 300H1020" stroke="#1E293B" stroke-width="4"/>
+    <path d="M180 360H1020" stroke="#1E293B" stroke-width="4"/>
+    <path d="M180 420H1020" stroke="#1E293B" stroke-width="4"/>
+    <path d="M180 480H1020" stroke="#1E293B" stroke-width="4"/>
+    <path d="M180 540H1020" stroke="#1E293B" stroke-width="4"/>
+    <path d="M240 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M300 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M360 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M420 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M480 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M540 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M600 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M660 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M720 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M780 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M840 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M900 90V540" stroke="#1E293B" stroke-width="4"/>
+    <path d="M960 90V540" stroke="#1E293B" stroke-width="4"/>
+  </g>
+  <rect x="298" y="267" width="54" height="54" rx="14" fill="#8B5CF6"/>
+  <rect x="358" y="267" width="54" height="54" rx="14" fill="#8B5CF6"/>
+  <rect x="418" y="267" width="54" height="54" rx="14" fill="#8B5CF6"/>
+  <rect x="478" y="267" width="54" height="54" rx="14" fill="#C4B5FD"/>
+  <circle cx="778" cy="294" r="28" fill="#06B6D4"/>
+  <circle cx="778" cy="294" r="42" fill="#06B6D4" fill-opacity="0.18"/>
+  <path d="M478 108H742" stroke="url(#accent)" stroke-width="16" stroke-linecap="round"/>
+  <path d="M478 108H620" stroke="#C4B5FD" stroke-width="16" stroke-linecap="round"/>
+  <path d="M120 130C178 94 254 76 348 76" stroke="#8B5CF6" stroke-opacity="0.28" stroke-width="24" stroke-linecap="round"/>
+  <path d="M1034 502C984 548 916 572 830 572" stroke="#06B6D4" stroke-opacity="0.24" stroke-width="24" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="panel" x1="138" y1="78" x2="1034" y2="548" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#141822"/>
+      <stop offset="1" stop-color="#0E121A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="478" y1="108" x2="742" y2="108" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+</svg>
