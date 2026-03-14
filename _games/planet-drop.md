@@ -62,7 +62,7 @@ links:
      style="font-size: 1.1rem; padding: 1rem 2rem; margin: 0.5rem;">
     🚀 在 itch.io 上游玩
   </a>
-  <a href="/JieDimension/games/" 
+  <a href="{{ '/games/' | relative_url }}" 
      class="btn btn-secondary"
      style="margin: 0.5rem;">
     ← 返回游戏列表

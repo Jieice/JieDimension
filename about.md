@@ -22,7 +22,7 @@ title: 关于
                 你好！我是 <strong>Jieice (界维互动)</strong>，一个热爱探索前沿技术的全栈开发者和创作者。
             </p>
             <p style="margin-bottom: 1rem;">
-                在这里，我不仅是在“做游戏”，更多的是在探索人机交互的未来边界。我相信未来的软件不仅仅是冰冷的工具，而是具有记忆、视觉甚至情感的虚拟伙伴（正如我的核心开源项目 <a href="/JieDimension/games/my-neuro/" style="color: var(--accent-primary); text-decoration: none;">My Neuro</a> 所努力实现的那样）。
+                在这里，我不仅是在“做游戏”，更多的是在探索人机交互的未来边界。我相信未来的软件不仅仅是冰冷的工具，而是具有记忆、视觉甚至情感的虚拟伙伴（正如我的核心开源项目 <a href="{{ '/games/my-neuro/' | relative_url }}" style="color: var(--accent-primary); text-decoration: none;">My Neuro</a> 所努力实现的那样）。
             </p>
             <p>
                 我的日常工作涵盖了从深入研究开源大语言模型 (LLM)，到为 Godot 引擎编写高性能 C++ 拓展插件；从利用 Python 构建复杂的多 Agent 协作系统，到使用前端框架打磨极速响应的用户界面。

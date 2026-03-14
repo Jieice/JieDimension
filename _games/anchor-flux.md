@@ -35,7 +35,7 @@ links:
      style="font-size: 1.1rem; padding: 1rem 2rem; margin: 0.5rem;">
     ⭐ 前往 GitHub 支持
   </a>
-  <a href="/JieDimension/games/" 
+  <a href="{{ '/games/' | relative_url }}" 
      class="btn btn-secondary"
      style="margin: 0.5rem;">
     ← 返回项目列表
