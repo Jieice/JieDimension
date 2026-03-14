@@ -26,7 +26,8 @@
 
 <body>
     <div id="bg-video-container">
-        <video id="bg-video" autoplay loop muted playsinline preload="metadata" poster="{{ '/assets/images/og-image.jpg' | relative_url }}">
+        <video id="bg-video" autoplay loop muted playsinline preload="metadata"
+            poster="{{ '/assets/images/og-image.jpg' | relative_url }}">
             <source src="{{ '/assets/images/bgs/bg_dark.mp4' | relative_url }}" type="video/mp4" id="bg-video-source">
         </video>
     </div>
@@ -56,11 +57,11 @@
         <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author.name_cn }} ({{ site.author.name }})</p>
         <p>{{ site.tagline }}</p>
         <p style="margin-top: 0.5rem;">
-            📧 <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+            📫 <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
             <span style="margin: 0 0.5rem; opacity: 0.5;">|</span>
-            📺 <a href="https://space.bilibili.com/27840409" target="_blank" rel="noopener noreferrer">Bilibili</a>
+            📵 <a href="https://space.bilibili.com/27840409" target="_blank" rel="noopener noreferrer">Bilibili</a>
             <span style="margin: 0 0.5rem; opacity: 0.5;">|</span>
-            🎵 <a href="https://v.douyin.com/bZLdhqIbKFQ/" target="_blank" rel="noopener noreferrer">抖音</a>
+            🎍 <a href="https://v.douyin.com/bZLdhqIbKFQ/" target="_blank" rel="noopener noreferrer">抖音</a>
             <span style="margin: 0 0.5rem; opacity: 0.5;">|</span>
             💬 QQ群：<span style="color: var(--accent-primary); font-weight: 600;">756205360</span>
         </p>
@@ -71,7 +72,8 @@
 
     <div class="theme-controls">
         <button id="theme-toggle" class="control-btn" type="button" title="切换主题" aria-label="切换主题">🌗</button>
-        <button id="bgm-toggle" class="control-btn" type="button" title="播放背景音乐" aria-label="播放背景音乐" aria-pressed="false">🎵</button>
+        <button id="bgm-toggle" class="control-btn" type="button" title="播放背景音乐" aria-label="播放背景音乐"
+            aria-pressed="false">🎵</button>
         <audio id="bgm-audio" loop preload="none" data-src="{{ '/assets/bgm/bgm1.mp3' | relative_url }}"></audio>
     </div>
 
@@ -82,15 +84,39 @@
         const bgVideo = document.getElementById('bg-video');
         const bgmToggle = document.getElementById('bgm-toggle');
         const bgmAudio = document.getElementById('bgm-audio');
+        const bgmStorageKey = 'jiedimension.bgm';
 
         const themes = [
-            { id: 'dark', text: '🌙', src: "{{ '/assets/images/bgs/bg_dark.mp4' | relative_url }}", class: '' },
-            { id: 'light', text: '☀️', src: "{{ '/assets/images/bgs/bg_light.mp4' | relative_url }}", class: 'theme-light' },
-            { id: 'pixel', text: '👾', src: "{{ '/assets/images/bgs/bg_pixel.mp4' | relative_url }}", class: '' }
+            { id: 'dark', text: '\u{1F319}', src: "{{ '/assets/images/bgs/bg_dark.mp4' | relative_url }}", class: '' },
+            { id: 'light', text: '\u2600\uFE0F', src: "{{ '/assets/images/bgs/bg_light.mp4' | relative_url }}", class: 'theme-light' },
+            { id: 'pixel', text: '\u{1F47E}', src: "{{ '/assets/images/bgs/bg_pixel.mp4' | relative_url }}", class: '' }
         ];
 
+        function readBgmState() {
+            try {
+                const raw = sessionStorage.getItem(bgmStorageKey);
+
+                if (!raw) {
+                    return null;
+                }
+
+                const parsed = JSON.parse(raw);
+
+                return {
+                    shouldPlay: parsed.shouldPlay === true,
+                    currentTime: Number.isFinite(parsed.currentTime) ? parsed.currentTime : 0
+                };
+            } catch (error) {
+                return null;
+            }
+        }
+
+        const savedBgmState = readBgmState();
         let currentThemeIndex = new Date().getHours() >= 6 && new Date().getHours() < 18 ? 1 : 0;
         let bgmStartedOnce = false;
+        let hasBgmPreference = Boolean(savedBgmState);
+        let wantsBgmPlayback = savedBgmState?.shouldPlay === true;
+        let bgmResumeTime = savedBgmState?.currentTime || 0;
 
         function setVideoOpacity() {
             bgVideo.style.opacity = getComputedStyle(document.body).getPropertyValue('--video-opacity').trim() || '0.85';
@@ -101,7 +127,7 @@
             const playPromise = bgVideo.play();
 
             if (playPromise && typeof playPromise.catch === 'function') {
-                playPromise.catch(() => {});
+                playPromise.catch(() => { });
             }
         }
 
@@ -144,15 +170,63 @@
             }
         }
 
-        async function startBgm() {
+        function persistBgmState() {
+            if (!hasBgmPreference) {
+                return;
+            }
+
+            bgmResumeTime = Number.isFinite(bgmAudio.currentTime) && bgmAudio.currentTime > 0
+                ? bgmAudio.currentTime
+                : bgmResumeTime;
+
+            try {
+                sessionStorage.setItem(bgmStorageKey, JSON.stringify({
+                    shouldPlay: wantsBgmPlayback,
+                    currentTime: bgmResumeTime
+                }));
+            } catch (error) { }
+        }
+
+        async function waitForBgmMetadata() {
+            if (bgmAudio.readyState >= 1) {
+                return;
+            }
+
+            await new Promise((resolve) => {
+                bgmAudio.addEventListener('loadedmetadata', resolve, { once: true });
+            });
+        }
+
+        async function startBgm(resumeTime = bgmResumeTime) {
             ensureBgmSource();
 
             try {
+                if (bgmAudio.currentTime === 0 && Number.isFinite(resumeTime) && resumeTime > 0) {
+                    await waitForBgmMetadata();
+
+                    const safeResumeTime = Number.isFinite(bgmAudio.duration) && bgmAudio.duration > 0
+                        ? Math.min(resumeTime, Math.max(0, bgmAudio.duration - 0.25))
+                        : resumeTime;
+
+                    bgmAudio.currentTime = safeResumeTime;
+                }
+
                 await bgmAudio.play();
                 bgmStartedOnce = true;
             } catch (error) {
                 syncBgmUi(false);
+                throw error;
             }
+        }
+
+        async function restoreBgmIfNeeded() {
+            if (!hasBgmPreference || !wantsBgmPlayback) {
+                return;
+            }
+
+            try {
+                await startBgm(bgmResumeTime);
+            } catch (error) { }
         }
 
         themeToggle.addEventListener('click', () => {
@@ -164,15 +238,24 @@
             event.stopPropagation();
 
             if (bgmAudio.paused) {
-                await startBgm();
+                hasBgmPreference = true;
+                wantsBgmPlayback = true;
+                persistBgmState();
+
+                try {
+                    await startBgm(bgmResumeTime);
+                } catch (error) { }
                 return;
             }
 
+            hasBgmPreference = true;
+            wantsBgmPlayback = false;
+            persistBgmState();
             bgmAudio.pause();
         });
 
         document.addEventListener('pointerdown', async (event) => {
-            if (bgmStartedOnce) {
+            if (bgmStartedOnce || (hasBgmPreference && !wantsBgmPlayback)) {
                 return;
             }
 
@@ -180,14 +263,30 @@
                 return;
             }
 
-            await startBgm();
-        }, { once: true });
+            hasBgmPreference = true;
+            wantsBgmPlayback = true;
+            persistBgmState();
 
-        bgmAudio.addEventListener('play', () => syncBgmUi(true));
-        bgmAudio.addEventListener('pause', () => syncBgmUi(false));
+            try {
+                await startBgm(bgmResumeTime);
+            } catch (error) { }
+        });
+
+        bgmAudio.addEventListener('play', () => {
+            syncBgmUi(true);
+            persistBgmState();
+        });
+        bgmAudio.addEventListener('pause', () => {
+            bgmResumeTime = Number.isFinite(bgmAudio.currentTime) && bgmAudio.currentTime > 0
+                ? bgmAudio.currentTime
+                : bgmResumeTime;
+            syncBgmUi(false);
+        });
+        window.addEventListener('pagehide', () => persistBgmState());
 
         applyTheme(currentThemeIndex, true);
         syncBgmUi(false);
+        restoreBgmIfNeeded();
     </script>
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
