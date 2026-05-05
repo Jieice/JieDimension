@@ -148,6 +148,7 @@ export function updateFullUI() {
 // ==================== 升级标签页 ====================
 
 let buyMultiplier = 1;
+let lastRenderedCoins = -1; // 追踪上次渲染时的金币数，用于轻量更新
 
 export function renderUpgrades() {
   const container = $('tc-up');
@@ -155,6 +156,7 @@ export function renderUpgrades() {
 
   const summary = UpgradeSystem.getUpgradeSummary();
   const recommended = UpgradeSystem.getRecommendedUpgrades().map(r => r.key);
+  lastRenderedCoins = GameState.get('coins') || 0;
 
   let html = `
     <div class="multiplier-bar">
@@ -215,6 +217,8 @@ export function renderUpgrades() {
       if (result) {
         renderUpgrades();
         updateFullUI();
+      } else {
+        notify('金币不足！', 'error');
       }
     });
   });
@@ -230,6 +234,44 @@ export function renderUpgrades() {
       notify(enabled ? '自动购买已开启' : '自动购买已关闭', 'info');
     });
   }
+}
+
+/**
+ * 轻量更新升级按钮状态（不重建DOM，只更新disabled和费用）
+ * 在游戏循环中每秒调用，确保按钮状态与金币同步
+ */
+export function refreshUpgradeButtons() {
+  const container = $('tc-up');
+  if (!container) return;
+
+  const coins = GameState.get('coins') || 0;
+  if (coins === lastRenderedCoins) return; // 金币没变，跳过
+
+  lastRenderedCoins = coins;
+  const upgrades = UpgradeSystem.getAllUpgrades();
+
+  container.querySelectorAll('[data-buy]').forEach(btn => {
+    const key = btn.dataset.buy;
+    const upgrade = upgrades[key];
+    if (!upgrade) return;
+
+    const cost = UpgradeSystem.calculateCost(upgrade);
+    const canBuy = coins >= cost;
+
+    btn.disabled = !canBuy;
+
+    // 更新费用显示
+    const costSpan = btn.querySelector('.cost');
+    if (costSpan) {
+      if (buyMultiplier === 1) {
+        costSpan.textContent = `💰 ${fmt(cost)}`;
+      } else if (buyMultiplier === 'max') {
+        const maxBuy = UpgradeSystem.getMaxBuyCount(key);
+        costSpan.textContent = `可买${maxBuy}次`;
+      }
+      // 批量模式不更新单个费用（太频繁）
+    }
+  });
 }
 
 function getUpgradeDesc(key) {

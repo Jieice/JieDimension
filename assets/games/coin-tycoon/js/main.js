@@ -42,7 +42,8 @@ import {
   updateDailyProgress,
   processAutoBuy,
   processExpeditionTimers,
-  processAbyssCooldown
+  processAbyssCooldown,
+  refreshUpgradeButtons
 } from './ui.js';
 
 /**
@@ -308,6 +309,7 @@ class Game {
     // 每10 tick (1秒) 更新一次UI（减少DOM操作）
     if (this.tickCount % 10 === 0) {
       updateFullUI();
+      refreshUpgradeButtons();
       checkChapterProgress();
       processAutoBuy();
       processAbyssCooldown();
@@ -405,6 +407,7 @@ export const game = new Game();
 if (typeof window !== 'undefined') {
   window.game = game;
   window.showNumberPop = showNumberPop;
+  window.refreshUpgradeButtons = refreshUpgradeButtons;
   window.addEventListener('DOMContentLoaded', () => {
     game.init();
   });

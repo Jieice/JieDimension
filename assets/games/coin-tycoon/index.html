@@ -237,6 +237,10 @@
         if (window.showNumberPop) {
           window.showNumberPop(result.earned, result.isCrit, e.clientX, e.clientY - 20);
         }
+        // 立即刷新升级按钮状态
+        if (window.refreshUpgradeButtons) {
+          window.refreshUpgradeButtons();
+        }
         if (result.isCrit) {
           document.getElementById('coin-btn').style.transform = 'scale(1.15)';
           setTimeout(() => {
