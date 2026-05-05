@@ -15,9 +15,18 @@ layout: default
     <!-- 游戏作品展示 -->
     <h1 class="section-title">开源项目 (Projects)</h1>
 
-    <div class="games-grid">
+    <!-- 分类筛选 -->
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">全部</button>
+        <button class="filter-btn" data-filter="game">🎮 游戏</button>
+        <button class="filter-btn" data-filter="tool">🔧 工具</button>
+        <button class="filter-btn" data-filter="plugin">🔌 插件</button>
+    </div>
+
+    <div class="games-grid" id="games-grid">
         {% for game in site.games %}
-        <a href="{{ game.url | relative_url }}" class="game-card" style="text-decoration: none;">
+        {% assign game_tags = game.tags | default: "game" %}
+        <a href="{{ game.url | relative_url }}" class="game-card" data-tags="{{ game_tags }}" style="text-decoration: none;">
             <div class="game-thumbnail" style="background-image: url('{{ game.image | relative_url }}'); background-size: cover; background-position: center;"></div>
             <div class="game-info">
                 <h3 class="game-title">{{ game.title }}</h3>
@@ -29,4 +38,82 @@ layout: default
         {% endfor %}
     </div>
 
+    <div class="show-more-wrap" id="show-more-wrap" style="display:none;">
+        <button class="show-more-btn" id="show-more-btn">展开更多项目 ↓</button>
+    </div>
+
 </div>
+
+<script>
+(function() {
+    const grid = document.getElementById('games-grid');
+    const cards = Array.from(grid.querySelectorAll('.game-card'));
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const showMoreWrap = document.getElementById('show-more-wrap');
+    const showMoreBtn = document.getElementById('show-more-btn');
+    const VISIBLE_COUNT = 6;
+    let currentFilter = 'all';
+    let expanded = false;
+
+    // 给每个游戏卡片分配分类标签
+    const tagMap = {
+        'coin-tycoon': 'game',
+        'apocalypse-queen': 'game',
+        'battle-royale': 'game',
+        'snake': 'game',
+        'dark-forest': 'game',
+        'planet-drop': 'game',
+        'fruit-merge-game': 'game',
+        'anchor-flux': 'tool',
+        'naga-agent': 'tool',
+        'my-neuro': 'tool',
+        'godot-live2d': 'plugin'
+    };
+
+    cards.forEach(card => {
+        const href = card.getAttribute('href') || '';
+        let tag = 'game';
+        for (const [key, val] of Object.entries(tagMap)) {
+            if (href.includes(key)) { tag = val; break; }
+        }
+        card.dataset.category = tag;
+    });
+
+    function getFiltered() {
+        if (currentFilter === 'all') return cards;
+        return cards.filter(c => c.dataset.category === currentFilter);
+    }
+
+    function render() {
+        const filtered = getFiltered();
+        const visible = expanded ? filtered : filtered.slice(0, VISIBLE_COUNT);
+
+        cards.forEach(c => c.style.display = 'none');
+        visible.forEach(c => c.style.display = '');
+
+        if (filtered.length > VISIBLE_COUNT) {
+            showMoreWrap.style.display = 'block';
+            showMoreBtn.textContent = expanded ? '收起 ↑' : '展开更多项目 ↓';
+        } else {
+            showMoreWrap.style.display = 'none';
+        }
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            expanded = false;
+            render();
+        });
+    });
+
+    showMoreBtn.addEventListener('click', () => {
+        expanded = !expanded;
+        render();
+    });
+
+    render();
+})();
+</script>
