@@ -49,7 +49,13 @@ body.theme-light {
     --glass-border-highlight: rgba(0, 0, 0, 0.3);
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
     
-    --video-opacity: 0.95; /* Brighter for light theme */
+    --video-opacity: 0.95;
+    --text-stroke: 0 0 8px rgba(0,0,0,0.6), 0 0 20px rgba(0,0,0,0.3);
+}
+
+/* 默认暗色/像素主题：文字描边用浅色光晕 */
+:root {
+    --text-stroke: 0 0 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.4);
 }
 
 * {
@@ -839,4 +845,102 @@ h1, h2, h3, h4, h5, h6 {
         padding: 0.4rem 1rem;
         font-size: 0.82rem;
     }
+}
+
+/* === Game Detail Page === */
+.game-detail-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem 0 1rem;
+}
+
+.game-detail-header h1 {
+    font-size: 2.5rem;
+    text-shadow: var(--text-stroke);
+    margin-bottom: 0.75rem;
+}
+
+.game-detail-header .game-platform {
+    text-shadow: var(--text-stroke);
+}
+
+.game-detail-content {
+    background: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.game-detail-content h2 {
+    color: var(--text-primary);
+    margin: 1.5rem 0 0.75rem;
+}
+
+.game-detail-content p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.game-detail-content a {
+    color: var(--accent-secondary);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.game-detail-content a:hover {
+    border-bottom-color: var(--accent-secondary);
+}
+
+.game-detail-content iframe {
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+}
+
+.game-links {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.game-links .btn {
+    margin: 0.5rem;
+}
+
+.game-detail-footer {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.game-detail-footer .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    box-shadow: none;
+    text-shadow: var(--text-stroke);
+}
+
+.game-detail-footer .btn-secondary:hover {
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+/* === Hero 区域文字也加描边（视频背景上） === */
+.hero h1 {
+    text-shadow: var(--text-stroke);
+}
+
+.hero .tagline {
+    text-shadow: var(--text-stroke);
+}
+
+.hero-description {
+    text-shadow: var(--text-stroke);
+}
+
+/* === Section Title 描边 === */
+.section-title {
+    text-shadow: var(--text-stroke);
 }

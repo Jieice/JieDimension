@@ -4,20 +4,19 @@ layout: default
 
 <div class="container">
     <article class="game-detail">
-        <header style="text-align: center; margin-bottom: 2rem;">
+        <header class="game-detail-header">
             <h1>{{ page.title }}</h1>
             <p class="game-platform">{{ page.platform }}</p>
         </header>
 
-        <div class="game-detail-content"
-            style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+        <div class="game-detail-content">
             {{ content }}
         </div>
 
         {% if page.links %}
-        <div class="game-links" style="text-align: center; margin-top: 2rem;">
+        <div class="game-links">
             {% for link in page.links %}
-            <a href="{{ link.url }}" class="btn" style="margin: 0.5rem;" {% if link.external %}target="_blank"
+            <a href="{{ link.url }}" class="btn" {% if link.external %}target="_blank"
                 rel="noopener" {% endif %}>
                 {{ link.text }}
             </a>
@@ -25,7 +24,7 @@ layout: default
         </div>
         {% endif %}
 
-        <footer style="margin-top: 3rem; text-align: center;">
+        <footer class="game-detail-footer">
             <a href="{{ '/' | relative_url }}" class="btn btn-secondary">← 返回首页</a>
         </footer>
     </article>
