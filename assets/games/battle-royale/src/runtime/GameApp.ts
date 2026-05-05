@@ -47,6 +47,12 @@ export class GameApp {
     this.handleResize();
   }
 
+  public destroy(): void {
+    window.removeEventListener('resize', this.handleResize);
+    this.input.destroy();
+    this.app.destroy(true);
+  }
+
   private readonly handleResize = (): void => {
     const width = window.innerWidth;
     const height = window.innerHeight;

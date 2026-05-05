@@ -12,12 +12,27 @@ const basePlayer: PlayerState = {
   isAlive: true,
 };
 
+const EMPTY_MAP: readonly (readonly number[])[] = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
 describe('CombatSystem', () => {
   it('hits the closest living enemy that is inside the aim cone and range', () => {
     const result = resolveHitscanShot(basePlayer, [
       { id: 'far', x: 5.4, y: 2.55, health: 100, radius: 0.35, isAlive: true },
       { id: 'near', x: 4.2, y: 2.52, health: 100, radius: 0.35, isAlive: true },
-    ]);
+    ], EMPTY_MAP);
 
     expect(result.hitEnemyId).toBe('near');
     expect(result.didHit).toBe(true);
@@ -28,7 +43,7 @@ describe('CombatSystem', () => {
   it('does not hit enemies outside the aim cone', () => {
     const result = resolveHitscanShot(basePlayer, [
       { id: 'wide', x: 4.2, y: 4.4, health: 100, radius: 0.35, isAlive: true },
-    ]);
+    ], EMPTY_MAP);
 
     expect(result.didHit).toBe(false);
     expect(result.hitEnemyId).toBeNull();
@@ -38,7 +53,7 @@ describe('CombatSystem', () => {
   it('marks an enemy dead after lethal damage', () => {
     const result = resolveHitscanShot(basePlayer, [
       { id: 'weak', x: 4.2, y: 2.5, health: 40, radius: 0.35, isAlive: true },
-    ]);
+    ], EMPTY_MAP);
 
     expect(result.didHit).toBe(true);
     expect(result.enemies[0].health).toBe(0);

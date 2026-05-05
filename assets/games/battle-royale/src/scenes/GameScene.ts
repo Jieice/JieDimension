@@ -536,15 +536,18 @@ export function buildHudLines({
 }
 
 export function getDamageDirectionIndicator(relativeAngle: number): DamageDirection {
-  if (relativeAngle >= -Math.PI / 4 && relativeAngle < Math.PI / 4) {
+  const normalized = ((relativeAngle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+  const shifted = normalized > Math.PI ? normalized - Math.PI * 2 : normalized;
+
+  if (shifted >= -Math.PI / 4 && shifted < Math.PI / 4) {
     return 'front';
   }
 
-  if (relativeAngle >= Math.PI / 4 && relativeAngle < (3 * Math.PI) / 4) {
+  if (shifted >= Math.PI / 4 && shifted < (3 * Math.PI) / 4) {
     return 'right';
   }
 
-  if (relativeAngle <= -Math.PI / 4 && relativeAngle > (-3 * Math.PI) / 4) {
+  if (shifted >= -(3 * Math.PI) / 4 && shifted < -Math.PI / 4) {
     return 'left';
   }
 
@@ -630,6 +633,16 @@ export class GameScene {
       letterSpacing: 1.2,
     },
   });
+  private readonly warningText = new Text({
+    text: '',
+    style: {
+      fill: 0xffd166,
+      fontFamily: 'Courier New',
+      fontSize: 18,
+      fontWeight: '700',
+      letterSpacing: 1.6,
+    },
+  });
   private readonly player = new Player(PLAYER_SPAWN);
   private readonly raycaster = new Raycaster(WORLD_MAP.map((row) => [...row]));
   private enemies: EnemyState[] = INITIAL_ENEMIES.map((enemy) => ({ ...enemy }));
@@ -639,7 +652,7 @@ export class GameScene {
   private viewportHeight: number;
   private firingLatch = false;
   private hitFlash = 0;
-  private shotMessage = '3 HOSTILES ONLINE';
+  private shotMessage = `${INITIAL_ENEMIES.length} HOSTILES ONLINE`;
   private restartLatch = false;
   private shotKick = 0;
   private damagePulse = 0;
@@ -657,7 +670,7 @@ export class GameScene {
   ) {
     this.viewportWidth = baseWidth;
     this.viewportHeight = baseHeight;
-    this.container.addChild(this.sky, this.world, this.overlay, this.minimap, this.banner, this.hud);
+    this.container.addChild(this.sky, this.world, this.overlay, this.minimap, this.banner, this.hud, this.warningText);
   }
 
   public resize(width: number, height: number): void {
@@ -665,7 +678,6 @@ export class GameScene {
     this.viewportHeight = height;
     this.banner.anchor.set(0.5);
     this.banner.position.set(width / 2, height * 0.08);
-    this.hud.position.set(32, height - 144);
     this.drawScene();
   }
 
@@ -720,12 +732,13 @@ export class GameScene {
     this.restartLatch = false;
 
     const beforeMove = this.player.snapshot;
+    const safeDelta = Math.max(deltaSeconds, 0.001);
     this.player.update(
-      deltaSeconds,
+      safeDelta,
       {
         movement: this.input.getMovementAxis(),
         strafe: this.input.getStrafeAxis(),
-        turn: this.input.getTurnAxis() + this.input.consumeLookDelta() / deltaSeconds,
+        turn: this.input.getTurnAxis() + this.input.consumeLookDelta() / safeDelta,
       },
       (x, y) => this.raycaster.isWalkable(x, y),
     );
@@ -814,7 +827,7 @@ export class GameScene {
     this.lastDamageDirection = 'front';
     this.enemyHitPulses.clear();
     this.enemyDeathPulses.clear();
-    this.shotMessage = '3 HOSTILES ONLINE';
+    this.shotMessage = `${INITIAL_ENEMIES.length} HOSTILES ONLINE`;
   }
 
   private drawScene(): void {
@@ -1160,19 +1173,12 @@ export class GameScene {
       this.overlay.closePath();
       this.overlay.fill({ color: 0xffd166, alpha: 0.24 + hudDangerPresentation.frameAlpha * 0.6 });
       this.overlay.stroke({ color: 0xffffff, alpha: 0.18 + hudDangerPresentation.frameAlpha * 0.4, width: 1.2 });
-      const warningText = new Text({
-        text: hudDangerPresentation.warningText,
-        style: {
-          fill: 0xffd166,
-          fontFamily: 'Courier New',
-          fontSize: 18,
-          fontWeight: '700',
-          letterSpacing: 1.6,
-        },
-      });
-      warningText.position.set(56, height - 114);
-      warningText.alpha = 0.42 + hudDangerPresentation.frameAlpha * 0.9;
-      this.overlay.addChild(warningText);
+      this.warningText.text = hudDangerPresentation.warningText;
+      this.warningText.position.set(56, height - 114);
+      this.warningText.alpha = 0.42 + hudDangerPresentation.frameAlpha * 0.9;
+      this.warningText.visible = true;
+    } else {
+      this.warningText.visible = false;
     }
   }
 

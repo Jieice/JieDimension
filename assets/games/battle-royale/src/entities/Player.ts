@@ -115,6 +115,7 @@ export class Player {
   public applyPickup(updatedState: PlayerState): void {
     this.state.health = updatedState.health;
     this.state.ammo = updatedState.ammo;
+    this.state.isAlive = this.state.health > 0;
   }
 
   private canOccupy(x: number, y: number, isWalkable: (x: number, y: number) => boolean): boolean {

@@ -37,11 +37,12 @@ const ENEMY_CONTACT_DAMAGE_PER_SECOND = 24;
 const ENEMY_RANGED_DAMAGE_PER_SECOND = 16;
 const ENEMY_RANGED_RANGE = 4;
 const ENEMY_MOVE_SPEED = 1.8;
+const MAX_HEALTH = 100;
 const PICKUP_RADIUS = 0.5;
 
 type CollisionMap = readonly (readonly number[])[];
 
-export function resolveHitscanShot(player: PlayerState, enemies: EnemyState[], map?: CollisionMap): HitscanShotResult {
+export function resolveHitscanShot(player: PlayerState, enemies: EnemyState[], map: CollisionMap): HitscanShotResult {
   let bestEnemyId: string | null = null;
   let bestDistance = Number.POSITIVE_INFINITY;
 
@@ -66,7 +67,7 @@ export function resolveHitscanShot(player: PlayerState, enemies: EnemyState[], m
       continue;
     }
 
-    if (map && isShotBlockedByWall(player.x, player.y, enemy.x, enemy.y, map)) {
+    if (isShotBlockedByWall(player.x, player.y, enemy.x, enemy.y, map)) {
       continue;
     }
 
@@ -174,11 +175,21 @@ export function resolveEnemyMovement(
     const nextX = enemy.x + dirX * moveDistance;
     const nextY = enemy.y + dirY * moveDistance;
 
-    if (isWalkable(nextX, nextY)) {
-      return { ...enemy, x: nextX, y: nextY };
-    }
+    const r = enemy.radius;
+    const canMoveX = isWalkable(nextX + r, enemy.y + r)
+      && isWalkable(nextX - r, enemy.y + r)
+      && isWalkable(nextX + r, enemy.y - r)
+      && isWalkable(nextX - r, enemy.y - r);
+    const canMoveY = isWalkable(enemy.x + r, nextY + r)
+      && isWalkable(enemy.x - r, nextY + r)
+      && isWalkable(enemy.x + r, nextY - r)
+      && isWalkable(enemy.x - r, nextY - r);
 
-    return { ...enemy };
+    return {
+      ...enemy,
+      x: canMoveX ? nextX : enemy.x,
+      y: canMoveY ? nextY : enemy.y,
+    };
   });
 }
 
@@ -196,7 +207,7 @@ export function resolvePickups(player: PlayerState, pickups: PickupState[]): Pic
     if (pickup.type === 'ammo') {
       updatedPlayer = { ...updatedPlayer, ammo: updatedPlayer.ammo + pickup.amount };
     } else if (pickup.type === 'health') {
-      updatedPlayer = { ...updatedPlayer, health: updatedPlayer.health + pickup.amount };
+      updatedPlayer = { ...updatedPlayer, health: Math.min(updatedPlayer.health + pickup.amount, MAX_HEALTH) };
     }
   }
 
