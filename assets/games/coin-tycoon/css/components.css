@@ -1,0 +1,332 @@
+/**
+ * 组件样式
+ * 卡片、按钮、徽章、升级项等
+ */
+
+/* ===== 小按钮 ===== */
+.sm-btn {
+  padding: 5px 16px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: .7rem;
+  transition: var(--transition);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.sm-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.sm-btn:disabled { opacity: .35; cursor: not-allowed; }
+.sm-btn.orange { background: linear-gradient(145deg, var(--og), #d84315); }
+.sm-btn.purple { background: linear-gradient(145deg, var(--pp), #7e22ce); }
+.sm-btn.green { background: linear-gradient(145deg, var(--ok), #16a34a); }
+
+/* ===== 升级项 ===== */
+.u-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pad-sm) var(--pad);
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--bd3);
+  margin-bottom: var(--gap);
+  transition: var(--transition);
+  position: relative;
+}
+
+.u-item:hover {
+  border-color: var(--bd2);
+  background: var(--card2);
+  transform: translateX(2px);
+}
+
+.u-item.syn {
+  background: linear-gradient(145deg, rgba(168,85,247,.06), var(--card));
+  border-color: rgba(168,85,247,.12);
+}
+
+.u-item.recommended {
+  border-color: rgba(56,189,248,.25);
+  background: linear-gradient(145deg, rgba(56,189,248,.04), var(--card));
+}
+
+.u-item.recommended::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--s);
+  border-radius: 3px 0 0 3px;
+}
+
+.u-info { flex: 1; min-width: 0; }
+
+.u-name {
+  font-weight: 700;
+  font-size: .85rem;
+  margin-bottom: 2px;
+  color: var(--tx2);
+}
+
+.u-desc {
+  font-size: .7rem;
+  color: var(--txm);
+}
+
+.u-lvl {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+/* ===== 升级按钮 ===== */
+.u-btn {
+  padding: 8px 18px;
+  background: linear-gradient(145deg, var(--p), var(--pd));
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #422006;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: .75rem;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 12px var(--pglow);
+}
+
+.u-btn:hover:not(:disabled) {
+  transform: scale(1.04);
+  box-shadow: 0 4px 20px var(--pglow), 0 0 30px var(--pglow);
+}
+
+.u-btn:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+  background: var(--card2);
+  color: var(--txm);
+  box-shadow: none;
+}
+
+.u-btn .cost { font-size: .65rem; opacity: .8; }
+
+/* ===== 徽章 ===== */
+.badge {
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-size: .65rem;
+  font-weight: 600;
+}
+
+.badge.lv {
+  background: linear-gradient(145deg, var(--s), #0284c7);
+  color: #fff;
+}
+
+.badge.ef {
+  background: var(--card3);
+  color: var(--txm);
+}
+
+/* ===== 倍率按钮 ===== */
+.mult-btn {
+  padding: 5px 12px;
+  background: var(--card);
+  border: 1px solid var(--bd3);
+  border-radius: 6px;
+  color: var(--txm);
+  cursor: pointer;
+  font-size: .7rem;
+  transition: var(--transition);
+  font-family: var(--font-display);
+}
+
+.mult-btn.active {
+  background: linear-gradient(145deg, var(--p), var(--pd));
+  color: #422006;
+  border-color: var(--p);
+  box-shadow: 0 2px 8px var(--pglow);
+}
+
+.mult-btn:hover:not(.active) {
+  border-color: var(--bd2);
+  color: var(--p);
+}
+
+.mult-btn.auto-on {
+  background: linear-gradient(145deg, var(--ok), #16a34a);
+  color: #fff;
+  border-color: var(--ok);
+}
+
+/* ===== 技能项 ===== */
+.sk-item {
+  padding: var(--pad-sm);
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--bd3);
+  margin-bottom: var(--gap);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sk-item.ok {
+  border-color: rgba(34,197,94,.2);
+  background: linear-gradient(145deg, rgba(34,197,94,.06), var(--card));
+}
+
+.sk-item.lk {
+  border-color: rgba(239,68,68,.15);
+}
+
+.sk-name { font-weight: 700; font-size: .85rem; margin-bottom: 2px; color: var(--tx2); }
+.sk-desc { font-size: .7rem; color: var(--txm); }
+.sk-cost { font-size: .7rem; color: var(--pp); margin-top: 4px; }
+
+.sk-btn {
+  padding: 5px 14px;
+  background: linear-gradient(145deg, var(--pp), #7e22ce);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-size: .7rem;
+  transition: var(--transition);
+}
+
+.sk-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+/* ===== 宠物卡片 ===== */
+.pet-card {
+  padding: var(--pad-sm);
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--bd3);
+  margin-bottom: var(--gap);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: var(--pad-sm);
+}
+
+.pet-card.owned { border-color: rgba(34,197,94,.2); }
+.pet-card.active {
+  border-color: var(--bd2);
+  background: linear-gradient(145deg, rgba(251,191,36,.06), var(--card));
+}
+
+.pet-icon { font-size: 1.8rem; width: 40px; text-align: center; }
+.pet-info { flex: 1; }
+.pet-name { font-weight: 700; font-size: .85rem; color: var(--tx2); }
+.pet-desc { font-size: .7rem; color: var(--txm); }
+.pet-level { font-size: .65rem; color: var(--s); }
+
+/* ===== 成就项 ===== */
+.ach-item {
+  padding: var(--pad-sm);
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--bd3);
+  margin-bottom: var(--gap);
+  display: flex;
+  align-items: center;
+  gap: var(--pad-sm);
+  transition: var(--transition);
+}
+
+.ach-item.unlocked {
+  border-color: rgba(34,197,94,.2);
+  background: linear-gradient(145deg, rgba(34,197,94,.04), var(--card));
+}
+
+.ach-icon { font-size: 1.5rem; width: 36px; text-align: center; }
+.ach-info { flex: 1; }
+.ach-name { font-weight: 700; font-size: .85rem; color: var(--tx2); }
+.ach-desc { font-size: .7rem; color: var(--txm); }
+.ach-bonus { font-size: .65rem; color: var(--ok); }
+
+/* ===== 开关 ===== */
+.toggle-switch { position: relative; display: inline-block; width: 44px; height: 22px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: var(--card); border-radius: 22px;
+  border: 1px solid var(--bd3); transition: var(--transition);
+}
+.toggle-slider::before {
+  content: ''; position: absolute; height: 16px; width: 16px;
+  left: 2px; bottom: 2px; background: var(--txm);
+  border-radius: 50%; transition: var(--transition);
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--ok); border-color: var(--ok); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); background: #fff; }
+
+/* ===== 减负面板 ===== */
+.qol-option {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid var(--bd3);
+}
+.qol-option:last-child { border-bottom: none; }
+.qol-option span { font-size: .85rem; color: var(--tx2); }
+
+/* ===== 收集按钮 ===== */
+.collect-all-btn {
+  padding: 8px 18px;
+  background: linear-gradient(145deg, var(--pp), #7c3aed);
+  border: none; border-radius: var(--radius-sm);
+  color: #fff; cursor: pointer; font-size: .75rem; font-weight: 700;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(168,85,247,.2);
+}
+.collect-all-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(168,85,247,.3);
+}
+.collect-all-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ===== 装备展示 ===== */
+.eq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  margin-bottom: var(--pad);
+}
+
+.eq-card {
+  padding: var(--pad-sm);
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--bd3);
+  text-align: center;
+  transition: var(--transition);
+}
+
+.eq-card:hover {
+  border-color: var(--bd2);
+  transform: translateY(-2px);
+}
+
+.eq-slot-icon { font-size: 2rem; margin-bottom: 6px; }
+.eq-slot-name { font-weight: 700; font-size: .8rem; color: var(--tx2); }
+.eq-slot-bonus { font-size: .65rem; color: var(--ok); }
+
+.eq-grid.filled {
+  border-color: rgba(34,197,94,.2);
+  background: linear-gradient(145deg, rgba(34,197,94,.04), var(--card));
+}

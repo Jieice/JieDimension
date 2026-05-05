@@ -1,0 +1,570 @@
+- generic [ref=e1]:
+  - list [ref=e2]:
+    - listitem [ref=e3]:
+      - link "View all by TinyTakinTeller" [ref=e4] [cursor=pointer]:
+        - /url: https://tinytakinteller.itch.io
+        - img [ref=e5]
+        - generic [ref=e7]: View all by TinyTakinTeller
+    - listitem [ref=e8]:
+      - link "Follow TinyTakinTeller" [ref=e9] [cursor=pointer]:
+        - /url: https://itch.io/login?return_to=https%3A%2F%2Ftinytakinteller.itch.io%2Fthe-best-game-ever&intent=follow_user
+        - img [ref=e10]
+        - generic [ref=e13]: Follow TinyTakinTeller
+    - listitem [ref=e14]:
+      - link "Add To Collection" [ref=e15] [cursor=pointer]:
+        - /url: https://itch.io/login?return_to=https%3A%2F%2Ftinytakinteller.itch.io%2Fthe-best-game-ever&intent=add_to_collection
+        - img [ref=e16]
+        - generic [ref=e17]: Add To Collection
+    - listitem [ref=e18]:
+      - link "Related games" [ref=e19] [cursor=pointer]:
+        - /url: https://itch.io/games-like/2677660/the-best-game-ever
+        - img [ref=e20]
+        - generic [ref=e22]: Related games
+  - generic [ref=e24]:
+    - generic [ref=e25]:
+      - iframe [active] [ref=e365]:
+        - generic [ref=f1e2]: Your browser does not support the canvas tag.
+      - link "Support This Dark Forest" [ref=e34] [cursor=pointer]:
+        - /url: https://tinytakinteller.itch.io/the-best-game-ever/donate
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - paragraph [ref=e38]
+          - paragraph [ref=e39]:
+            - text: Inspired by
+            - link "A Dark Room" [ref=e40] [cursor=pointer]:
+              - /url: https://adarkroom.doublespeakgames.com/
+            - text: ", The Dark Forest is an incremental experimental minimalistic idle game developed in Godot."
+          - paragraph [ref=e41]:
+            - text: See
+            - strong [ref=e42]:
+              - link "Development Log's" [ref=e43] [cursor=pointer]:
+                - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog
+            - text: for more details.
+          - paragraph [ref=e44]:
+            - strong [ref=e45]: Source Code
+            - text: ":"
+            - link "https://github.com/TinyTakinTeller/GodotProjectZero" [ref=e46] [cursor=pointer]:
+              - /url: https://github.com/TinyTakinTeller/GodotProjectZero
+          - paragraph [ref=e47]:
+            - strong [ref=e48]: "Steam:"
+            - link "https://store.steampowered.com/app/3314970/A_Dark_Forest/" [ref=e49] [cursor=pointer]:
+              - /url: https://store.steampowered.com/app/3314970/A_Dark_Forest/
+          - paragraph [ref=e50]:
+            - strong [ref=e51]: Contributors
+          - list [ref=e52]:
+            - listitem [ref=e53]:
+              - text: Abyssal Novelist -
+              - link "https://abyssalnovelist.carrd.co/" [ref=e54] [cursor=pointer]:
+                - /url: https://abyssalnovelist.carrd.co/
+              - text: "- Writing & Management & Steam publishing & Polish Localization"
+            - listitem [ref=e55]:
+              - text: Alex Munoz -
+              - link "https://github.com/alexmunoz502" [ref=e56] [cursor=pointer]:
+                - /url: https://github.com/alexmunoz502
+              - text: "- Coding & SFX"
+            - listitem [ref=e57]:
+              - text: Joe Burke (BurkeZerk) -
+              - link:
+                - /url: https://github.com/BurkeZerk
+              - link "https://www.youtube.com/@JoeBurkeZerk" [ref=e58] [cursor=pointer]:
+                - /url: https://www.youtube.com/@JoeBurkeZerk
+              - text: "- Music"
+            - listitem [ref=e59]:
+              - text: Marek Kotewicz -
+              - link "https://github.com/debris" [ref=e60] [cursor=pointer]:
+                - /url: https://github.com/debris
+              - text: "- Bugfix"
+            - listitem [ref=e61]: Maria Oliveira - / - Portuguese (Brazilian) Localization
+            - listitem [ref=e62]:
+              - text: Marion Veber -
+              - 'link "linkedin.com: marion-veber" [ref=e63] [cursor=pointer]':
+                - /url: https://www.linkedin.com/in/marion-veber-838279342/
+              - text: "- French Localization"
+            - listitem [ref=e64]:
+              - text: Mellifica -
+              - link "https://github.com/mielifica" [ref=e65] [cursor=pointer]:
+                - /url: https://github.com/mielifica
+              - text: "- Coding & DevOps"
+            - listitem [ref=e66]:
+              - text: Mhvejs -
+              - link "https://github.com/mhvejs" [ref=e67] [cursor=pointer]:
+                - /url: https://github.com/mhvejs
+              - text: "- Bugfix"
+            - listitem [ref=e68]:
+              - text: Navy_Raccoon -
+              - 'link "instagram.com: navy.raccoon" [ref=e69] [cursor=pointer]':
+                - /url: https://www.instagram.com/navy.raccoon/
+              - text: "- Art"
+            - listitem [ref=e70]:
+              - text: Punnasiri Wongsricha -
+              - link "linkedin.com:punnasiri-wongsricha" [ref=e71] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/punnasiri-wongsricha-16442536b
+              - text: "- Thai Localization"
+            - listitem [ref=e72]:
+              - text: Reed -
+              - link "https://github.com/Reed-lzy" [ref=e73] [cursor=pointer]:
+                - /url: https://github.com/Reed-lzy
+              - text: "- Writing"
+            - listitem [ref=e74]:
+              - text: Skyler Newsome -
+              - link "https://circlesinthesky.com/" [ref=e75] [cursor=pointer]:
+                - /url: https://circlesinthesky.com/
+              - text: "- Music"
+            - listitem [ref=e76]:
+              - text: Xiaofei Shen & Gloria (Middlebury Institute of International Studies) -
+              - 'link "linkedin.com: xiaofei-shen" [ref=e77] [cursor=pointer]':
+                - /url: https://www.linkedin.com/in/xiaofei-shen/
+              - text: "- Chinese Localization"
+            - listitem [ref=e78]:
+              - emphasis [ref=e79]: "* Founder :"
+              - text: TinyTakinTeller
+              - emphasis [ref=e80]: "-"
+              - link "https://github.com/TinyTakinTeller" [ref=e81] [cursor=pointer]:
+                - /url: https://github.com/TinyTakinTeller
+              - text: "- Programming & Everything Else."
+            - listitem [ref=e82]:
+              - emphasis [ref=e83]: "* Everyone :"
+              - text: Playtesting & Suggestions.
+          - paragraph [ref=e84]
+          - paragraph [ref=e85]:
+            - strong [ref=e86]: Credits
+          - list [ref=e87]:
+            - listitem [ref=e88]:
+              - text: SHADER
+              - list [ref=e89]:
+                - listitem [ref=e90]:
+                  - text: resource "
+                  - link "Minimalistic UI Theme for Godot Games" [ref=e91] [cursor=pointer]:
+                    - /url: https://azagaya.itch.io/minimalistic-ui
+                    - emphasis [ref=e92]: Minimalistic UI Theme for Godot Games
+                  - text: "\" (dark.tres) by azagaya licensed under"
+                  - link "CC-BY 4.0" [ref=e93] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by/4.0/deed.en
+                - listitem [ref=e94]:
+                  - text: resource "
+                  - link "Pixel Explosion Shader" [ref=e95] [cursor=pointer]:
+                    - /url: https://gamedev.stackexchange.com/a/207351
+                    - emphasis [ref=e96]: Pixel Explosion Shader
+                  - text: "\" (pixelate.gdshader) by Theraot licensed under"
+                  - link "CC-BY-SA 4.0" [ref=e97] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-sa/4.0/deed.hr
+                - listitem [ref=e98]:
+                  - text: resource "
+                  - link "Chromatic Aberration Vignette" [ref=e99] [cursor=pointer]:
+                    - /url: https://godotshaders.com/shader/chromatic-aberration-vignette/
+                    - emphasis [ref=e100]: Chromatic Aberration Vignette
+                  - text: "\" (chromatic_vignette.gdshader) by ructoon licensed under"
+                  - link "CC0 1.0" [ref=e101] [cursor=pointer]:
+                    - /url: https://creativecommons.org/publicdomain/zero/1.0/
+                - listitem [ref=e102]:
+                  - text: resource "
+                  - link:
+                    - /url: https://godotshaders.com/shader/chromatic-aberration-vignette/
+                  - emphasis [ref=e103]:
+                    - link "Wiggle 2D" [ref=e104] [cursor=pointer]:
+                      - /url: https://godotshaders.com/shader/wiggle-2d/
+                  - text: "\" (wiggle.gdshader) by tanders licensed under"
+                  - link "CC0 1.0" [ref=e105] [cursor=pointer]:
+                    - /url: https://creativecommons.org/publicdomain/zero/1.0/
+                - listitem [ref=e106]:
+                  - text: resource
+                  - emphasis [ref=e107]:
+                    - text: "\""
+                    - link "Chromatic Aberration" [ref=e108] [cursor=pointer]:
+                      - /url: https://godotshaders.com/shader/chromatic-abberation/
+                    - text: "\""
+                  - text: (chromatic_abberation_radial.gdshader)
+                  - text: by hayden licensed under
+                  - link "CC0 1.0" [ref=e109] [cursor=pointer]:
+                    - /url: https://creativecommons.org/publicdomain/zero/1.0/
+                - listitem [ref=e110]:
+                  - text: resource
+                  - emphasis [ref=e111]: "\""
+                  - link "2D Radial Distortion – Fisheye/Barrel" [ref=e112] [cursor=pointer]:
+                    - /url: https://godotshaders.com/shader/2d-radial-distortion-fisheye-barrel/
+                    - emphasis [ref=e113]: 2D Radial Distortion – Fisheye/Barrel
+                  - text: "\" (radial_distortion.gdshader)"
+                  - text: by jamesfrize licensed under
+                  - link "CC0 1.0" [ref=e114] [cursor=pointer]:
+                    - /url: https://creativecommons.org/publicdomain/zero/1.0/
+                - listitem [ref=e115]:
+                  - text: resource "
+                  - link "Cracked Glass" [ref=e116] [cursor=pointer]:
+                    - /url: https://godotshaders.com/shader/cracked-glass/
+                    - emphasis [ref=e117]: Cracked Glass
+                  - text: "\" (cracked_glass.gdshader) by rupti licensed under"
+                  - link "CC-BY-NC-SA 3.0 UNPORTED" [ref=e118] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/3.0/deed.en
+                - listitem [ref=e119]:
+                  - text: resource "
+                  - emphasis [ref=e120]:
+                    - link "Starry Sky" [ref=e121] [cursor=pointer]:
+                      - /url: https://godotshaders.com/shader/starry-sky/
+                  - text: "\" (starry_sky.gdshader) by breadpack licensed under"
+                  - link "MIT" [ref=e122] [cursor=pointer]:
+                    - /url: https://opensource.org/license/mit
+            - listitem [ref=e123]:
+              - text: MUSIC
+              - list [ref=e124]:
+                - listitem [ref=e125]:
+                  - text: audio music track "
+                  - emphasis [ref=e126]:
+                    - link "Corpse Rot" [ref=e127] [cursor=pointer]:
+                      - /url: https://freemusicarchive.org/music/universfield/dark-music/corpse-rot/
+                  - text: "\" (corpse_rot.mp3) by UNIVERSFIELD licensed under"
+                  - link "CC-BY-SA 4.0" [ref=e128] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-sa/4.0/deed.hr
+                - listitem [ref=e129]:
+                  - text: audio music track "
+                  - emphasis [ref=e130]:
+                    - link "Criminal District" [ref=e131] [cursor=pointer]:
+                      - /url: https://freemusicarchive.org/music/universfield/dark-music/criminal-district/
+                  - text: "\" (criminal_district.mp3) by UNIVERSFIELD licensed under"
+                  - link "CC-BY-SA 4.0" [ref=e132] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-sa/4.0/deed.hr
+                - listitem [ref=e133]:
+                  - text: audio music tracks [
+                  - emphasis [ref=e134]: "\"Forest Song 1\", \"20 Axes to a Bed\", \"There's a Strong Chill in the Air\", \"Lacrimosa (Requiem Abridged)\"]"
+                  - text: by
+                  - link "Joe Burke (BurkeZerk)" [ref=e135] [cursor=pointer]:
+                    - /url: https://www.youtube.com/@JoeBurkeZerk
+                  - text: licensed under
+                  - link "CC-BY-NC-SA 4.0" [ref=e136] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+                - listitem [ref=e137]:
+                  - text: audio music tracks ["axes_arr_mstr_loop.mp3", "forest_arr_mstr_loop.mp3", "strong_chill_arr_mstr_loop.mp3", "lacrimosa_arr_mstr_loop.mp3"] by
+                  - link "Skyler" [ref=e138] [cursor=pointer]:
+                    - /url: https://circlesinthesky.com/
+                  - text: licensed under
+                  - link "CC-BY-NC-SA 4.0" [ref=e139] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+                - listitem [ref=e140]:
+                  - text: audio music track "
+                  - link "To The Death" [ref=e141] [cursor=pointer]:
+                    - /url: https://pixabay.com/music/video-games-to-the-death-159171/
+                  - emphasis
+                  - text: "\" (to_the_death.mp3) by junipersona licensed"
+                  - link "under Pixabay" [ref=e142] [cursor=pointer]:
+                    - /url: https://pixabay.com/service/license-summary/
+            - listitem [ref=e143]:
+              - text: SFX
+              - list [ref=e144]:
+                - listitem [ref=e145]:
+                  - text: audio SFX sounds "
+                  - link "Indie Friendly Sounds Survival" [ref=e146] [cursor=pointer]:
+                    - /url: https://placeholder-assets.itch.io/indie-friendly-sounds-survival
+                    - emphasis [ref=e147]: Indie Friendly Sounds Survival
+                  - text: "\" & \""
+                  - link "Indie Friendly Sounds RPG Sounds Pack" [ref=e148] [cursor=pointer]:
+                    - /url: https://placeholder-assets.itch.io/indie-friendly-sounds-rpg-sounds-pack
+                    - emphasis [ref=e149]: Indie Friendly Sounds RPG Sounds Pack
+                  - text: "\" by Place Holder Assets licensed under \""
+                  - emphasis [ref=e150]: for-purchasing-individuals"
+                - listitem [ref=e151]:
+                  - text: audio SFX sound "
+                  - link "Keyboard Typing" [ref=e152] [cursor=pointer]:
+                    - /url: https://freesound.org/s/331656/
+                    - emphasis [ref=e153]: Keyboard Typing
+                  - text: "\" by Trollarch2 licensed under"
+                  - link "CC0" [ref=e154] [cursor=pointer]:
+                    - /url: https://creativecommons.org/public-domain/cc0/
+                - listitem [ref=e155]:
+                  - text: audio SFX sound "
+                  - link:
+                    - /url: https://freesound.org/s/331656/
+                  - link "Short, definite fart" [ref=e156] [cursor=pointer]:
+                    - /url: https://freesound.org/s/249583/
+                    - emphasis [ref=e157]: Short, definite fart
+                  - text: "\" by ycbcr licensed under"
+                  - link "CC0" [ref=e158] [cursor=pointer]:
+                    - /url: https://creativecommons.org/public-domain/cc0/
+                - listitem [ref=e159]:
+                  - text: audio track "
+                  - link "heartbeat-80bpm.wav" [ref=e160] [cursor=pointer]:
+                    - /url: https://freesound.org/s/332820/
+                  - text: "\" by loudernoises licensed under"
+                  - link "CC0" [ref=e161] [cursor=pointer]:
+                    - /url: https://creativecommons.org/public-domain/cc0/
+            - listitem [ref=e162]:
+              - text: ADDONS
+              - list [ref=e163]:
+                - listitem [ref=e164]:
+                  - text: BulletUpHell -
+                  - link "https://github.com/Dark-Peace/BulletUpHell" [ref=e165] [cursor=pointer]:
+                    - /url: https://github.com/Dark-Peace/BulletUpHell
+                - listitem [ref=e166]:
+                  - text: Format on Save -
+                  - link "https://github.com/ryan-haskell/gdformat-on-save" [ref=e167] [cursor=pointer]:
+                    - /url: https://github.com/ryan-haskell/gdformat-on-save
+                - listitem [ref=e168]:
+                  - text: gdLinter -
+                  - link "https://github.com/el-falso/gdlinter/" [ref=e169] [cursor=pointer]:
+                    - /url: https://github.com/el-falso/gdlinter/
+                - listitem [ref=e170]:
+                  - text: Edit Resources as Table -
+                  - link "https://github.com/don-tnowe/godot-resources-as-sheets-plugin/" [ref=e171] [cursor=pointer]:
+                    - /url: https://github.com/don-tnowe/godot-resources-as-sheets-plugin/
+                    - text: https://github.com/don-tnowe/godot-resources-as-sheets-plugin/
+            - listitem [ref=e172]:
+              - text: ART
+              - list [ref=e173]:
+                - listitem [ref=e174]:
+                  - text: Art by Navy_Raccoon licensed under
+                  - link "CC-BY-NC-SA 4.0" [ref=e175] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+            - listitem [ref=e176]:
+              - text: WRITING
+              - list [ref=e177]:
+                - listitem [ref=e178]:
+                  - text: Writing and Narrative Design by Abyssal_Novelist, Reed, TinyTakinTeller licensed under
+                  - link "CC-BY-NC-SA 4.0" [ref=e179] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+            - listitem [ref=e180]:
+              - text: LOCALIZATION
+              - list [ref=e181]:
+                - listitem [ref=e182]:
+                  - text: FRENCH by Marion Veber licensed under
+                  - link "CC-BY-NC-SA 4.0" [ref=e183] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+                - listitem [ref=e184]:
+                  - text: PORTUGUESE (Brazilian) by Maria Oliveira licensed under
+                  - link "CC-BY-NC-SA 4.0" [ref=e185] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+              - list [ref=e186]:
+                - listitem [ref=e187]:
+                  - text: CHINESE (SC) by vikky2604 and gloria_1023 (Middlebury Institute of International Studies) licensed under
+                  - link "CC-BY-NC-SA 4.0" [ref=e188] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+                - listitem [ref=e189]:
+                  - text: POLISH by Abyssal_Novelist licensed under
+                  - link "CC-BY-NC-SA 4.0" [ref=e190] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+                - listitem [ref=e191]:
+                  - text: THAI by Punnasiri Wongsricha licensed under
+                  - link "CC-BY-NC-SA 4.0" [ref=e192] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+          - paragraph [ref=e193]:
+            - emphasis [ref=e194]:
+              - text: P.S. a thank you to
+              - link "incrementaldb.com" [ref=e195] [cursor=pointer]:
+                - /url: https://www.incrementaldb.com/
+              - text: community.
+            - emphasis
+          - paragraph [ref=e196]
+          - button "Click to activate iframe embed" [ref=e197] [cursor=pointer]:
+            - text: Click to activate embed
+            - generic [ref=e198]: https://store.steampowered.com/widget/3314970/?t=A%20Dark%20Forest%20is%20an%20incremental%20idle%20horror%20about%20discovering%20the%20unknown%20within%20and%20without%20yourself.%20The%20world%20is%20dark%20and%20empty.%20So%20are%20you.%20Carve%20out%20a%20community%20of%20your%20own%20inside%20the%20dark%20forest.%20Be%20wary%20of%20the%20darkness%E2%80%A6%20It%20doesn't%20like%20new%20challengers.%20
+        - generic [ref=e199]:
+          - link "More information" [ref=e201] [cursor=pointer]:
+            - /url: javascript:void(0)
+            - text: More information
+            - img [ref=e202]
+          - text:  
+        - generic [ref=e204]:
+          - heading "Development log" [level=2] [ref=e205]
+          - list [ref=e206]:
+            - listitem [ref=e207]:
+              - 'link "🌎 Language Update: Thai 🌎 (Patch 1.4.5)" [ref=e208] [cursor=pointer]':
+                - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog/965279/-language-update-thai-patch-145
+              - generic "12 June 2025 @ 20:21 UTC" [ref=e210]:  Jun 12, 2025
+            - listitem [ref=e211]:
+              - link "Steam Next Fest June 2025 and Press Kit!" [ref=e212] [cursor=pointer]:
+                - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog/963263/steam-next-fest-june-2025-and-press-kit
+              - generic "09 June 2025 @ 17:43 UTC" [ref=e214]:  Jun 09, 2025
+            - listitem [ref=e215]:
+              - link "Steam Demo Release & Next Fest 2025" [ref=e216] [cursor=pointer]:
+                - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog/961387/steam-demo-release-next-fest-2025
+              - generic "06 June 2025 @ 22:25 UTC" [ref=e218]:  Jun 06, 2025
+            - listitem [ref=e219]:
+              - 'link "🚀Patch 1.4 : 🎨The Art Update! + 🔮The Future +🌍Polish Localization!" [ref=e220] [cursor=pointer]':
+                - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog/885576/patch-14-the-art-update-the-future-polish-localization
+              - generic "11 February 2025 @ 21:56 UTC" [ref=e222]:  Feb 11, 2025
+            - listitem [ref=e223]:
+              - link "* [Art][Paid] Looking For An Artist" [ref=e224] [cursor=pointer]:
+                - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog/874538/-artpaid-looking-for-an-artist
+              - generic "25 January 2025 @ 18:05 UTC" [ref=e226]:  Jan 25, 2025
+            - listitem [ref=e227]:
+              - 'link "⚡ Patch 1.3 : Soulstone Grind Fix" [ref=e228] [cursor=pointer]':
+                - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog/867023/-patch-13-soulstone-grind-fix
+              - generic "11 January 2025 @ 22:58 UTC" [ref=e230]:  Jan 11, 2025
+            - listitem [ref=e231]:
+              - 'link "🌎 Language Update: Portuguese (Brazilian)" [ref=e232] [cursor=pointer]':
+                - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog/865116/-language-update-portuguese-brazilian
+              - generic "08 January 2025 @ 22:49 UTC" [ref=e234]:  Jan 08, 2025
+            - listitem [ref=e235]:
+              - 'link "🌎 Language Update: French & Chinese (SC)" [ref=e236] [cursor=pointer]':
+                - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog/863025/-language-update-french-chinese-sc
+              - generic "05 January 2025 @ 16:03 UTC" [ref=e238]:  Jan 05, 2025
+          - paragraph [ref=e239]:
+            - link "View all posts →" [ref=e240] [cursor=pointer]:
+              - /url: https://tinytakinteller.itch.io/the-best-game-ever/devlog
+        - generic [ref=e242]:
+          - heading "Community" [level=2] [ref=e243]
+          - generic [ref=e244]:
+            - generic [ref=e245]:
+              - link [ref=e246] [cursor=pointer]:
+                - /url: https://itch.io/profile/nobletaleplays
+              - generic [ref=e248]:
+                - generic [ref=e249]:
+                  - generic [ref=e250]: Sticky
+                  - link "Walkthrough Video and Story Video" [ref=e251] [cursor=pointer]:
+                    - /url: https://itch.io/t/4648812/walkthrough-video-and-story-video
+                - generic [ref=e252]:
+                  - text: by
+                  - link "NobleTalePlays" [ref=e253] [cursor=pointer]:
+                    - /url: https://nobletaleplays.itch.io
+                  - text: · 4 posts
+              - generic [ref=e254]: 66d
+            - generic [ref=e255]:
+              - link [ref=e256] [cursor=pointer]:
+                - /url: https://itch.io/profile/blackdoggo
+              - generic [ref=e258]:
+                - generic [ref=e259]:
+                  - generic [ref=e260]: Sticky
+                  - link "scaling chart" [ref=e261] [cursor=pointer]:
+                    - /url: https://itch.io/t/4590972/scaling-chart
+                - generic [ref=e262]:
+                  - text: by
+                  - link "Blackdoggo" [ref=e263] [cursor=pointer]:
+                    - /url: https://blackdoggo.itch.io
+                  - text: · 10 posts
+              - generic [ref=e264]: 141d
+            - generic [ref=e265]:
+              - link [ref=e266] [cursor=pointer]:
+                - /url: https://itch.io/profile/abyssal-novelist
+              - generic [ref=e268]:
+                - generic [ref=e269]:
+                  - generic [ref=e270]: Sticky
+                  - link "Find us online!" [ref=e271] [cursor=pointer]:
+                    - /url: https://itch.io/t/4962931/find-us-online
+                - generic [ref=e272]:
+                  - text: by
+                  - link "Abyssal Novelist" [ref=e273] [cursor=pointer]:
+                    - /url: https://abyssal-novelist.itch.io
+                  - text: · 1 post
+              - generic [ref=e274]: 278d
+            - generic [ref=e275]:
+              - link [ref=e276] [cursor=pointer]:
+                - /url: https://itch.io/profile/matomatico
+              - generic [ref=e278]:
+                - link "Spanish Translation" [ref=e280] [cursor=pointer]:
+                  - /url: https://itch.io/t/6043434/spanish-translation
+                - generic [ref=e281]:
+                  - text: by
+                  - link "Matomatico" [ref=e282] [cursor=pointer]:
+                    - /url: https://matomatico.itch.io
+                  - text: · 1 post
+              - generic [ref=e283]: 12d
+            - generic [ref=e284]:
+              - link [ref=e285] [cursor=pointer]:
+                - /url: https://itch.io/profile/femmyboy-3
+              - generic [ref=e287]:
+                - link "how do u get a soulstone :p" [ref=e289] [cursor=pointer]:
+                  - /url: https://itch.io/t/5762681/how-do-u-get-a-soulstone-p
+                - generic [ref=e290]:
+                  - text: by
+                  - link "Femmyboy :3" [ref=e291] [cursor=pointer]:
+                    - /url: https://femmyboy-3.itch.io
+                  - text: · 2 posts
+              - generic [ref=e292]: 63d
+            - generic [ref=e293]:
+              - link [ref=e294] [cursor=pointer]:
+                - /url: https://itch.io/profile/dontnormally
+              - generic [ref=e296]:
+                - link "very neat! but" [ref=e298] [cursor=pointer]:
+                  - /url: https://itch.io/t/5686147/very-neat-but
+                - generic [ref=e299]:
+                  - text: by
+                  - link "dontnormally" [ref=e300] [cursor=pointer]:
+                    - /url: https://dontnormally.itch.io
+                  - text: · 1 post
+              - generic [ref=e301]: 81d
+            - generic [ref=e302]:
+              - link [ref=e303] [cursor=pointer]:
+                - /url: https://itch.io/profile/no-contextgiven
+              - generic [ref=e305]:
+                - link "How many shadow substances are there?" [ref=e307] [cursor=pointer]:
+                  - /url: https://itch.io/t/5477365/how-many-shadow-substances-are-there
+                - generic [ref=e308]:
+                  - text: by
+                  - link "No_Contextgiven" [ref=e309] [cursor=pointer]:
+                    - /url: https://no-contextgiven.itch.io
+                  - text: · 1 post
+              - generic [ref=e310]: 135d
+            - generic [ref=e311]:
+              - link [ref=e312] [cursor=pointer]:
+                - /url: https://itch.io/profile/peypey00
+              - generic [ref=e314]:
+                - link "Mobile" [ref=e316] [cursor=pointer]:
+                  - /url: https://itch.io/t/4879502/mobile
+                - generic [ref=e317]:
+                  - text: by
+                  - link "PeyPey00" [ref=e318] [cursor=pointer]:
+                    - /url: https://peypey00.itch.io
+                  - text: · 2 posts
+              - generic [ref=e319]: 171d
+            - generic [ref=e320]:
+              - link [ref=e321] [cursor=pointer]:
+                - /url: https://itch.io/profile/justjinxed
+              - generic [ref=e323]:
+                - link "Something happened at the end (possible spoiler)" [ref=e325] [cursor=pointer]:
+                  - /url: https://itch.io/t/5084361/something-happened-at-the-end-possible-spoiler
+                - generic [ref=e326]:
+                  - text: by
+                  - link "JustJinxed" [ref=e327] [cursor=pointer]:
+                    - /url: https://justjinxed.itch.io
+                  - text: · 3 posts
+              - generic [ref=e328]: 236d
+            - generic [ref=e329]:
+              - link [ref=e330] [cursor=pointer]:
+                - /url: https://itch.io/profile/suitov
+              - generic [ref=e332]:
+                - link "Ending suggestions (beware spoilers!)" [ref=e334] [cursor=pointer]:
+                  - /url: https://itch.io/t/4959212/ending-suggestions-beware-spoilers
+                - generic [ref=e335]:
+                  - text: by
+                  - link "Suitov" [ref=e336] [cursor=pointer]:
+                    - /url: https://suitov.itch.io
+                  - text: · 7 posts
+              - generic [ref=e337]: 247d
+            - generic [ref=e338]:
+              - link [ref=e339] [cursor=pointer]:
+                - /url: https://itch.io/profile/sapphirebandit
+              - generic [ref=e341]:
+                - link "Probably my new favorite Idle Game of all time (Demo Review)" [ref=e343] [cursor=pointer]:
+                  - /url: https://itch.io/t/5052400/probably-my-new-favorite-idle-game-of-all-time-demo-review
+                - generic [ref=e344]:
+                  - text: by
+                  - link "SapphireBandit" [ref=e345] [cursor=pointer]:
+                    - /url: https://sapphirebandit.itch.io
+                  - text: · 1 post
+              - generic [ref=e346]: 252d
+          - generic [ref=e347]:
+            - link "Post a new topic" [ref=e348] [cursor=pointer]:
+              - /url: https://itch.io/login?return_to=https%3A%2F%2Ftinytakinteller.itch.io%2Fthe-best-game-ever&intent=community
+            - link "View all posts →" [ref=e349] [cursor=pointer]:
+              - /url: https://tinytakinteller.itch.io/the-best-game-ever/community
+    - generic [ref=e350]:
+      - link [ref=e351] [cursor=pointer]:
+        - /url: https://itch.io/
+        - img [ref=e352]
+      - link "itch.io" [ref=e354] [cursor=pointer]:
+        - /url: https://itch.io/
+      - generic [ref=e355]: ·
+      - link "View all by TinyTakinTeller" [ref=e356] [cursor=pointer]:
+        - /url: https://tinytakinteller.itch.io
+      - generic [ref=e357]: ·
+      - link "Report" [ref=e358] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - generic [ref=e359]: ·
+      - link "Embed" [ref=e360] [cursor=pointer]:
+        - /url: javascript:void(0);
+      - generic [ref=e361]:
+        - link "Games" [ref=e362] [cursor=pointer]:
+          - /url: https://itch.io/games
+        - text: ›
+        - link "Adventure" [ref=e363] [cursor=pointer]:
+          - /url: https://itch.io/games/genre-adventure
+        - text: ›
+        - link "Free" [ref=e364] [cursor=pointer]:
+          - /url: https://itch.io/games/free
