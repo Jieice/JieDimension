@@ -170,8 +170,19 @@ function showDefaultError(error) {
  * @param {string} type - 类型
  */
 function showNotification(message, type = 'info') {
-  if (typeof window !== 'undefined' && window.showNotification) {
-    window.showNotification('', message, type);
+  if (typeof window === 'undefined') {
+    console.log(`[${type.toUpperCase()}] ${message}`);
+    return;
+  }
+  
+  // 直接操作 DOM 显示通知
+  const container = document.getElementById('notification-container');
+  if (container) {
+    const el = document.createElement('div');
+    el.className = `notification ${type}`;
+    el.textContent = message;
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
   } else {
     console.log(`[${type.toUpperCase()}] ${message}`);
   }

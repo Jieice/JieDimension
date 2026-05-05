@@ -68,7 +68,7 @@ export function importSave(encoded) {
     const data = decodeURIComponent(atob(encoded));
     const parsed = JSON.parse(data);
     if (parsed && typeof parsed === 'object') {
-      localStorage.setItem(GAME_CONFIG.SAVE_KEY, data);
+      localStorage.setItem(GAME_CONFIG.SAVE_KEY, JSON.stringify(parsed));
       return true;
     }
     return false;

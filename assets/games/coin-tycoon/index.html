@@ -230,9 +230,13 @@
       });
     });
 
-    document.getElementById('coin-btn')?.addEventListener('click', () => {
+    document.getElementById('coin-btn')?.addEventListener('click', (e) => {
       if (window.game) {
         const result = window.game.handleClick();
+        // 数字弹出
+        if (window.showNumberPop) {
+          window.showNumberPop(result.earned, result.isCrit, e.clientX, e.clientY - 20);
+        }
         if (result.isCrit) {
           document.getElementById('coin-btn').style.transform = 'scale(1.15)';
           setTimeout(() => {
