@@ -1,13 +1,7 @@
-import './styles.css';
+import * as THREE from 'three';
+import { Game } from './core/Game.js';
 
-import { GameApp } from './runtime/GameApp';
+const app = document.getElementById('app')!;
 
-const host = document.querySelector<HTMLDivElement>('#app');
-
-if (!host) {
-  throw new Error('Missing #app host element.');
-}
-
-const game = new GameApp(host);
-
-void game.start();
+const game = new Game(app);
+game.start();

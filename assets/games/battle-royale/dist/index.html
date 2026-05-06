@@ -4,10 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cyberstorm Arena</title>
-    <script type="module" crossorigin src="/assets/games/battle-royale/assets/index-CVKdpODj.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/games/battle-royale/assets/index-7ByB8q6N.css">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; overflow: hidden; background: #05070d; }
+      canvas { display: block; }
+      #blocker {
+        position: fixed; inset: 0; z-index: 100;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(5, 7, 13, 0.92);
+        backdrop-filter: blur(8px);
+        cursor: pointer;
+      }
+      #blocker .content {
+        text-align: center; color: #f7fbff;
+        font-family: 'Courier New', monospace;
+      }
+      #blocker h1 {
+        font-size: 3rem; letter-spacing: 8px;
+        background: linear-gradient(135deg, #6ee7ff, #ff3ea5);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+      }
+      #blocker p { color: #8b9dc3; font-size: 1rem; letter-spacing: 2px; }
+      #blocker .hint { margin-top: 2rem; color: #ff3ea5; animation: pulse 2s ease-in-out infinite; }
+      @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+    </style>
+    <script type="module" crossorigin src="/assets/games/battle-royale/assets/index-DDmhftcJ.js"></script>
   </head>
   <body>
+    <div id="blocker">
+      <div class="content">
+        <h1>CYBERSTORM ARENA</h1>
+        <p>赛博风暴竞技场</p>
+        <p class="hint">[ CLICK TO ENTER ]</p>
+      </div>
+    </div>
     <div id="app"></div>
   </body>
-  </html>
+</html>
