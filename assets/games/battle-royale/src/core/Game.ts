@@ -25,8 +25,6 @@ export class Game {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.2;
     host.appendChild(this.renderer.domElement);
@@ -77,6 +75,7 @@ export class Game {
     if (this.isLocked) {
       this.player.update(delta);
       this.enemies.update(delta, this.player.getPosition());
+      this.combat.update();
 
       // Combat
       if (this.input.wasFirePressed()) {

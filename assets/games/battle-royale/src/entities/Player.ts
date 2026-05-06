@@ -75,8 +75,8 @@ export class Player {
     let moveZ = 0;
 
     if (forward !== 0) {
-      moveX += sinY * forward * speed;
-      moveZ += cosY * forward * speed;
+      moveX -= sinY * forward * speed;
+      moveZ -= cosY * forward * speed;
     }
     if (strafe !== 0) {
       moveX += cosY * strafe * speed;

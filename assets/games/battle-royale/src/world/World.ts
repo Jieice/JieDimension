@@ -199,9 +199,6 @@ export class World {
     for (const light of lightPositions) {
       const pointLight = new THREE.PointLight(light.color, light.intensity, 30);
       pointLight.position.set(light.pos[0], light.pos[1], light.pos[2]);
-      pointLight.castShadow = true;
-      pointLight.shadow.mapSize.width = 512;
-      pointLight.shadow.mapSize.height = 512;
       this.scene.add(pointLight);
 
       // Light fixture visual

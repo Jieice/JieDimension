@@ -28,6 +28,7 @@ export class EnemyManager {
   private scene: THREE.Scene;
   private collider: (x: number, z: number) => boolean;
   private enemies: EnemyData[] = [];
+  private activeEffects: { particles: THREE.Points; velocities: THREE.Vector3[]; startTime: number; geometry: THREE.BufferGeometry; material: THREE.PointsMaterial; flash: THREE.PointLight; flashIntensity: number }[] = [];
 
   constructor(scene: THREE.Scene, collider: (x: number, z: number) => boolean) {
     this.scene = scene;
@@ -113,6 +114,9 @@ export class EnemyManager {
         }
       }
     }
+
+    // Update active effects
+    this.updateEffects();
   }
 
   public damageEnemy(id: string, amount: number): void {
@@ -249,7 +253,6 @@ export class EnemyManager {
   }
 
   private spawnDeathEffect(position: THREE.Vector3): void {
-    // Particle burst
     const particleCount = 20;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
@@ -275,46 +278,43 @@ export class EnemyManager {
     const particles = new THREE.Points(geometry, material);
     this.scene.add(particles);
 
-    // Animate particles
-    const startTime = Date.now();
-    const animateParticles = (): void => {
-      const elapsed = (Date.now() - startTime) / 1000;
-      if (elapsed > 1.5) {
-        this.scene.remove(particles);
-        geometry.dispose();
-        material.dispose();
-        return;
-      }
-
-      const posArray = geometry.attributes.position.array as Float32Array;
-      for (let i = 0; i < particleCount; i++) {
-        posArray[i * 3] += velocities[i].x * 0.016;
-        posArray[i * 3 + 1] += velocities[i].y * 0.016;
-        posArray[i * 3 + 2] += velocities[i].z * 0.016;
-        velocities[i].y -= 9.8 * 0.016;
-      }
-      geometry.attributes.position.needsUpdate = true;
-      material.opacity = 1 - elapsed / 1.5;
-
-      requestAnimationFrame(animateParticles);
-    };
-    animateParticles();
-
-    // Flash light
     const flash = new THREE.PointLight(0xff3ea5, 20, 10);
     flash.position.copy(position).y += 1;
     this.scene.add(flash);
 
-    let flashIntensity = 20;
-    const fadeFlash = (): void => {
-      flashIntensity *= 0.9;
-      flash.intensity = flashIntensity;
-      if (flashIntensity > 0.1) {
-        requestAnimationFrame(fadeFlash);
-      } else {
-        this.scene.remove(flash);
+    this.activeEffects.push({
+      particles, velocities, startTime: Date.now(),
+      geometry, material, flash, flashIntensity: 20,
+    });
+  }
+
+  private updateEffects(): void {
+    const now = Date.now();
+    this.activeEffects = this.activeEffects.filter((fx) => {
+      const elapsed = (now - fx.startTime) / 1000;
+
+      if (elapsed > 1.5) {
+        this.scene.remove(fx.particles);
+        fx.geometry.dispose();
+        fx.material.dispose();
+        this.scene.remove(fx.flash);
+        return false;
       }
-    };
-    fadeFlash();
+
+      const posArray = fx.geometry.attributes.position.array as Float32Array;
+      for (let i = 0; i < fx.velocities.length; i++) {
+        posArray[i * 3] += fx.velocities[i].x * 0.016;
+        posArray[i * 3 + 1] += fx.velocities[i].y * 0.016;
+        posArray[i * 3 + 2] += fx.velocities[i].z * 0.016;
+        fx.velocities[i].y -= 9.8 * 0.016;
+      }
+      fx.geometry.attributes.position.needsUpdate = true;
+      fx.material.opacity = 1 - elapsed / 1.5;
+
+      fx.flashIntensity *= 0.92;
+      fx.flash.intensity = fx.flashIntensity;
+
+      return true;
+    });
   }
 }

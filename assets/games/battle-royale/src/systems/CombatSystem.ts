@@ -2,6 +2,13 @@ import * as THREE from 'three';
 
 const MAX_RANGE = 100;
 
+interface TimedEffect {
+  startTime: number;
+  duration: number;
+  update: (elapsed: number, progress: number) => boolean; // returns false when done
+  cleanup: () => void;
+}
+
 export class CombatSystem {
   private camera: THREE.PerspectiveCamera;
   private scene: THREE.Scene;
@@ -10,6 +17,9 @@ export class CombatSystem {
   // Impact decal pool
   private impactPool: THREE.Mesh[] = [];
   private impactIndex = 0;
+
+  // Timed effects (tracers, impacts)
+  private effects: TimedEffect[] = [];
 
   constructor(camera: THREE.PerspectiveCamera, scene: THREE.Scene) {
     this.camera = camera;
@@ -33,18 +43,27 @@ export class CombatSystem {
     }
   }
 
+  public update(): void {
+    const now = Date.now();
+    this.effects = this.effects.filter((fx) => {
+      const elapsed = (now - fx.startTime) / 1000;
+      if (elapsed >= fx.duration) {
+        fx.cleanup();
+        return false;
+      }
+      return fx.update(elapsed, elapsed / fx.duration);
+    });
+  }
+
   public shoot(enemies: { id: string; mesh: THREE.Object3D }[]): { id: string } | null {
-    // Raycast from camera center
     this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
     this.raycaster.far = MAX_RANGE;
 
-    // Check hits against enemy meshes
     const meshes = enemies.map(e => e.mesh);
     const intersects = this.raycaster.intersectObjects(meshes, true);
 
     if (intersects.length > 0) {
       const hit = intersects[0];
-      // Find which enemy was hit
       let hitObject = hit.object;
       while (hitObject.parent && !meshes.includes(hitObject)) {
         hitObject = hitObject.parent;
@@ -52,17 +71,12 @@ export class CombatSystem {
 
       const enemy = enemies.find(e => e.mesh === hitObject);
       if (enemy) {
-        // Spawn impact at hit point
         this.spawnImpact(hit.point, hit.face?.normal);
-
-        // Muzzle tracer
         this.spawnTracer(hit.point);
-
         return { id: enemy.id };
       }
     }
 
-    // Miss - show tracer to max range
     const dir = new THREE.Vector3(0, 0, -1).applyQuaternion(this.camera.quaternion);
     const endPoint = this.camera.position.clone().add(dir.multiplyScalar(MAX_RANGE));
     this.spawnTracer(endPoint);
@@ -81,28 +95,23 @@ export class CombatSystem {
     }
     decal.visible = true;
 
-    // Fade out
     const mat = decal.material as THREE.MeshBasicMaterial;
     mat.opacity = 0.8;
 
     const startTime = Date.now();
-    const fade = (): void => {
-      const elapsed = (Date.now() - startTime) / 1000;
-      if (elapsed > 0.5) {
-        decal.visible = false;
-        return;
-      }
-      mat.opacity = 0.8 * (1 - elapsed / 0.5);
-      requestAnimationFrame(fade);
-    };
-    fade();
+    this.effects.push({
+      startTime,
+      duration: 0.5,
+      update: (_elapsed, progress) => {
+        mat.opacity = 0.8 * (1 - progress);
+        return true;
+      },
+      cleanup: () => { decal.visible = false; },
+    });
   }
 
   private spawnTracer(endPoint: THREE.Vector3): void {
     const start = this.camera.position.clone();
-    const direction = endPoint.clone().sub(start);
-    const length = direction.length();
-
     const geo = new THREE.BufferGeometry().setFromPoints([start, endPoint]);
     const mat = new THREE.LineBasicMaterial({
       color: 0x6ee7ff,
@@ -112,19 +121,18 @@ export class CombatSystem {
     const line = new THREE.Line(geo, mat);
     this.scene.add(line);
 
-    // Quick fade
-    const startTime = Date.now();
-    const fade = (): void => {
-      const elapsed = (Date.now() - startTime) / 1000;
-      if (elapsed > 0.08) {
+    this.effects.push({
+      startTime: Date.now(),
+      duration: 0.08,
+      update: (_elapsed, progress) => {
+        mat.opacity = 0.6 * (1 - progress);
+        return true;
+      },
+      cleanup: () => {
         this.scene.remove(line);
         geo.dispose();
         mat.dispose();
-        return;
-      }
-      mat.opacity = 0.6 * (1 - elapsed / 0.08);
-      requestAnimationFrame(fade);
-    };
-    fade();
+      },
+    });
   }
 }
