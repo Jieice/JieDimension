@@ -6,6 +6,8 @@ export class InputManager {
   private fireConsumed = false;
   private _onLockChange: ((locked: boolean) => void) | null = null;
 
+  private canvasClickHandler: (() => void) | null = null;
+
   public constructor() {
     document.addEventListener('keydown', this.onKeyDown);
     document.addEventListener('keyup', this.onKeyUp);
@@ -15,7 +17,7 @@ export class InputManager {
 
     const blocker = document.getElementById('blocker');
     if (blocker) {
-      blocker.addEventListener('click', this.requestLock);
+      blocker.addEventListener('click', this.handleBlockerClick);
     }
   }
 
@@ -62,13 +64,32 @@ export class InputManager {
     document.removeEventListener('pointerlockchange', this.onPointerLockChange);
   }
 
-  private readonly requestLock = (): void => {
-    this.renderer()?.requestPointerLock();
+  private readonly handleBlockerClick = (): void => {
+    const blocker = document.getElementById('blocker');
+    if (blocker) blocker.style.display = 'none';
+
+    // Request pointer lock directly on canvas from user gesture
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+      canvas.requestPointerLock();
+    } else {
+      // Fallback: listen for next click on document
+      if (!this.canvasClickHandler) {
+        this.canvasClickHandler = () => {
+          const c = document.querySelector('canvas');
+          if (c) c.requestPointerLock();
+          document.removeEventListener('click', this.canvasClickHandler!);
+          this.canvasClickHandler = null;
+        };
+        document.addEventListener('click', this.canvasClickHandler);
+      }
+    }
   };
 
-  private renderer(): HTMLElement | null {
-    return document.querySelector('canvas');
-  }
+  private readonly requestLock = (): void => {
+    const canvas = document.querySelector('canvas');
+    if (canvas) canvas.requestPointerLock();
+  };
 
   private readonly onKeyDown = (e: KeyboardEvent): void => {
     this.keys.add(e.code);
