@@ -184,7 +184,7 @@ export class World {
 
   private addLighting(): void {
     // Ambient
-    const ambient = new THREE.AmbientLight(0x1a2744, 0.4);
+    const ambient = new THREE.AmbientLight(0x1a2744, 1.2);
     this.scene.add(ambient);
 
     // Overhead lights (cyberpunk colored)

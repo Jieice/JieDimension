@@ -17,11 +17,11 @@ interface EnemyData {
 }
 
 const ENEMY_SPAWNS = [
-  { id: 'e1', x: 50, z: 50 },
-  { id: 'e2', x: 14, z: 50 },
-  { id: 'e3', x: 50, z: 14 },
-  { id: 'e4', x: 30, z: 30 },
-  { id: 'e5', x: 45, z: 20 },
+  { id: 'e1', x: 54, z: 6 },
+  { id: 'e2', x: 54, z: 58 },
+  { id: 'e3', x: 6, z: 58 },
+  { id: 'e4', x: 6, z: 54 },
+  { id: 'e5', x: 58, z: 42 },
 ];
 
 export class EnemyManager {

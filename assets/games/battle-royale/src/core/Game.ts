@@ -28,17 +28,18 @@ export class Game {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 0.8;
+    this.renderer.toneMappingExposure = 1.2;
     host.appendChild(this.renderer.domElement);
 
     // Scene
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x05070d);
-    this.scene.fog = new THREE.FogExp2(0x05070d, 0.035);
+    this.scene.fog = new THREE.FogExp2(0x05070d, 0.018);
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
-    this.camera.position.set(2.5, 1.7, 1.5);
+    this.camera.position.set(10, 1.7, 10);
+    this.scene.add(this.camera);
 
     // Systems
     this.input = new InputManager();

@@ -28,11 +28,13 @@ export class InputManager {
   }
 
   public getForward(): number {
+    if (!this.isLocked()) return 0;
     return (this.keys.has('KeyW') || this.keys.has('ArrowUp') ? 1 : 0)
          - (this.keys.has('KeyS') || this.keys.has('ArrowDown') ? 1 : 0);
   }
 
   public getStrafe(): number {
+    if (!this.isLocked()) return 0;
     return (this.keys.has('KeyD') ? 1 : 0) - (this.keys.has('KeyA') ? 1 : 0);
   }
 
@@ -94,9 +96,9 @@ export class InputManager {
 
   private readonly onPointerLockChange = (): void => {
     this._onLockChange?.(this.isLocked());
-    this.keys.clear();
     this.mouseDeltaX = 0;
     this.mouseDeltaY = 0;
     this.firePressed = false;
+    this.fireConsumed = false;
   };
 }
