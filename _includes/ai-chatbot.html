@@ -268,8 +268,8 @@
     </button>
 </div>
 
-<!-- 引入 Puter.js -->
-<script src="https://js.puter.com/v2/"></script>
+<!-- 引入 Puter.js（异步加载，不阻塞渲染） -->
+<script src="https://js.puter.com/v2/" async></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const toggleBtn = document.getElementById('puter-chat-toggle');
