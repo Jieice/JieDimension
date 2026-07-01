@@ -227,7 +227,7 @@ async function fetchDS(dsData) {
   }
 }
 
-async function fetchQwen(qwenData) {
+async function fetchQwen(qwenData, gw) {
   const statusEl = document.getElementById("qwen-status");
   const summaryEl = document.getElementById("qwen-summary");
   const errorEl = document.getElementById("qwen-error");
@@ -236,33 +236,20 @@ async function fetchQwen(qwenData) {
   try {
     if (!qwenData || qwenData.error) throw new Error(qwenData?.error || "无数据");
 
-    const accs = (qwenData.accounts || []).map(a => {
-      let state = "ok";
-      if (!a.active) state = "dead";
-      else if (a.cooldown) state = "cooldown";
-      else if (a.failures > 0) state = "warning";
-      return {
-        id: a.username || a.email || 'unknown', state,
-        cooldown_sec: Math.ceil(Math.max(0, a.cooldown_remaining_ms || 0) / 1000),
-        failures: a.failures || 0,
-        concurrent: a.concurrent || 0,
-        last_used: a.last_used || null,
-        total_requests: a.total_requests || 0,
-      };
-    });
+    const total = typeof qwenData.accounts === 'number' ? qwenData.accounts : (qwenData.total_accounts || 0);
+    const active = gw?.qwen_tokens_active || total;
 
-    const activeCount = accs.filter(a => a.state === "ok" || a.state === "warning").length;
-    summaryEl.style.display = "";
-    document.getElementById("qwen-total").textContent = qwenData.total_accounts || accs.length;
-    document.getElementById("qwen-green").textContent = activeCount;
-    document.getElementById("qwen-yellow").textContent = accs.filter(a => a.state === "cooldown").length;
-    document.getElementById("qwen-red").textContent = accs.filter(a => a.state === "dead").length;
+    document.getElementById("qwen-total").textContent = total;
+    document.getElementById("qwen-green").textContent = active;
+    document.getElementById("qwen-yellow").textContent = 0;
+    document.getElementById("qwen-red").textContent = 0;
 
     statusEl.className = "pool-status online";
-    statusEl.textContent = "在线 " + activeCount + "/" + (qwenData.total_accounts || accs.length);
+    statusEl.textContent = "在线 " + active + "/" + total;
     errorEl.innerHTML = "";
+    summaryEl.style.display = "";
 
-    renderAccounts(accsEl, accs);
+    accsEl.innerHTML = '<div class="no-accounts">' + active + ' 个活跃 Token (详情见 Gateway 状态页)</div>';
   } catch (e) {
     statusEl.className = "pool-status offline";
     statusEl.textContent = "离线";
@@ -313,7 +300,7 @@ async function fetchAll() {
   try {
     const r = await fetch(GATEWAY_URL, { cache: "no-store" });
     const data = await r.json();
-    await Promise.all([fetchDS(data.deepseek), fetchQwen(data.qwen)]);
+    await Promise.all([fetchDS(data.deepseek), fetchQwen(data.qwen, data.gateway)]);
     const gw = data.gateway || {};
     if (gw.qwen_token_source) {
       document.getElementById("gateway-info").textContent =
