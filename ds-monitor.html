@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DS 号池监控 · JieDimension</title>
+<title>API 号池监控 · JieDimension</title>
 <style>
 :root {
   --bg: #0d1117;
@@ -15,6 +15,7 @@
   --yellow: #d29922;
   --red: #f85149;
   --accent: #58a6ff;
+  --purple: #bc8cff;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -24,112 +25,177 @@ body {
   min-height: 100vh;
   padding: 24px;
 }
-.container { max-width: 820px; margin: 0 auto; }
+.container { max-width: 860px; margin: 0 auto; }
 header {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
 }
 header h1 { font-size: 22px; font-weight: 600; }
 header h1 span { color: var(--accent); }
+.back-link { color: var(--muted); font-size: 13px; text-decoration: none; }
+.back-link:hover { color: var(--accent); }
 .refresh-info { color: var(--muted); font-size: 13px; }
+
+.pool-section {
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.pool-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 20px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.pool-header h2 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.pool-header .pool-url { color: var(--muted); font-size: 12px; word-break: break-all; }
+.pool-header .pool-status {
+  font-size: 12px; padding: 3px 10px; border-radius: 10px;
+  font-weight: 600;
+}
+.pool-status.online { background: rgba(63,185,80,0.15); color: var(--green); }
+.pool-status.offline { background: rgba(248,81,73,0.15); color: var(--red); }
+.pool-status.loading { background: rgba(88,166,255,0.15); color: var(--accent); }
+
 .summary {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-  margin-bottom: 24px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  padding: 16px 20px;
 }
 .stat {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 8px; padding: 16px; text-align: center;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px; text-align: center;
 }
-.stat .num { font-size: 28px; font-weight: 700; }
-.stat .label { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.stat .num { font-size: 24px; font-weight: 700; }
+.stat .label { color: var(--muted); font-size: 11px; margin-top: 2px; }
 .stat.green .num { color: var(--green); }
 .stat.yellow .num { color: var(--yellow); }
 .stat.red .num { color: var(--red); }
 .stat.total .num { color: var(--text); }
-.accounts { display: flex; flex-direction: column; gap: 8px; }
+
+.accounts { padding: 0 20px 16px; display: flex; flex-direction: column; gap: 6px; }
 .account {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 8px; padding: 14px 18px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 16px;
   display: flex; align-items: center; justify-content: space-between;
-  transition: border-color 0.2s;
 }
 .account.ok { border-left: 3px solid var(--green); }
 .account.warning { border-left: 3px solid var(--yellow); }
 .account.cooldown { border-left: 3px solid var(--yellow); }
 .account.dead { border-left: 3px solid var(--red); }
-.account .left { display: flex; align-items: center; gap: 12px; }
-.dot {
-  width: 12px; height: 12px; border-radius: 50%;
-  flex-shrink: 0;
-}
-.dot.ok { background: var(--green); box-shadow: 0 0 8px var(--green); }
-.dot.warning { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
-.dot.cooldown { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
-.dot.dead { background: var(--red); box-shadow: 0 0 8px var(--red); }
-.account .id { font-weight: 600; font-size: 15px; }
+.account .left { display: flex; align-items: center; gap: 10px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dot.ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.dot.warning { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+.dot.cooldown { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+.dot.dead { background: var(--red); box-shadow: 0 0 6px var(--red); }
+.account .id { font-weight: 600; font-size: 14px; }
 .account .badge {
-  font-size: 11px; padding: 2px 8px; border-radius: 10px;
-  background: var(--border); color: var(--muted);
+  font-size: 10px; padding: 2px 7px; border-radius: 10px;
+  background: var(--border); color: var(--muted); margin-left: 8px;
 }
-.account .right { color: var(--muted); font-size: 13px; text-align: right; }
+.account .right { color: var(--muted); font-size: 12px; text-align: right; }
+.no-accounts { color: var(--muted); font-size: 13px; padding: 12px 0; text-align: center; }
+
 .error-banner {
   background: rgba(248,81,73,0.1); border: 1px solid var(--red);
-  border-radius: 8px; padding: 14px; margin-bottom: 20px;
-  color: var(--red); font-size: 14px;
+  border-radius: 8px; padding: 12px; margin: 0 20px 16px;
+  color: var(--red); font-size: 13px;
 }
+
 .footer {
-  margin-top: 24px; text-align: center; color: var(--muted);
+  margin-top: 16px; text-align: center; color: var(--muted);
   font-size: 12px;
 }
 .footer a { color: var(--accent); text-decoration: none; }
 .pulse { animation: pulse 2s infinite; }
-@keyframes pulse {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.ds-color { color: var(--accent); }
+.qwen-color { color: var(--purple); }
+
 @media (max-width: 600px) {
   .summary { grid-template-columns: repeat(2, 1fr); }
   header h1 { font-size: 18px; }
+  .pool-header { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <h1>DeepSeek <span>号池监控</span></h1>
-    <div class="refresh-info" id="refreshInfo">加载中...</div>
+    <h1>API <span>号池监控</span></h1>
+    <div>
+      <a href="https://www.jiece.art/" class="back-link">&larr; 返回主页</a>
+      <span class="refresh-info" id="refreshInfo" style="margin-left:12px;">加载中...</span>
+    </div>
   </header>
 
-  <div id="errorBox"></div>
-
-  <div class="summary">
-    <div class="stat total"><div class="num" id="sTotal">-</div><div class="label">总计</div></div>
-    <div class="stat green"><div class="num" id="sGreen">-</div><div class="label">在线</div></div>
-    <div class="stat yellow"><div class="num" id="sYellow">-</div><div class="label">冷却/警告</div></div>
-    <div class="stat red"><div class="num" id="sRed">-</div><div class="label">离线</div></div>
+  <!-- DeepSeek Pool -->
+  <div class="pool-section" id="ds-pool">
+    <div class="pool-header">
+      <div>
+        <h2><span class="ds-color">DeepSeek</span> 号池</h2>
+        <div class="pool-url">https://Jieice-ds-api.hf.space/v1</div>
+      </div>
+      <div class="pool-status loading" id="ds-status">加载中</div>
+    </div>
+    <div class="summary" id="ds-summary" style="display:none;">
+      <div class="stat total"><div class="num" id="ds-total">-</div><div class="label">总计</div></div>
+      <div class="stat green"><div class="num" id="ds-green">-</div><div class="label">在线</div></div>
+      <div class="stat yellow"><div class="num" id="ds-yellow">-</div><div class="label">冷却/警告</div></div>
+      <div class="stat red"><div class="num" id="ds-red">-</div><div class="label">离线</div></div>
+    </div>
+    <div id="ds-error"></div>
+    <div class="accounts" id="ds-accs">
+      <div class="no-accounts">等待数据...</div>
+    </div>
   </div>
 
-  <div class="accounts" id="accList">
-    <div class="account"><div class="left"><div class="dot ok pulse"></div><div class="id">等待数据...</div></div></div>
+  <!-- Qwen Pool -->
+  <div class="pool-section" id="qwen-pool">
+    <div class="pool-header">
+      <div>
+        <h2><span class="qwen-color">Qwen</span> 号池</h2>
+        <div class="pool-url">https://jieice-glm-api.hf.space/v1</div>
+      </div>
+      <div class="pool-status loading" id="qwen-status">加载中</div>
+    </div>
+    <div class="summary" id="qwen-summary" style="display:none;">
+      <div class="stat total"><div class="num" id="qwen-total">-</div><div class="label">总计</div></div>
+      <div class="stat green"><div class="num" id="qwen-green">-</div><div class="label">在线</div></div>
+      <div class="stat yellow"><div class="num" id="qwen-yellow">-</div><div class="label">冷却/警告</div></div>
+      <div class="stat red"><div class="num" id="qwen-red">-</div><div class="label">离线</div></div>
+    </div>
+    <div id="qwen-error"></div>
+    <div class="accounts" id="qwen-accs">
+      <div class="no-accounts">等待数据...</div>
+    </div>
   </div>
 
   <div class="footer">
-    JieDimension · <a href="https://github.com/Jieice/JieDimension" target="_blank">GitHub</a>
+    JieDimension &middot; <a href="https://github.com/Jieice/JieDimension" target="_blank">GitHub</a>
   </div>
 </div>
 
 <script>
-const API_URL = "https://Jieice-ds-api.hf.space/";
+const DS_URL = "https://Jieice-ds-api.hf.space/";
+const QWEN_URL = "https://jieice-glm-api.hf.space/status";
 const REFRESH_MS = 15000;
-
 const stateText = { ok: "在线", cooldown: "冷却中", warning: "有失败", dead: "离线" };
 
-async function fetchStatus() {
+async function fetchDS() {
+  const statusEl = document.getElementById("ds-status");
+  const summaryEl = document.getElementById("ds-summary");
+  const errorEl = document.getElementById("ds-error");
+  const accsEl = document.getElementById("ds-accs");
+
   try {
-    const r = await fetch(API_URL, { cache: "no-store" });
+    const r = await fetch(DS_URL, { cache: "no-store" });
     if (!r.ok) throw new Error("HTTP " + r.status);
     const data = await r.json();
     if (data.error) throw new Error(data.error);
+
     const accs = (data.accounts || []).map(a => {
       let state = "ok";
       if (!a.ready) state = "dead";
@@ -143,62 +209,119 @@ async function fetchStatus() {
         last_used: a.last_used_at || null,
       };
     });
-    render({
-      total: accs.length,
-      ready: accs.filter(a => a.state === "ok").length,
-      cooldown: accs.filter(a => a.state === "cooldown").length,
-      dead: accs.filter(a => a.state === "dead").length,
-      agents: data.agents || 0,
-      accounts: accs,
-    });
-    document.getElementById("errorBox").innerHTML = "";
+
+    summaryEl.style.display = "";
+    document.getElementById("ds-total").textContent = accs.length;
+    document.getElementById("ds-green").textContent = accs.filter(a => a.state === "ok").length;
+    document.getElementById("ds-yellow").textContent = accs.filter(a => a.state === "cooldown" || a.state === "warning").length;
+    document.getElementById("ds-red").textContent = accs.filter(a => a.state === "dead").length;
+
+    statusEl.className = "pool-status online";
+    statusEl.textContent = "在线 " + accs.filter(a => a.state === "ok").length + "/" + accs.length;
+    errorEl.innerHTML = "";
+
+    renderAccounts(accsEl, accs);
   } catch (e) {
-    document.getElementById("errorBox").innerHTML =
-      '<div class="error-banner">无法获取状态: ' + e.message + "</div>";
+    statusEl.className = "pool-status offline";
+    statusEl.textContent = "离线";
+    summaryEl.style.display = "none";
+    errorEl.innerHTML = '<div class="error-banner">无法获取状态: ' + e.message + '</div>';
+    accsEl.innerHTML = '<div class="no-accounts">无法连接</div>';
   }
-  document.getElementById("refreshInfo").textContent =
-    "更新于 " + new Date().toLocaleTimeString("zh-CN") + " · 每 " + (REFRESH_MS/1000) + "s 刷新";
 }
 
-function render(data) {
-  document.getElementById("sTotal").textContent = data.total;
-  document.getElementById("sGreen").textContent = data.ready;
-  document.getElementById("sYellow").textContent = data.cooldown + (data.accounts.filter(a=>a.state==="warning").length);
-  document.getElementById("sRed").textContent = data.dead;
+async function fetchQwen() {
+  const statusEl = document.getElementById("qwen-status");
+  const summaryEl = document.getElementById("qwen-summary");
+  const errorEl = document.getElementById("qwen-error");
+  const accsEl = document.getElementById("qwen-accs");
 
-  const list = document.getElementById("accList");
-  list.innerHTML = "";
-  for (const a of data.accounts) {
+  try {
+    const r = await fetch(QWEN_URL, { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const data = await r.json();
+
+    const accs = (data.accounts || []).map(a => {
+      let state = "ok";
+      if (!a.active) state = "dead";
+      else if (a.cooldown) state = "cooldown";
+      else if (a.failures > 0) state = "warning";
+      return {
+        id: a.username || a.email || 'unknown', state,
+        cooldown_sec: Math.ceil(Math.max(0, a.cooldown_remaining_ms || 0) / 1000),
+        failures: a.failures || 0,
+        concurrent: a.concurrent || 0,
+        last_used: a.last_used || null,
+        total_requests: a.total_requests || 0,
+      };
+    });
+
+    const activeCount = accs.filter(a => a.state === "ok" || a.state === "warning").length;
+    summaryEl.style.display = "";
+    document.getElementById("qwen-total").textContent = data.total_accounts || accs.length;
+    document.getElementById("qwen-green").textContent = activeCount;
+    document.getElementById("qwen-yellow").textContent = accs.filter(a => a.state === "cooldown").length;
+    document.getElementById("qwen-red").textContent = accs.filter(a => a.state === "dead").length;
+
+    statusEl.className = "pool-status online";
+    statusEl.textContent = "在线 " + activeCount + "/" + (data.total_accounts || accs.length);
+    errorEl.innerHTML = "";
+
+    renderAccounts(accsEl, accs);
+  } catch (e) {
+    statusEl.className = "pool-status offline";
+    statusEl.textContent = "离线";
+    summaryEl.style.display = "none";
+    errorEl.innerHTML = '<div class="error-banner">无法获取状态: ' + e.message + '</div>';
+    accsEl.innerHTML = '<div class="no-accounts">无法连接</div>';
+  }
+}
+
+function renderAccounts(container, accs) {
+  container.innerHTML = "";
+  if (accs.length === 0) {
+    container.innerHTML = '<div class="no-accounts">暂无账号</div>';
+    return;
+  }
+  for (const a of accs) {
     const div = document.createElement("div");
     div.className = "account " + a.state;
 
     let right = "";
     if (a.state === "cooldown" && a.cooldown_sec > 0) {
-      right = "冷却剩余 " + a.cooldown_sec + "s";
+      right = "冷却 " + a.cooldown_sec + "s";
     } else if (a.state === "warning") {
-      right = "连续失败 " + a.failures + " 次";
+      right = "失败 " + a.failures + " 次";
     } else if (a.state === "dead") {
-      right = "token/cookie 失效";
+      right = "离线";
     } else if (a.concurrent > 0) {
       right = "并发 " + a.concurrent;
-    } else if (a.last_used) {
-      const t = new Date(a.last_used).toLocaleTimeString("zh-CN");
-      right = "上次使用 " + t;
+    } else if (a.last_used && a.last_used !== 'never') {
+      try {
+        const t = new Date(a.last_used).toLocaleTimeString("zh-CN");
+        right = "上次 " + t;
+      } catch { right = ""; }
     }
 
     div.innerHTML =
       '<div class="left">' +
-        '<div class="dot ' + a.state + (a.state==="ok"?"":" pulse") + '"></div>' +
+        '<div class="dot ' + a.state + '"></div>' +
         '<div class="id">' + a.id + '</div>' +
         '<span class="badge">' + (stateText[a.state]||a.state) + "</span>" +
       "</div>" +
       '<div class="right">' + right + "</div>";
-    list.appendChild(div);
+    container.appendChild(div);
   }
 }
 
-fetchStatus();
-setInterval(fetchStatus, REFRESH_MS);
+async function fetchAll() {
+  await Promise.allSettled([fetchDS(), fetchQwen()]);
+  document.getElementById("refreshInfo").textContent =
+    "更新于 " + new Date().toLocaleTimeString("zh-CN") + " · " + (REFRESH_MS/1000) + "s 刷新";
+}
+
+fetchAll();
+setInterval(fetchAll, REFRESH_MS);
 </script>
 </body>
 </html>
