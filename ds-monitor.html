@@ -136,7 +136,7 @@ header h1 span { color: var(--accent); }
     <div class="pool-header">
       <div>
         <h2><span class="ds-color">DeepSeek</span> 号池</h2>
-        <div class="pool-url">https://Jieice-ds-api.hf.space/v1</div>
+        <div class="pool-url">https://ai.autoteam.ccwu.cc/v1</div>
       </div>
       <div class="pool-status loading" id="ds-status">加载中</div>
     </div>
@@ -157,7 +157,7 @@ header h1 span { color: var(--accent); }
     <div class="pool-header">
       <div>
         <h2><span class="qwen-color">Qwen</span> 号池</h2>
-        <div class="pool-url">https://jieice-glm-api.hf.space/v1</div>
+        <div class="pool-url">https://ai.autoteam.ccwu.cc/v1</div>
       </div>
       <div class="pool-status loading" id="qwen-status">加载中</div>
     </div>
@@ -174,29 +174,26 @@ header h1 span { color: var(--accent); }
   </div>
 
   <div class="footer">
+    <span id="gateway-info" style="display:block;margin-bottom:8px;color:var(--muted);font-size:11px;">--</span>
     JieDimension &middot; <a href="https://github.com/Jieice/JieDimension" target="_blank">GitHub</a>
   </div>
 </div>
 
 <script>
-const DS_URL = "https://Jieice-ds-api.hf.space/";
-const QWEN_URL = "https://jieice-glm-api.hf.space/status";
+const GATEWAY_URL = "https://ai.autoteam.ccwu.cc/status";
 const REFRESH_MS = 15000;
 const stateText = { ok: "在线", cooldown: "冷却中", warning: "有失败", dead: "离线" };
 
-async function fetchDS() {
+async function fetchDS(dsData) {
   const statusEl = document.getElementById("ds-status");
   const summaryEl = document.getElementById("ds-summary");
   const errorEl = document.getElementById("ds-error");
   const accsEl = document.getElementById("ds-accs");
 
   try {
-    const r = await fetch(DS_URL, { cache: "no-store" });
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    const data = await r.json();
-    if (data.error) throw new Error(data.error);
+    if (!dsData || dsData.error) throw new Error(dsData?.error || "无数据");
 
-    const accs = (data.accounts || []).map(a => {
+    const accs = (dsData.accounts || []).map(a => {
       let state = "ok";
       if (!a.ready) state = "dead";
       else if (a.cooldown) state = "cooldown";
@@ -230,18 +227,16 @@ async function fetchDS() {
   }
 }
 
-async function fetchQwen() {
+async function fetchQwen(qwenData) {
   const statusEl = document.getElementById("qwen-status");
   const summaryEl = document.getElementById("qwen-summary");
   const errorEl = document.getElementById("qwen-error");
   const accsEl = document.getElementById("qwen-accs");
 
   try {
-    const r = await fetch(QWEN_URL, { cache: "no-store" });
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    const data = await r.json();
+    if (!qwenData || qwenData.error) throw new Error(qwenData?.error || "无数据");
 
-    const accs = (data.accounts || []).map(a => {
+    const accs = (qwenData.accounts || []).map(a => {
       let state = "ok";
       if (!a.active) state = "dead";
       else if (a.cooldown) state = "cooldown";
@@ -258,13 +253,13 @@ async function fetchQwen() {
 
     const activeCount = accs.filter(a => a.state === "ok" || a.state === "warning").length;
     summaryEl.style.display = "";
-    document.getElementById("qwen-total").textContent = data.total_accounts || accs.length;
+    document.getElementById("qwen-total").textContent = qwenData.total_accounts || accs.length;
     document.getElementById("qwen-green").textContent = activeCount;
     document.getElementById("qwen-yellow").textContent = accs.filter(a => a.state === "cooldown").length;
     document.getElementById("qwen-red").textContent = accs.filter(a => a.state === "dead").length;
 
     statusEl.className = "pool-status online";
-    statusEl.textContent = "在线 " + activeCount + "/" + (data.total_accounts || accs.length);
+    statusEl.textContent = "在线 " + activeCount + "/" + (qwenData.total_accounts || accs.length);
     errorEl.innerHTML = "";
 
     renderAccounts(accsEl, accs);
@@ -315,7 +310,19 @@ function renderAccounts(container, accs) {
 }
 
 async function fetchAll() {
-  await Promise.allSettled([fetchDS(), fetchQwen()]);
+  try {
+    const r = await fetch(GATEWAY_URL, { cache: "no-store" });
+    const data = await r.json();
+    await Promise.all([fetchDS(data.deepseek), fetchQwen(data.qwen)]);
+    const gw = data.gateway || {};
+    if (gw.qwen_token_source) {
+      document.getElementById("gateway-info").textContent =
+        "Gateway: ai.autoteam.ccwu.cc · Token 来源: " + gw.qwen_token_source +
+        " · 活跃: " + (gw.qwen_tokens_active || 0);
+    }
+  } catch (e) {
+    await Promise.all([fetchDS(null), fetchQwen(null)]);
+  }
   document.getElementById("refreshInfo").textContent =
     "更新于 " + new Date().toLocaleTimeString("zh-CN") + " · " + (REFRESH_MS/1000) + "s 刷新";
 }
