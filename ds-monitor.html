@@ -3,19 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>API 号池监控 · JieDimension</title>
+<title>AI 号池监控 · JieDimension</title>
 <style>
 :root {
-  --bg: #0d1117;
-  --card: #161b22;
-  --border: #30363d;
-  --text: #e6edf3;
-  --muted: #7d8590;
-  --green: #3fb950;
-  --yellow: #d29922;
-  --red: #f85149;
-  --accent: #58a6ff;
-  --purple: #bc8cff;
+  --bg: #0a0e14;
+  --card: #111621;
+  --card-hover: #151c2a;
+  --border: #1e2a3a;
+  --text: #e0e8f0;
+  --muted: #6b7d92;
+  --green: #00d47e;
+  --green-glow: rgba(0,212,126,0.2);
+  --yellow: #ffb300;
+  --yellow-glow: rgba(255,179,0,0.15);
+  --red: #ff4757;
+  --red-glow: rgba(255,71,87,0.15);
+  --accent: #3d8bfd;
+  --accent-glow: rgba(61,139,253,0.15);
+  --purple: #a78bfa;
+  --purple-glow: rgba(167,139,250,0.15);
+  --cyan: #22d3ee;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -23,275 +30,345 @@ body {
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   min-height: 100vh;
-  padding: 24px;
+  padding: 20px 16px;
 }
-.container { max-width: 860px; margin: 0 auto; }
+.container { max-width: 800px; margin: 0 auto; }
+
+/* Header */
 header {
   display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+  margin-bottom: 24px; flex-wrap: wrap; gap: 8px;
 }
-header h1 { font-size: 22px; font-weight: 600; }
-header h1 span { color: var(--accent); }
-.back-link { color: var(--muted); font-size: 13px; text-decoration: none; }
+header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+header h1 span { 
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.header-right { display: flex; align-items: center; gap: 12px; }
+.back-link { color: var(--muted); font-size: 12px; text-decoration: none; transition: color 0.2s; }
 .back-link:hover { color: var(--accent); }
-.refresh-info { color: var(--muted); font-size: 13px; }
+.refresh-info { color: var(--muted); font-size: 11px; }
 
-.pool-section {
-  margin-bottom: 32px;
+/* Gateway Card */
+.gateway-card {
+  background: linear-gradient(135deg, var(--card), #0f1923);
   border: 1px solid var(--border);
   border-radius: 12px;
-  overflow: hidden;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
 }
-.pool-header {
+.gateway-card .gw-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.gateway-card .gw-url { font-size: 14px; font-weight: 600; color: var(--cyan); font-family: monospace; }
+.gateway-card .gw-meta { display: flex; gap: 16px; font-size: 12px; color: var(--muted); }
+.gateway-card .gw-meta span { display: flex; align-items: center; gap: 4px; }
+.gateway-card .gw-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; }
+
+/* Pool Sections */
+.pool {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.pool:hover { border-color: rgba(255,255,255,0.08); }
+
+.pool-hd {
   display: flex; justify-content: space-between; align-items: center;
   padding: 16px 20px;
-  background: var(--card);
   border-bottom: 1px solid var(--border);
 }
-.pool-header h2 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-.pool-header .pool-url { color: var(--muted); font-size: 12px; word-break: break-all; }
-.pool-header .pool-status {
-  font-size: 12px; padding: 3px 10px; border-radius: 10px;
-  font-weight: 600;
+.pool-hd h2 { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.pool-hd .tag {
+  font-size: 10px; padding: 3px 10px; border-radius: 10px;
+  font-weight: 600; letter-spacing: 0.5px;
 }
-.pool-status.online { background: rgba(63,185,80,0.15); color: var(--green); }
-.pool-status.offline { background: rgba(248,81,73,0.15); color: var(--red); }
-.pool-status.loading { background: rgba(88,166,255,0.15); color: var(--accent); }
+.pool-hd .tag.on { background: var(--green-glow); color: var(--green); }
+.pool-hd .tag.off { background: var(--red-glow); color: var(--red); }
+.pool-hd .url { color: var(--muted); font-size: 11px; font-family: monospace; margin-top: 2px; }
 
-.summary {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-  padding: 16px 20px;
+/* Stats Row */
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: var(--border); border-bottom: 1px solid var(--border);
 }
-.stat {
+.stats .s {
+  background: var(--card); padding: 14px 12px; text-align: center;
+}
+.stats .s .n { font-size: 28px; font-weight: 800; line-height: 1; }
+.stats .s .l { color: var(--muted); font-size: 10px; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.stats .s.green .n { color: var(--green); }
+.stats .s.yellow .n { color: var(--yellow); }
+.stats .s.red .n { color: var(--red); }
+.stats .s.total .n { color: var(--text); }
+
+/* Account List */
+.accs { padding: 8px 12px; }
+.acc {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-radius: 8px;
+  margin-bottom: 4px; transition: background 0.2s;
+}
+.acc:hover { background: var(--card-hover); }
+.acc .left { display: flex; align-items: center; gap: 10px; }
+.acc .dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.acc .dot.ok { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.acc .dot.warning { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+.acc .dot.cooldown { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+.acc .dot.dead { background: var(--red); box-shadow: 0 0 8px var(--red); }
+.acc .name { font-size: 13px; font-weight: 500; }
+.acc .badge {
+  font-size: 9px; padding: 2px 7px; border-radius: 8px;
+  background: var(--border); color: var(--muted); margin-left: 6px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.acc .right { color: var(--muted); font-size: 11px; }
+
+/* Qwen Tokens Display */
+.tokens-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+  padding: 12px 16px;
+}
+.token-card {
   background: var(--bg); border: 1px solid var(--border);
   border-radius: 8px; padding: 12px; text-align: center;
+  transition: border-color 0.2s;
 }
-.stat .num { font-size: 24px; font-weight: 700; }
-.stat .label { color: var(--muted); font-size: 11px; margin-top: 2px; }
-.stat.green .num { color: var(--green); }
-.stat.yellow .num { color: var(--yellow); }
-.stat.red .num { color: var(--red); }
-.stat.total .num { color: var(--text); }
+.token-card:hover { border-color: var(--purple); }
+.token-card .t-icon { font-size: 20px; margin-bottom: 4px; }
+.token-card .t-name { font-size: 11px; color: var(--muted); font-weight: 500; }
+.token-card .t-status { font-size: 10px; margin-top: 4px; font-weight: 600; }
+.token-card.active { border-color: rgba(0,212,126,0.3); }
+.token-card.active .t-status { color: var(--green); }
+.token-card.cooldown { border-color: rgba(255,179,0,0.3); }
+.token-card.cooldown .t-status { color: var(--yellow); }
 
-.accounts { padding: 0 20px 16px; display: flex; flex-direction: column; gap: 6px; }
-.account {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: 8px; padding: 12px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.account.ok { border-left: 3px solid var(--green); }
-.account.warning { border-left: 3px solid var(--yellow); }
-.account.cooldown { border-left: 3px solid var(--yellow); }
-.account.dead { border-left: 3px solid var(--red); }
-.account .left { display: flex; align-items: center; gap: 10px; }
-.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.dot.ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
-.dot.warning { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
-.dot.cooldown { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
-.dot.dead { background: var(--red); box-shadow: 0 0 6px var(--red); }
-.account .id { font-weight: 600; font-size: 14px; }
-.account .badge {
-  font-size: 10px; padding: 2px 7px; border-radius: 10px;
-  background: var(--border); color: var(--muted); margin-left: 8px;
-}
-.account .right { color: var(--muted); font-size: 12px; text-align: right; }
-.no-accounts { color: var(--muted); font-size: 13px; padding: 12px 0; text-align: center; }
-
-.error-banner {
-  background: rgba(248,81,73,0.1); border: 1px solid var(--red);
-  border-radius: 8px; padding: 12px; margin: 0 20px 16px;
-  color: var(--red); font-size: 13px;
-}
-
+/* Footer */
 .footer {
-  margin-top: 16px; text-align: center; color: var(--muted);
-  font-size: 12px;
+  margin-top: 20px; text-align: center; color: var(--muted);
+  font-size: 11px; padding: 12px 0;
+  border-top: 1px solid var(--border);
 }
 .footer a { color: var(--accent); text-decoration: none; }
+
+/* Error */
+.error-banner {
+  background: var(--red-glow); border: 1px solid rgba(255,71,87,0.3);
+  border-radius: 8px; padding: 12px; margin: 8px 12px;
+  color: var(--red); font-size: 12px;
+}
+.no-data { color: var(--muted); font-size: 12px; padding: 20px 0; text-align: center; }
+
+/* Pulse */
 .pulse { animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
 .ds-color { color: var(--accent); }
 .qwen-color { color: var(--purple); }
 
 @media (max-width: 600px) {
-  .summary { grid-template-columns: repeat(2, 1fr); }
-  header h1 { font-size: 18px; }
-  .pool-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .tokens-grid { grid-template-columns: repeat(2, 1fr); }
+  header h1 { font-size: 16px; }
+  .pool-hd { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .gateway-card { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <h1>API <span>号池监控</span></h1>
-    <div>
+    <h1>AI <span>号池监控</span></h1>
+    <div class="header-right">
       <a href="https://www.jiece.art/" class="back-link">&larr; 返回主页</a>
-      <span class="refresh-info" id="refreshInfo" style="margin-left:12px;">加载中...</span>
+      <span class="refresh-info" id="refreshInfo">加载中...</span>
     </div>
   </header>
 
+  <!-- Gateway Card -->
+  <div class="gateway-card">
+    <div>
+      <div class="gw-label">统一网关</div>
+      <div class="gw-url">ai.autoteam.ccwu.cc</div>
+    </div>
+    <div class="gw-meta">
+      <span><span class="gw-dot"></span> 在线</span>
+      <span>Token 来源: <strong id="gw-source">--</strong></span>
+      <span>活跃 Token: <strong id="gw-active">--</strong></span>
+    </div>
+  </div>
+
   <!-- DeepSeek Pool -->
-  <div class="pool-section" id="ds-pool">
-    <div class="pool-header">
+  <div class="pool">
+    <div class="pool-hd">
       <div>
         <h2><span class="ds-color">DeepSeek</span> 号池</h2>
-        <div class="pool-url">https://ai.autoteam.ccwu.cc/v1</div>
+        <div class="url">Jieice-ds-api.hf.space</div>
       </div>
-      <div class="pool-status loading" id="ds-status">加载中</div>
+      <span class="tag" id="ds-tag">加载中</span>
     </div>
-    <div class="summary" id="ds-summary" style="display:none;">
-      <div class="stat total"><div class="num" id="ds-total">-</div><div class="label">总计</div></div>
-      <div class="stat green"><div class="num" id="ds-green">-</div><div class="label">在线</div></div>
-      <div class="stat yellow"><div class="num" id="ds-yellow">-</div><div class="label">冷却/警告</div></div>
-      <div class="stat red"><div class="num" id="ds-red">-</div><div class="label">离线</div></div>
+    <div class="stats" id="ds-stats" style="display:none;">
+      <div class="s total"><div class="n" id="ds-total">-</div><div class="l">总计</div></div>
+      <div class="s green"><div class="n" id="ds-green">-</div><div class="l">在线</div></div>
+      <div class="s yellow"><div class="n" id="ds-yellow">-</div><div class="l">冷却</div></div>
+      <div class="s red"><div class="n" id="ds-red">-</div><div class="l">离线</div></div>
     </div>
     <div id="ds-error"></div>
-    <div class="accounts" id="ds-accs">
-      <div class="no-accounts">等待数据...</div>
+    <div class="accs" id="ds-accs">
+      <div class="no-data">等待数据...</div>
     </div>
   </div>
 
   <!-- Qwen Pool -->
-  <div class="pool-section" id="qwen-pool">
-    <div class="pool-header">
+  <div class="pool">
+    <div class="pool-hd">
       <div>
         <h2><span class="qwen-color">Qwen</span> 号池</h2>
-        <div class="pool-url">https://ai.autoteam.ccwu.cc/v1</div>
+        <div class="url">jieice-qwen-api.hf.space</div>
       </div>
-      <div class="pool-status loading" id="qwen-status">加载中</div>
+      <span class="tag" id="qwen-tag">加载中</span>
     </div>
-    <div class="summary" id="qwen-summary" style="display:none;">
-      <div class="stat total"><div class="num" id="qwen-total">-</div><div class="label">总计</div></div>
-      <div class="stat green"><div class="num" id="qwen-green">-</div><div class="label">在线</div></div>
-      <div class="stat yellow"><div class="num" id="qwen-yellow">-</div><div class="label">冷却/警告</div></div>
-      <div class="stat red"><div class="num" id="qwen-red">-</div><div class="label">离线</div></div>
+    <div class="stats" id="qwen-stats" style="display:none;">
+      <div class="s total"><div class="n" id="qwen-total">-</div><div class="l">总计</div></div>
+      <div class="s green"><div class="n" id="qwen-green">-</div><div class="l">在线</div></div>
+      <div class="s yellow"><div class="n" id="qwen-yellow">-</div><div class="l">冷却</div></div>
+      <div class="s red"><div class="n" id="qwen-red">-</div><div class="l">离线</div></div>
     </div>
     <div id="qwen-error"></div>
-    <div class="accounts" id="qwen-accs">
-      <div class="no-accounts">等待数据...</div>
+    <div class="accs" id="qwen-accs">
+      <div class="no-data">等待数据...</div>
     </div>
   </div>
 
   <div class="footer">
-    <span id="gateway-info" style="display:block;margin-bottom:8px;color:var(--muted);font-size:11px;">--</span>
     JieDimension &middot; <a href="https://github.com/Jieice/JieDimension" target="_blank">GitHub</a>
   </div>
 </div>
 
 <script>
 const GATEWAY_URL = "https://ai.autoteam.ccwu.cc/status";
+const HF_STATUS_URL = "https://jieice-qwen-api.hf.space/status";
 const REFRESH_MS = 15000;
-const stateText = { ok: "在线", cooldown: "冷却中", warning: "有失败", dead: "离线" };
+const stateText = { ok: "在线", cooldown: "冷却", warning: "警告", dead: "离线" };
 
 async function fetchDS(dsData) {
-  const statusEl = document.getElementById("ds-status");
-  const summaryEl = document.getElementById("ds-summary");
-  const errorEl = document.getElementById("ds-error");
-  const accsEl = document.getElementById("ds-accs");
+  const tag = document.getElementById("ds-tag");
+  const stats = document.getElementById("ds-stats");
+  const error = document.getElementById("ds-error");
+  const accs = document.getElementById("ds-accs");
 
   try {
     if (!dsData || dsData.error) throw new Error(dsData?.error || "无数据");
 
-    const accs = (dsData.accounts || []).map(a => {
+    const accounts = (dsData.accounts || []).map(a => {
       let state = "ok";
       if (!a.ready) state = "dead";
       else if (a.cooldown) state = "cooldown";
       else if (a.consecutive_failures > 0) state = "warning";
-      return {
-        id: a.id, state,
-        cooldown_sec: a.cooldown_remaining_sec || 0,
-        failures: a.consecutive_failures || 0,
-        concurrent: a.concurrent_requests || 0,
-        last_used: a.last_used_at || null,
-      };
+      return { id: a.id, state, cooldown_sec: a.cooldown_remaining_sec || 0, failures: a.consecutive_failures || 0, concurrent: a.concurrent_requests || 0, last_used: a.last_used_at || null };
     });
 
-    summaryEl.style.display = "";
-    document.getElementById("ds-total").textContent = accs.length;
-    document.getElementById("ds-green").textContent = accs.filter(a => a.state === "ok").length;
-    document.getElementById("ds-yellow").textContent = accs.filter(a => a.state === "cooldown" || a.state === "warning").length;
-    document.getElementById("ds-red").textContent = accs.filter(a => a.state === "dead").length;
+    const okCount = accounts.filter(a => a.state === "ok").length;
+    stats.style.display = "";
+    document.getElementById("ds-total").textContent = accounts.length;
+    document.getElementById("ds-green").textContent = okCount;
+    document.getElementById("ds-yellow").textContent = accounts.filter(a => a.state === "cooldown" || a.state === "warning").length;
+    document.getElementById("ds-red").textContent = accounts.filter(a => a.state === "dead").length;
+    tag.className = "tag on";
+    tag.textContent = "在线 " + okCount + "/" + accounts.length;
+    error.innerHTML = "";
 
-    statusEl.className = "pool-status online";
-    statusEl.textContent = "在线 " + accs.filter(a => a.state === "ok").length + "/" + accs.length;
-    errorEl.innerHTML = "";
-
-    renderAccounts(accsEl, accs);
+    renderAccounts(accs, accounts);
   } catch (e) {
-    statusEl.className = "pool-status offline";
-    statusEl.textContent = "离线";
-    summaryEl.style.display = "none";
-    errorEl.innerHTML = '<div class="error-banner">无法获取状态: ' + e.message + '</div>';
-    accsEl.innerHTML = '<div class="no-accounts">无法连接</div>';
+    tag.className = "tag off";
+    tag.textContent = "离线";
+    stats.style.display = "none";
+    error.innerHTML = '<div class="error-banner">' + e.message + '</div>';
+    accs.innerHTML = '<div class="no-data">无法连接</div>';
   }
 }
 
-async function fetchQwen(qwenData, gw) {
-  const statusEl = document.getElementById("qwen-status");
-  const summaryEl = document.getElementById("qwen-summary");
-  const errorEl = document.getElementById("qwen-error");
-  const accsEl = document.getElementById("qwen-accs");
+async function fetchQwen(qwenData, gwData) {
+  const tag = document.getElementById("qwen-tag");
+  const stats = document.getElementById("qwen-stats");
+  const error = document.getElementById("qwen-error");
+  const accs = document.getElementById("qwen-accs");
 
   try {
-    if (!qwenData || qwenData.error) throw new Error(qwenData?.error || "无数据");
+    // Get token details from HF Space
+    let tokens = [];
+    try {
+      const r = await fetch(HF_STATUS_URL, { cache: "no-store" });
+      if (r.ok) {
+        const data = await r.json();
+        tokens = (data.accounts || []).map(a => ({
+          username: a.username || "unknown",
+          active: a.active && (!a.cooldown || a.cooldown_remaining_ms <= 0),
+          cooldown: a.cooldown,
+          cooldown_sec: Math.ceil(Math.max(0, a.cooldown_remaining_ms || 0) / 1000),
+          failures: a.failures || 0,
+          total_requests: a.total_requests || 0,
+        }));
+      }
+    } catch {}
 
-    const total = typeof qwenData.accounts === 'number' ? qwenData.accounts : (qwenData.total_accounts || 0);
-    const active = gw?.qwen_tokens_active || total;
+    const total = tokens.length || (typeof qwenData?.accounts === 'number' ? qwenData.accounts : 0);
+    const active = tokens.filter(t => t.active).length || (gwData?.qwen_tokens_active || total);
 
+    stats.style.display = "";
     document.getElementById("qwen-total").textContent = total;
     document.getElementById("qwen-green").textContent = active;
-    document.getElementById("qwen-yellow").textContent = 0;
-    document.getElementById("qwen-red").textContent = 0;
+    document.getElementById("qwen-yellow").textContent = tokens.filter(t => t.cooldown).length;
+    document.getElementById("qwen-red").textContent = tokens.filter(t => !t.active && !t.cooldown).length;
+    tag.className = "tag on";
+    tag.textContent = "在线 " + active + "/" + total;
+    error.innerHTML = "";
 
-    statusEl.className = "pool-status online";
-    statusEl.textContent = "在线 " + active + "/" + total;
-    errorEl.innerHTML = "";
-    summaryEl.style.display = "";
-
-    accsEl.innerHTML = '<div class="no-accounts">' + active + ' 个活跃 Token (详情见 Gateway 状态页)</div>';
+    renderTokens(accs, tokens);
   } catch (e) {
-    statusEl.className = "pool-status offline";
-    statusEl.textContent = "离线";
-    summaryEl.style.display = "none";
-    errorEl.innerHTML = '<div class="error-banner">无法获取状态: ' + e.message + '</div>';
-    accsEl.innerHTML = '<div class="no-accounts">无法连接</div>';
+    tag.className = "tag off";
+    tag.textContent = "离线";
+    stats.style.display = "none";
+    error.innerHTML = '<div class="error-banner">' + e.message + '</div>';
+    accs.innerHTML = '<div class="no-data">无法连接</div>';
   }
 }
 
 function renderAccounts(container, accs) {
   container.innerHTML = "";
-  if (accs.length === 0) {
-    container.innerHTML = '<div class="no-accounts">暂无账号</div>';
-    return;
-  }
+  if (!accs.length) { container.innerHTML = '<div class="no-data">暂无账号</div>'; return; }
   for (const a of accs) {
     const div = document.createElement("div");
-    div.className = "account " + a.state;
-
+    div.className = "acc";
     let right = "";
-    if (a.state === "cooldown" && a.cooldown_sec > 0) {
-      right = "冷却 " + a.cooldown_sec + "s";
-    } else if (a.state === "warning") {
-      right = "失败 " + a.failures + " 次";
-    } else if (a.state === "dead") {
-      right = "离线";
-    } else if (a.concurrent > 0) {
-      right = "并发 " + a.concurrent;
-    } else if (a.last_used && a.last_used !== 'never') {
-      try {
-        const t = new Date(a.last_used).toLocaleTimeString("zh-CN");
-        right = "上次 " + t;
-      } catch { right = ""; }
+    if (a.state === "cooldown" && a.cooldown_sec > 0) right = "冷却 " + a.cooldown_sec + "s";
+    else if (a.state === "warning") right = "失败 " + a.failures + " 次";
+    else if (a.state === "dead") right = "离线";
+    else if (a.concurrent > 0) right = "并发 " + a.concurrent;
+    else if (a.last_used && a.last_used !== "never") {
+      try { right = "上次 " + new Date(a.last_used).toLocaleTimeString("zh-CN"); } catch {}
     }
+    div.innerHTML = '<div class="left"><div class="dot ' + a.state + '"></div><span class="name">' + a.id + '</span><span class="badge">' + (stateText[a.state] || a.state) + '</span></div><div class="right">' + right + '</div>';
+    container.appendChild(div);
+  }
+}
 
-    div.innerHTML =
-      '<div class="left">' +
-        '<div class="dot ' + a.state + '"></div>' +
-        '<div class="id">' + a.id + '</div>' +
-        '<span class="badge">' + (stateText[a.state]||a.state) + "</span>" +
-      "</div>" +
-      '<div class="right">' + right + "</div>";
+function renderTokens(container, tokens) {
+  container.innerHTML = "";
+  if (!tokens.length) { container.innerHTML = '<div class="no-data">Token 详情不可用</div>'; return; }
+  for (const t of tokens) {
+    const div = document.createElement("div");
+    div.className = "acc";
+    let right = "";
+    if (t.cooldown && t.cooldown_sec > 0) right = "冷却 " + t.cooldown_sec + "s";
+    else if (t.failures > 0) right = "失败 " + t.failures + " 次";
+    else if (t.total_requests > 0) right = t.total_requests + " 次请求";
+    div.innerHTML = '<div class="left"><div class="dot ' + (t.active ? "ok" : "cooldown") + '"></div><span class="name">' + t.username + '</span><span class="badge">' + (t.active ? "在线" : "冷却") + '</span></div><div class="right">' + right + '</div>';
     container.appendChild(div);
   }
 }
@@ -302,16 +379,12 @@ async function fetchAll() {
     const data = await r.json();
     await Promise.all([fetchDS(data.deepseek), fetchQwen(data.qwen, data.gateway)]);
     const gw = data.gateway || {};
-    if (gw.qwen_token_source) {
-      document.getElementById("gateway-info").textContent =
-        "Gateway: ai.autoteam.ccwu.cc · Token 来源: " + gw.qwen_token_source +
-        " · 活跃: " + (gw.qwen_tokens_active || 0);
-    }
-  } catch (e) {
-    await Promise.all([fetchDS(null), fetchQwen(null)]);
+    document.getElementById("gw-source").textContent = gw.qwen_token_source || "--";
+    document.getElementById("gw-active").textContent = gw.qwen_tokens_active || 0;
+  } catch {
+    await Promise.all([fetchDS(null), fetchQwen(null, null)]);
   }
-  document.getElementById("refreshInfo").textContent =
-    "更新于 " + new Date().toLocaleTimeString("zh-CN") + " · " + (REFRESH_MS/1000) + "s 刷新";
+  document.getElementById("refreshInfo").textContent = "更新于 " + new Date().toLocaleTimeString("zh-CN") + " · " + (REFRESH_MS/1000) + "s 刷新";
 }
 
 fetchAll();
