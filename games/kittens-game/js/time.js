@@ -157,6 +157,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             this.isAccelerated = false;
         }
 
+        if (this.game.science.get("calendar").researched){
+            var temporalAccelerator = this.getCFU("temporalAccelerator");
+            var energyRatio = 1 + (temporalAccelerator.val * temporalAccelerator.effects["timeRatio"]);
+            var fluxPerTick = energyRatio / 60;
+            this.game.resPool.addResEvent("temporalFlux", fluxPerTick);
+        }
+
         //if we have spare chronoheat
         if (this.heat > 0) {
             var perTick = Math.min(this.game.getEffect("heatPerTick"), this.heat);

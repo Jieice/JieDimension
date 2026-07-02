@@ -222,7 +222,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "resource",
 		title: $I("buildings.group.resource"),
-		buildings: ["mine", "quarry", "lumberMill", "oilWell", "accelerator"]
+		buildings: ["woodcutter", "mine", "quarry", "lumberMill", "oilWell", "accelerator"]
 	},{
 		name: "industry",
 		title: $I("buildings.group.industry"),
@@ -1361,6 +1361,54 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 			//Can't benefit from more phantoms than there are inactive Magnetos
 			return Math.min(self.getMaxPhantoms(self, game), self.val - self.on);
+		}
+	},
+	{
+		name: "woodcutter",
+		stages: [
+			{
+				label: $I("buildings.woodcutter.label"),
+				description: $I("buildings.woodcutter.desc"),
+				unlockRatio: 0.3,
+				prices: [
+					{ name : "catnip", val: 50 },
+					{ name : "wood", val: 20 }
+				],
+				effects: {
+					"woodPerTickBase": 0.05
+				},
+				stageUnlocked: true,
+				flavor: $I("buildings.woodcutter.flavor")
+			},{
+				label: $I("buildings.sawmill.label"),
+				description: $I("buildings.sawmill.desc"),
+				prices: [
+					{ name : "wood", val: 100 },
+					{ name : "minerals", val: 150 }
+				],
+				effects: {
+					"woodPerTickBase": 0.15
+				},
+				unlockScheme: {
+					name: "archery",
+					threshold: 1
+				},
+				stageUnlocked: false
+			}
+		],
+		priceRatio: 1.15,
+		defaultUnlockable: true,
+		calculateEffects: function(self, game){
+			var stageMeta = self.stages[self.stage];
+			var effects = {
+				"woodPerTickBase": 0.05
+			};
+			if (self.stage == 1){
+				effects["woodPerTickBase"] = 0.15;
+				var lumberMillRatio = game.getEffect("lumberMillRatio");
+				effects["woodPerTickBase"] *= (1 + lumberMillRatio);
+			}
+			stageMeta.effects = effects;
 		}
 	},
 	{
