@@ -24,7 +24,12 @@ layout: default
         {% for game in featured_games limit:3 %}
         <a href="{{ game.url | relative_url }}" class="hero-project">
             <span class="hero-project__cover">
+                <picture>
+                    {% if game.image_avif %}
+                    <source srcset="{{ game.image_avif | relative_url }}" type="image/avif">
+                    {% endif %}
                 <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy" decoding="async" fetchpriority="low">
+                </picture>
             </span>
             <span class="hero-project__body">
                 <strong>{{ game.title }}</strong>
@@ -52,7 +57,12 @@ layout: default
         {% for game in featured_games %}
         <a href="{{ game.url | relative_url }}" class="game-card-compact{% if forloop.first %} is-featured{% endif %}">
             <figure class="game-thumb">
+                <picture>
+                    {% if game.image_avif %}
+                    <source srcset="{{ game.image_avif | relative_url }}" type="image/avif">
+                    {% endif %}
                 <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy" decoding="async" fetchpriority="low">
+                </picture>
             </figure>
             <div class="game-info-compact">
                 <div class="game-card-topline">
@@ -68,7 +78,12 @@ layout: default
         {% unless game.featured %}
         <a href="{{ game.url | relative_url }}" class="game-card-compact">
             <figure class="game-thumb">
+                <picture>
+                    {% if game.image_avif %}
+                    <source srcset="{{ game.image_avif | relative_url }}" type="image/avif">
+                    {% endif %}
                 <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy" decoding="async" fetchpriority="low">
+                </picture>
             </figure>
             <div class="game-info-compact">
                 <div class="game-card-topline">
