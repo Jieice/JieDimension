@@ -2,6 +2,7 @@
 title: 猫国建设者 / Kittens Game
 platform: Web / HTML5
 image: /assets/images/games/maomao.png
+image_avif: /assets/images/games/maomao.avif
 status: Playable now
 date: 2026-07-02
 redirect_to: /games/kittens-game/

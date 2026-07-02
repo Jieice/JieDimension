@@ -1,7 +1,8 @@
 ---
 title: A Dark Room
 platform: Web / HTML5
-image: /assets/images/games/a-dark-room.ico
+image: /assets/images/games/a-dark-room.png
+image_avif: /assets/images/games/a-dark-room.avif
 status: Playable now
 date: 2026-07-02
 redirect_to: /play/a-dark-room/

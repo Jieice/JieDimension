@@ -2,6 +2,7 @@
 title: Candy Box 2
 platform: Web / HTML5
 image: /assets/images/games/candy-box-2.png
+image_avif: /assets/images/games/candy-box-2.avif
 status: Playable now
 date: 2026-07-02
 redirect_to: /play/candy-box-2/

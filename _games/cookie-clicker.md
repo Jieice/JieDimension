@@ -1,7 +1,8 @@
 ---
 title: Cookie Clicker
 platform: Web / HTML5
-image: /assets/images/games/candy-box-2.png
+image: /assets/images/games/cookie-clicker.png
+image_avif: /assets/images/games/cookie-clicker.avif
 status: Playable now
 date: 2026-07-02
 redirect_to: /play/cookie-clicker/
