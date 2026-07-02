@@ -757,6 +757,21 @@ body.theme-light .site-footer {
 .game-detail-content a:hover { border-bottom-color: var(--accent-secondary); }
 .game-detail-content iframe { border-radius: 12px; border: 1px solid var(--glass-border); }
 
+.game-runtime-embed {
+    width: min(100%, 1100px);
+    margin: 2rem auto;
+}
+
+.game-runtime-frame {
+    display: block;
+    width: 100%;
+    height: clamp(480px, 72vh, 760px);
+    height: clamp(480px, 72dvh, 760px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-card);
+    background: var(--bg-surface);
+}
+
 .game-links { text-align: center; margin-top: 2rem; }
 .game-links .btn { margin: 0.5rem; }
 
@@ -790,6 +805,11 @@ body.theme-light .site-footer {
     .back-to-top { right: 16px; bottom: 16px; }
     .control-btn, .back-to-top { width: 42px; height: 42px; font-size: 1.2rem; }
     .post-content { padding: 1.5rem; }
+    .game-detail-content { padding: 1.25rem; }
+    .game-runtime-frame {
+        height: clamp(360px, 68vh, 620px);
+        height: clamp(360px, 68dvh, 620px);
+    }
     .filter-bar { gap: 0.4rem; }
     .filter-btn { padding: 0.4rem 1rem; font-size: 0.82rem; }
     

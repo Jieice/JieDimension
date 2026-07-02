@@ -20,12 +20,10 @@ links:
 
 ## Play in the page
 
-<div style="text-align: center; margin: 2rem 0;">
+<div class="game-runtime-embed">
   <iframe
+    class="game-runtime-frame"
     src="https://html.itch.zone/html/13987231/web/index.html"
-    width="100%"
-    height="980"
-    style="max-width: 1100px; border: 1px solid var(--glass-border); border-radius: 16px; background: var(--bg-surface);"
     loading="lazy"
     title="A Dark Forest">
   </iframe>
