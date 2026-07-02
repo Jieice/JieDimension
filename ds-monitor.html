@@ -76,9 +76,12 @@ header h1 span {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   overflow: hidden;
   transition: border-color 0.3s;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 .pool:hover { border-color: rgba(255,255,255,0.08); }
 
@@ -110,7 +113,22 @@ header h1 span {
 .stats .s.red .n { color: var(--red); }
 .stats .s.total .n { color: var(--text); }
 
-.accs { padding: 6px 10px; }
+.accs {
+  padding: 6px 10px;
+  min-height: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+.accs::-webkit-scrollbar {
+  width: 5px;
+}
+.accs::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+.accs::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
 .acc {
   display: flex; align-items: center; justify-content: space-between;
   padding: 7px 10px; border-radius: 8px;
@@ -199,6 +217,7 @@ header h1 span {
   background: var(--accent-glow);
   color: var(--accent);
 }
+.pool .pagination { display: none !important; }
 
 /* Log Section */
 .dashboard-grid {
@@ -211,6 +230,9 @@ header h1 span {
 .pools-column {
   min-height: 0;
   overflow: hidden;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
 }
 .log-section {
   background: var(--card);
@@ -506,7 +528,6 @@ const GATEWAY_URL = "https://ai.autoteam.ccwu.cc/status";
 const LOGS_URL = "https://ai.autoteam.ccwu.cc/logs/public";
 const REFRESH_MS = 15000;
 const LOG_REFRESH_MS = 30000;
-const PAGE_SIZE = 5;
 
 let dsAccounts = [];
 let qwenAccounts = [];
@@ -675,37 +696,14 @@ document.getElementById('log-fetch').addEventListener('click', fetchCallLogs);
 function renderPagination(containerId, accounts, page, setPageFn, poolName) {
   const container = document.getElementById(containerId);
   if (!container) return;
-  const totalPages = Math.ceil(accounts.length / PAGE_SIZE);
-  if (totalPages <= 1) {
-    container.style.display = 'none';
-    return;
-  }
-  container.style.display = 'flex';
-  let html = `<button ${page <= 1 ? 'disabled' : ''} data-page="${page-1}">‹</button>`;
-  const startPage = Math.max(1, page - 2);
-  const endPage = Math.min(totalPages, page + 2);
-  if (startPage > 1) html += `<span class="page-num" data-page="1">1</span>${startPage > 2 ? '…' : ''}`;
-  for (let p = startPage; p <= endPage; p++) {
-    html += `<span class="page-num ${p === page ? 'active' : ''}" data-page="${p}">${p}</span>`;
-  }
-  if (endPage < totalPages) html += `${endPage < totalPages - 1 ? '…' : ''}<span class="page-num" data-page="${totalPages}">${totalPages}</span>`;
-  html += `<button ${page >= totalPages ? 'disabled' : ''} data-page="${page+1}">›</button>`;
-  html += `<span class="page-info">${page}/${totalPages}</span>`;
-  container.innerHTML = html;
-  container.querySelectorAll('[data-page]').forEach(el => {
-    el.addEventListener('click', () => {
-      const p = parseInt(el.dataset.page);
-      if (p >= 1 && p <= totalPages) setPageFn(p, poolName);
-    });
-  });
+  container.style.display = 'none';
+  container.innerHTML = '';
 }
 
 function renderAccounts(containerId, accounts, page, poolName) {
   const container = document.getElementById(containerId);
   if (!container) return;
-  const start = (page - 1) * PAGE_SIZE;
-  const end = Math.min(start + PAGE_SIZE, accounts.length);
-  const pageItems = accounts.slice(start, end);
+  const pageItems = accounts;
   if (pageItems.length === 0) {
     container.innerHTML = '<div class="no-data">暂无账号数据</div>';
     return;
