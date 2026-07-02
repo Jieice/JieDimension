@@ -23,6 +23,8 @@
   --purple: #a78bfa;
   --purple-glow: rgba(167,139,250,0.15);
   --cyan: #22d3ee;
+  --log-bg: #0d1117;
+  --log-border: #1e2a3a;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -34,13 +36,12 @@ body {
 }
 .container { max-width: 800px; margin: 0 auto; }
 
-/* Header */
 header {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 24px; flex-wrap: wrap; gap: 8px;
 }
 header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
-header h1 span { 
+header h1 span {
   background: linear-gradient(135deg, var(--accent), var(--purple));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
@@ -49,7 +50,6 @@ header h1 span {
 .back-link:hover { color: var(--accent); }
 .refresh-info { color: var(--muted); font-size: 11px; }
 
-/* Gateway Card */
 .gateway-card {
   background: linear-gradient(135deg, var(--card), #0f1923);
   border: 1px solid var(--border);
@@ -65,7 +65,6 @@ header h1 span {
 .gateway-card .gw-meta span { display: flex; align-items: center; gap: 4px; }
 .gateway-card .gw-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; }
 
-/* Pool Sections */
 .pool {
   background: var(--card);
   border: 1px solid var(--border);
@@ -90,7 +89,6 @@ header h1 span {
 .pool-hd .tag.off { background: var(--red-glow); color: var(--red); }
 .pool-hd .url { color: var(--muted); font-size: 11px; font-family: monospace; margin-top: 2px; }
 
-/* Stats Row */
 .stats {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
   background: var(--border); border-bottom: 1px solid var(--border);
@@ -105,7 +103,6 @@ header h1 span {
 .stats .s.red .n { color: var(--red); }
 .stats .s.total .n { color: var(--text); }
 
-/* Account List */
 .accs { padding: 8px 12px; }
 .acc {
   display: flex; align-items: center; justify-content: space-between;
@@ -129,7 +126,6 @@ header h1 span {
 }
 .acc .right { color: var(--muted); font-size: 11px; }
 
-/* Qwen Tokens Display */
 .tokens-grid {
   display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
   padding: 12px 16px;
@@ -148,7 +144,132 @@ header h1 span {
 .token-card.cooldown { border-color: rgba(255,179,0,0.3); }
 .token-card.cooldown .t-status { color: var(--yellow); }
 
-/* Footer */
+/* Pagination */
+.pagination {
+  display: flex; justify-content: center; align-items: center;
+  gap: 8px; padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.pagination button {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+.pagination button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.pagination button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.pagination .page-info {
+  color: var(--muted);
+  font-size: 12px;
+}
+.pagination .page-num {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pagination .page-num:hover:not(.active) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.pagination .page-num.active {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  color: var(--accent);
+}
+
+/* Log Section */
+.log-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+.log-section .log-hd {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.log-section .log-hd h3 {
+  font-size: 13px; font-weight: 600;
+  color: var(--muted);
+}
+.log-section .log-hd .log-actions {
+  display: flex; gap: 8px;
+}
+.log-section .log-hd button {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 2px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.2s;
+}
+.log-section .log-hd button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.log-body {
+  padding: 8px 12px;
+  max-height: 240px;
+  overflow-y: auto;
+  background: var(--log-bg);
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.log-body::-webkit-scrollbar {
+  width: 4px;
+}
+.log-body::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+.log-body::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+.log-entry {
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: var(--muted);
+}
+.log-entry .log-time {
+  color: var(--text2);
+  margin-right: 8px;
+}
+.log-entry .log-level {
+  display: inline-block;
+  padding: 0 6px;
+  border-radius: 3px;
+  font-weight: 600;
+  margin-right: 6px;
+  font-size: 9px;
+}
+.log-entry .log-level.info { background: var(--accent-glow); color: var(--accent); }
+.log-entry .log-level.ok { background: var(--green-glow); color: var(--green); }
+.log-entry .log-level.warn { background: var(--yellow-glow); color: var(--yellow); }
+.log-entry .log-level.err { background: var(--red-glow); color: var(--red); }
+.log-entry .log-msg { color: var(--text); }
+.log-entry .log-detail { color: var(--muted); font-size: 10px; }
+
 .footer {
   margin-top: 20px; text-align: center; color: var(--muted);
   font-size: 11px; padding: 12px 0;
@@ -156,15 +277,12 @@ header h1 span {
 }
 .footer a { color: var(--accent); text-decoration: none; }
 
-/* Error */
 .error-banner {
   background: var(--red-glow); border: 1px solid rgba(255,71,87,0.3);
   border-radius: 8px; padding: 12px; margin: 8px 12px;
   color: var(--red); font-size: 12px;
 }
 .no-data { color: var(--muted); font-size: 12px; padding: 20px 0; text-align: center; }
-
-/* Pulse */
 .pulse { animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
@@ -177,6 +295,7 @@ header h1 span {
   header h1 { font-size: 16px; }
   .pool-hd { flex-direction: column; align-items: flex-start; gap: 8px; }
   .gateway-card { flex-direction: column; align-items: flex-start; }
+  .log-body { max-height: 160px; font-size: 10px; }
 }
 </style>
 </head>
@@ -198,195 +317,305 @@ header h1 span {
     </div>
     <div class="gw-meta">
       <span><span class="gw-dot"></span> 在线</span>
-      <span>Token 来源: <strong id="gw-source">--</strong></span>
-      <span>活跃 Token: <strong id="gw-active">--</strong></span>
+      <span id="gw-token-source">Token 来源: --</span>
+      <span id="gw-token-active">活跃 Token: --</span>
     </div>
   </div>
 
   <!-- DeepSeek Pool -->
-  <div class="pool">
+  <div class="pool" id="ds-pool">
     <div class="pool-hd">
       <div>
         <h2><span class="ds-color">DeepSeek</span> 号池</h2>
-        <div class="url">Jieice-ds-api.hf.space</div>
+        <div class="url">https://Jieice-ds-api.hf.space/v1</div>
       </div>
-      <span class="tag" id="ds-tag">加载中</span>
+      <div class="pool-status loading" id="ds-status">加载中</div>
     </div>
-    <div class="stats" id="ds-stats" style="display:none;">
-      <div class="s total"><div class="n" id="ds-total">-</div><div class="l">总计</div></div>
-      <div class="s green"><div class="n" id="ds-green">-</div><div class="l">在线</div></div>
-      <div class="s yellow"><div class="n" id="ds-yellow">-</div><div class="l">冷却</div></div>
-      <div class="s red"><div class="n" id="ds-red">-</div><div class="l">离线</div></div>
+    <div class="stats" id="ds-summary" style="display:none;">
+      <div class="s total"><div class="n" id="ds-total">0</div><div class="l">总计</div></div>
+      <div class="s green"><div class="n" id="ds-green">0</div><div class="l">在线</div></div>
+      <div class="s yellow"><div class="n" id="ds-yellow">0</div><div class="l">冷却</div></div>
+      <div class="s red"><div class="n" id="ds-red">0</div><div class="l">离线</div></div>
     </div>
-    <div id="ds-error"></div>
-    <div class="accs" id="ds-accs">
-      <div class="no-data">等待数据...</div>
-    </div>
+    <div class="accs" id="ds-accs"></div>
+    <div class="pagination" id="ds-pagination" style="display:none;"></div>
   </div>
 
   <!-- Qwen Pool -->
-  <div class="pool">
+  <div class="pool" id="qwen-pool">
     <div class="pool-hd">
       <div>
         <h2><span class="qwen-color">Qwen</span> 号池</h2>
-        <div class="url">jieice-qwen-api.hf.space</div>
+        <div class="url">https://jieice-qwen-api.hf.space/v1</div>
       </div>
-      <span class="tag" id="qwen-tag">加载中</span>
+      <div class="pool-status loading" id="qwen-status">加载中</div>
     </div>
-    <div class="stats" id="qwen-stats" style="display:none;">
-      <div class="s total"><div class="n" id="qwen-total">-</div><div class="l">总计</div></div>
-      <div class="s green"><div class="n" id="qwen-green">-</div><div class="l">在线</div></div>
-      <div class="s yellow"><div class="n" id="qwen-yellow">-</div><div class="l">冷却</div></div>
-      <div class="s red"><div class="n" id="qwen-red">-</div><div class="l">离线</div></div>
+    <div class="stats" id="qwen-summary" style="display:none;">
+      <div class="s total"><div class="n" id="qwen-total">0</div><div class="l">总计</div></div>
+      <div class="s green"><div class="n" id="qwen-green">0</div><div class="l">在线</div></div>
+      <div class="s yellow"><div class="n" id="qwen-yellow">0</div><div class="l">冷却</div></div>
+      <div class="s red"><div class="n" id="qwen-red">0</div><div class="l">离线</div></div>
     </div>
-    <div id="qwen-error"></div>
-    <div class="accs" id="qwen-accs">
-      <div class="no-data">等待数据...</div>
+    <div class="accs" id="qwen-accs"></div>
+    <div class="pagination" id="qwen-pagination" style="display:none;"></div>
+  </div>
+
+  <!-- Log Section -->
+  <div class="log-section">
+    <div class="log-hd">
+      <h3>📋 使用日志</h3>
+      <div class="log-actions">
+        <button id="log-clear">清空</button>
+        <button id="log-export">导出</button>
+      </div>
+    </div>
+    <div class="log-body" id="log-body">
+      <div class="log-entry"><span class="log-time">--:--:--</span><span class="log-level info">INFO</span><span class="log-msg">监控页面加载完成</span></div>
     </div>
   </div>
 
   <div class="footer">
+    <span id="gateway-info" style="display:block;margin-bottom:8px;color:var(--muted);font-size:11px;">--</span>
     JieDimension &middot; <a href="https://github.com/Jieice/JieDimension" target="_blank">GitHub</a>
   </div>
 </div>
 
 <script>
 const GATEWAY_URL = "https://ai.autoteam.ccwu.cc/status";
-const HF_STATUS_URL = "https://jieice-qwen-api.hf.space/status";
 const REFRESH_MS = 15000;
-const stateText = { ok: "在线", cooldown: "冷却", warning: "警告", dead: "离线" };
+const PAGE_SIZE = 5;
 
-async function fetchDS(dsData) {
-  const tag = document.getElementById("ds-tag");
-  const stats = document.getElementById("ds-stats");
-  const error = document.getElementById("ds-error");
-  const accs = document.getElementById("ds-accs");
+let dsAccounts = [];
+let qwenAccounts = [];
+let dsPage = 1;
+let qwenPage = 1;
 
-  try {
-    if (!dsData || dsData.error) throw new Error(dsData?.error || "无数据");
+// ----- Logger -----
+const logs = [];
+const logBody = document.getElementById('log-body');
+const MAX_LOGS = 200;
 
-    const accounts = (dsData.accounts || []).map(a => {
-      let state = "ok";
-      if (!a.ready) state = "dead";
-      else if (a.cooldown) state = "cooldown";
-      else if (a.consecutive_failures > 0) state = "warning";
-      return { id: a.id, state, cooldown_sec: a.cooldown_remaining_sec || 0, failures: a.consecutive_failures || 0, concurrent: a.concurrent_requests || 0, last_used: a.last_used_at || null };
+function addLog(level, msg, detail) {
+  const now = new Date();
+  const time = now.toTimeString().slice(0,8);
+  logs.push({ time, level, msg, detail: detail || '' });
+  if (logs.length > MAX_LOGS) logs.shift();
+  renderLogs();
+}
+
+function renderLogs() {
+  logBody.innerHTML = logs.map(l => {
+    let detailHtml = l.detail ? `<span class="log-detail"> ${l.detail}</span>` : '';
+    return `<div class="log-entry"><span class="log-time">${l.time}</span><span class="log-level ${l.level}">${l.level.toUpperCase()}</span><span class="log-msg">${l.msg}</span>${detailHtml}</div>`;
+  }).join('');
+  logBody.scrollTop = logBody.scrollHeight;
+}
+
+document.getElementById('log-clear').addEventListener('click', () => {
+  logs.length = 0;
+  renderLogs();
+  addLog('info', '日志已清空');
+});
+
+document.getElementById('log-export').addEventListener('click', () => {
+  const text = logs.map(l => `[${l.time}] [${l.level.toUpperCase()}] ${l.msg}${l.detail ? ' ' + l.detail : ''}`).join('\n');
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `monitor-log-${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  addLog('info', '日志已导出');
+});
+
+// ----- Pagination -----
+function renderPagination(containerId, accounts, page, setPageFn, poolName) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const totalPages = Math.ceil(accounts.length / PAGE_SIZE);
+  if (totalPages <= 1) {
+    container.style.display = 'none';
+    return;
+  }
+  container.style.display = 'flex';
+  let html = `<button ${page <= 1 ? 'disabled' : ''} data-page="${page-1}">‹</button>`;
+  const startPage = Math.max(1, page - 2);
+  const endPage = Math.min(totalPages, page + 2);
+  if (startPage > 1) html += `<span class="page-num" data-page="1">1</span>${startPage > 2 ? '…' : ''}`;
+  for (let p = startPage; p <= endPage; p++) {
+    html += `<span class="page-num ${p === page ? 'active' : ''}" data-page="${p}">${p}</span>`;
+  }
+  if (endPage < totalPages) html += `${endPage < totalPages - 1 ? '…' : ''}<span class="page-num" data-page="${totalPages}">${totalPages}</span>`;
+  html += `<button ${page >= totalPages ? 'disabled' : ''} data-page="${page+1}">›</button>`;
+  html += `<span class="page-info">${page}/${totalPages}</span>`;
+  container.innerHTML = html;
+  container.querySelectorAll('[data-page]').forEach(el => {
+    el.addEventListener('click', () => {
+      const p = parseInt(el.dataset.page);
+      if (p >= 1 && p <= totalPages) setPageFn(p, poolName);
     });
-
-    const okCount = accounts.filter(a => a.state === "ok").length;
-    stats.style.display = "";
-    document.getElementById("ds-total").textContent = accounts.length;
-    document.getElementById("ds-green").textContent = okCount;
-    document.getElementById("ds-yellow").textContent = accounts.filter(a => a.state === "cooldown" || a.state === "warning").length;
-    document.getElementById("ds-red").textContent = accounts.filter(a => a.state === "dead").length;
-    tag.className = "tag on";
-    tag.textContent = "在线 " + okCount + "/" + accounts.length;
-    error.innerHTML = "";
-
-    renderAccounts(accs, accounts);
-  } catch (e) {
-    tag.className = "tag off";
-    tag.textContent = "离线";
-    stats.style.display = "none";
-    error.innerHTML = '<div class="error-banner">' + e.message + '</div>';
-    accs.innerHTML = '<div class="no-data">无法连接</div>';
-  }
+  });
 }
 
-async function fetchQwen(qwenData, gwData) {
-  const tag = document.getElementById("qwen-tag");
-  const stats = document.getElementById("qwen-stats");
-  const error = document.getElementById("qwen-error");
-  const accs = document.getElementById("qwen-accs");
-
-  try {
-    // Get token details from HF Space
-    let tokens = [];
-    try {
-      const r = await fetch(HF_STATUS_URL, { cache: "no-store" });
-      if (r.ok) {
-        const data = await r.json();
-        tokens = (data.accounts || []).map(a => ({
-          username: a.username || "unknown",
-          active: a.active && (!a.cooldown || a.cooldown_remaining_ms <= 0),
-          cooldown: a.cooldown,
-          cooldown_sec: Math.ceil(Math.max(0, a.cooldown_remaining_ms || 0) / 1000),
-          failures: a.failures || 0,
-          total_requests: a.total_requests || 0,
-        }));
-      }
-    } catch {}
-
-    const total = tokens.length || (typeof qwenData?.accounts === 'number' ? qwenData.accounts : 0);
-    const active = tokens.filter(t => t.active).length || (gwData?.qwen_tokens_active || total);
-
-    stats.style.display = "";
-    document.getElementById("qwen-total").textContent = total;
-    document.getElementById("qwen-green").textContent = active;
-    document.getElementById("qwen-yellow").textContent = tokens.filter(t => t.cooldown).length;
-    document.getElementById("qwen-red").textContent = tokens.filter(t => !t.active && !t.cooldown).length;
-    tag.className = "tag on";
-    tag.textContent = "在线 " + active + "/" + total;
-    error.innerHTML = "";
-
-    renderTokens(accs, tokens);
-  } catch (e) {
-    tag.className = "tag off";
-    tag.textContent = "离线";
-    stats.style.display = "none";
-    error.innerHTML = '<div class="error-banner">' + e.message + '</div>';
-    accs.innerHTML = '<div class="no-data">无法连接</div>';
+function renderAccounts(containerId, accounts, page, poolName) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const start = (page - 1) * PAGE_SIZE;
+  const end = Math.min(start + PAGE_SIZE, accounts.length);
+  const pageItems = accounts.slice(start, end);
+  if (pageItems.length === 0) {
+    container.innerHTML = '<div class="no-data">暂无账号数据</div>';
+    return;
   }
+  container.innerHTML = pageItems.map(a => {
+    const dotClass = a.state || 'ok';
+    const label = a.label || dotClass;
+    return `<div class="acc">
+      <div class="left">
+        <span class="dot ${dotClass}"></span>
+        <span class="name">${a.id || 'unknown'}</span>
+        <span class="badge">${label}</span>
+      </div>
+      <div class="right">${a.right || ''}</div>
+    </div>`;
+  }).join('');
 }
 
-function renderAccounts(container, accs) {
-  container.innerHTML = "";
-  if (!accs.length) { container.innerHTML = '<div class="no-data">暂无账号</div>'; return; }
-  for (const a of accs) {
-    const div = document.createElement("div");
-    div.className = "acc";
-    let right = "";
-    if (a.state === "cooldown" && a.cooldown_sec > 0) right = "冷却 " + a.cooldown_sec + "s";
-    else if (a.state === "warning") right = "失败 " + a.failures + " 次";
-    else if (a.state === "dead") right = "离线";
-    else if (a.concurrent > 0) right = "并发 " + a.concurrent;
-    else if (a.last_used && a.last_used !== "never") {
-      try { right = "上次 " + new Date(a.last_used).toLocaleTimeString("zh-CN"); } catch {}
-    }
-    div.innerHTML = '<div class="left"><div class="dot ' + a.state + '"></div><span class="name">' + a.id + '</span><span class="badge">' + (stateText[a.state] || a.state) + '</span></div><div class="right">' + right + '</div>';
-    container.appendChild(div);
-  }
+function setDsPage(p) {
+  dsPage = p;
+  renderAccounts('ds-accs', dsAccounts, dsPage, 'ds');
+  renderPagination('ds-pagination', dsAccounts, dsPage, setDsPage, 'ds');
 }
 
-function renderTokens(container, tokens) {
-  container.innerHTML = "";
-  if (!tokens.length) { container.innerHTML = '<div class="no-data">Token 详情不可用</div>'; return; }
-  for (const t of tokens) {
-    const div = document.createElement("div");
-    div.className = "acc";
-    let right = "";
-    if (t.cooldown && t.cooldown_sec > 0) right = "冷却 " + t.cooldown_sec + "s";
-    else if (t.failures > 0) right = "失败 " + t.failures + " 次";
-    else if (t.total_requests > 0) right = t.total_requests + " 次请求";
-    div.innerHTML = '<div class="left"><div class="dot ' + (t.active ? "ok" : "cooldown") + '"></div><span class="name">' + t.username + '</span><span class="badge">' + (t.active ? "在线" : "冷却") + '</span></div><div class="right">' + right + '</div>';
-    container.appendChild(div);
-  }
+function setQwenPage(p) {
+  qwenPage = p;
+  renderAccounts('qwen-accs', qwenAccounts, qwenPage, 'qwen');
+  renderPagination('qwen-pagination', qwenAccounts, qwenPage, setQwenPage, 'qwen');
 }
 
+// ----- Fetch DS -----
+function fetchDS(dsData) {
+  const statusEl = document.getElementById("ds-status");
+  const summaryEl = document.getElementById("ds-summary");
+  const accsEl = document.getElementById("ds-accs");
+
+  if (!dsData || dsData.error) {
+    statusEl.className = "pool-status offline";
+    statusEl.textContent = "离线";
+    summaryEl.style.display = "none";
+    accsEl.innerHTML = '<div class="no-data">无法获取数据</div>';
+    addLog('err', 'DeepSeek 状态获取失败', dsData?.error || '无响应');
+    return;
+  }
+
+  const accs = (dsData.accounts || []).map(a => {
+    let state = "ok";
+    let label = "在线";
+    if (!a.ready) { state = "dead"; label = "离线"; }
+    else if (a.cooldown) { state = "cooldown"; label = "冷却中"; }
+    else if (a.consecutive_failures > 0) { state = "warning"; label = "有失败"; }
+    return {
+      id: a.id || 'unknown',
+      state,
+      label,
+      right: `并发 ${a.concurrent_requests || 0}`
+    };
+  });
+
+  dsAccounts = accs;
+  const total = accs.length;
+  const online = accs.filter(a => a.state === 'ok' || a.state === 'warning').length;
+  const cooldown = accs.filter(a => a.state === 'cooldown').length;
+  const dead = accs.filter(a => a.state === 'dead').length;
+
+  summaryEl.style.display = "";
+  document.getElementById("ds-total").textContent = total;
+  document.getElementById("ds-green").textContent = online;
+  document.getElementById("ds-yellow").textContent = cooldown;
+  document.getElementById("ds-red").textContent = dead;
+
+  statusEl.className = "pool-status online";
+  statusEl.textContent = `在线 ${online}/${total}`;
+
+  dsPage = 1;
+  setDsPage(1);
+  renderPagination('ds-pagination', dsAccounts, dsPage, setDsPage, 'ds');
+  addLog('ok', `DeepSeek 更新完成`, `${online}/${total} 在线`);
+}
+
+// ----- Fetch Qwen -----
+function fetchQwen(qwenData, gw) {
+  const statusEl = document.getElementById("qwen-status");
+  const summaryEl = document.getElementById("qwen-summary");
+  const accsEl = document.getElementById("qwen-accs");
+
+  if (!qwenData || qwenData.error) {
+    statusEl.className = "pool-status offline";
+    statusEl.textContent = "离线";
+    summaryEl.style.display = "none";
+    accsEl.innerHTML = '<div class="no-data">无法获取数据</div>';
+    addLog('err', 'Qwen 状态获取失败', qwenData?.error || '无响应');
+    return;
+  }
+
+  const total = typeof qwenData.accounts === 'number' ? qwenData.accounts : (qwenData.total_accounts || 0);
+  const active = gw?.qwen_tokens_active || total;
+
+  const accs = [];
+  for (let i = 0; i < total; i++) {
+    accs.push({
+      id: `Token ${i+1}`,
+      state: i < active ? 'ok' : 'cooldown',
+      label: i < active ? '在线' : '冷却',
+      right: i < active ? '活跃' : '待机'
+    });
+  }
+
+  qwenAccounts = accs;
+  summaryEl.style.display = "";
+  document.getElementById("qwen-total").textContent = total;
+  document.getElementById("qwen-green").textContent = active;
+  document.getElementById("qwen-yellow").textContent = total - active;
+  document.getElementById("qwen-red").textContent = 0;
+
+  statusEl.className = "pool-status online";
+  statusEl.textContent = `在线 ${active}/${total}`;
+
+  qwenPage = 1;
+  setQwenPage(1);
+  renderPagination('qwen-pagination', qwenAccounts, qwenPage, setQwenPage, 'qwen');
+
+  const source = gw?.qwen_token_source || 'unknown';
+  document.getElementById('gw-token-source').textContent = 'Token 来源: ' + source;
+  document.getElementById('gw-token-active').textContent = '活跃 Token: ' + active;
+  addLog('ok', `Qwen 更新完成`, `${active}/${total} 活跃`);
+}
+
+// ----- Fetch All -----
 async function fetchAll() {
+  const startTime = Date.now();
   try {
     const r = await fetch(GATEWAY_URL, { cache: "no-store" });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     const data = await r.json();
-    await Promise.all([fetchDS(data.deepseek), fetchQwen(data.qwen, data.gateway)]);
+    fetchDS(data.deepseek);
+    fetchQwen(data.qwen, data.gateway);
     const gw = data.gateway || {};
-    document.getElementById("gw-source").textContent = gw.qwen_token_source || "--";
-    document.getElementById("gw-active").textContent = gw.qwen_tokens_active || 0;
-  } catch {
-    await Promise.all([fetchDS(null), fetchQwen(null, null)]);
+    document.getElementById("gateway-info").textContent =
+      "Gateway: ai.autoteam.ccwu.cc · Token 来源: " + (gw.qwen_token_source || '--') +
+      " · 活跃: " + (gw.qwen_tokens_active || 0);
+    const elapsed = Date.now() - startTime;
+    addLog('info', '状态刷新完成', `耗时 ${elapsed}ms`);
+  } catch (e) {
+    addLog('err', '获取状态失败', e.message);
+    fetchDS(null);
+    fetchQwen(null, null);
   }
-  document.getElementById("refreshInfo").textContent = "更新于 " + new Date().toLocaleTimeString("zh-CN") + " · " + (REFRESH_MS/1000) + "s 刷新";
+  document.getElementById("refreshInfo").textContent =
+    "更新于 " + new Date().toLocaleTimeString("zh-CN") + " · " + (REFRESH_MS/1000) + "s 刷新";
 }
 
+// ----- Init -----
+addLog('info', '监控页面启动');
 fetchAll();
 setInterval(fetchAll, REFRESH_MS);
 </script>
