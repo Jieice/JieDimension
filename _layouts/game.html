@@ -2,6 +2,11 @@
 layout: default
 ---
 
+{% if page.redirect_to %}
+<meta http-equiv="refresh" content="0; url={{ page.redirect_to }}">
+<script>location.href="{{ page.redirect_to }}"</script>
+{% endif %}
+
 <div class="container">
     <article class="game-detail">
         <header class="game-detail-header">
