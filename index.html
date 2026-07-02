@@ -24,7 +24,7 @@ layout: default
         {% for game in featured_games limit:3 %}
         <a href="{{ game.url | relative_url }}" class="hero-project">
             <span class="hero-project__cover">
-                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" {% if forloop.first %}fetchpriority="high"{% endif %}>
+                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy" decoding="async" fetchpriority="low">
             </span>
             <span class="hero-project__body">
                 <strong>{{ game.title }}</strong>
@@ -52,7 +52,7 @@ layout: default
         {% for game in featured_games %}
         <a href="{{ game.url | relative_url }}" class="game-card-compact{% if forloop.first %} is-featured{% endif %}">
             <figure class="game-thumb">
-                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="{% if forloop.index <= 3 %}eager{% else %}lazy{% endif %}" {% if forloop.index <= 2 %}fetchpriority="high"{% endif %}>
+                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy" decoding="async" fetchpriority="low">
             </figure>
             <div class="game-info-compact">
                 <div class="game-card-topline">
@@ -68,7 +68,7 @@ layout: default
         {% unless game.featured %}
         <a href="{{ game.url | relative_url }}" class="game-card-compact">
             <figure class="game-thumb">
-                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy">
+                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy" decoding="async" fetchpriority="low">
             </figure>
             <div class="game-info-compact">
                 <div class="game-card-topline">

@@ -1,7 +1,7 @@
 ---
 title: 金币大亨 · 深渊觉醒
 platform: Web / HTML5
-image: /assets/images/games/coin-tycoon.jpg
+image: /assets/images/games/coin-tycoon.png
 status: 可玩
 featured: true
 feature_order: 2

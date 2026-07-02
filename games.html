@@ -11,7 +11,7 @@ description: 界维互动的开源项目与游戏作品集
         {% for game in site.games %}
         <a href="{{ game.url | relative_url }}" class="game-card">
             <figure class="game-thumbnail">
-                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy">
+                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy" decoding="async">
             </figure>
             <div class="game-info">
                 <h3 class="game-title">{{ game.title }}</h3>

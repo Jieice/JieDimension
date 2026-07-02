@@ -1,7 +1,7 @@
 ---
 title: Cyberstorm Arena
 platform: Web / HTML5
-image: /assets/images/games/battle-royale.jpg
+image: /assets/images/games/battle-royale.png
 status: 开发中
 featured: true
 feature_order: 3
