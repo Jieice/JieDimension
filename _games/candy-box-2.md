@@ -4,10 +4,10 @@ platform: Web / HTML5
 image: /assets/images/games/candy-box-2.png
 status: Playable now
 date: 2026-07-02
-redirect_to: /games/candy-box-2/
+redirect_to: /play/candy-box-2/
 links:
   - text: Play Candy Box 2
-    url: "/games/candy-box-2/"
+    url: "/play/candy-box-2/"
     external: false
   - text: Source on GitHub
     url: "https://github.com/candybox2/candybox2.github.io"

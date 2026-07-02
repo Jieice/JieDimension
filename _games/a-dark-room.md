@@ -4,10 +4,10 @@ platform: Web / HTML5
 image: /assets/images/games/a-dark-room.png
 status: Playable now
 date: 2026-07-02
-redirect_to: /games/a-dark-room/
+redirect_to: /play/a-dark-room/
 links:
   - text: Play A Dark Room
-    url: "/games/a-dark-room/"
+    url: "/play/a-dark-room/"
     external: false
   - text: Source on GitHub
     url: "https://github.com/doublespeakgames/adarkroom"

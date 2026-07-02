@@ -4,10 +4,10 @@ platform: Web / HTML5
 image: /assets/images/games/antimatter-dimensions.png
 status: Playable now
 date: 2026-07-02
-redirect_to: /games/antimatter-dimensions/
+redirect_to: /play/antimatter-dimensions/
 links:
   - text: Play Antimatter Dimensions
-    url: "/games/antimatter-dimensions/"
+    url: "/play/antimatter-dimensions/"
     external: false
   - text: Source on GitHub
     url: "https://github.com/ivark/AntimatterDimensions"
