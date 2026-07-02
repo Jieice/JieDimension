@@ -33,14 +33,16 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   min-height: 100vh;
   padding: 8px;
+  overflow: hidden;
 }
 .container {
   width: min(1880px, calc(100vw - 16px));
   max-width: 1880px;
-  min-height: calc(100vh - 16px);
+  height: calc(100vh - 16px);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 header {
@@ -241,6 +243,7 @@ header h1 span {
   margin-top: 0;
   overflow: hidden;
   min-height: 0;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -303,7 +306,7 @@ header h1 span {
   flex: 1;
   max-height: none;
   min-height: 0;
-  overflow-y: auto;
+  overflow: auto;
   background: var(--log-bg);
   font-family: monospace;
   font-size: 12px;
@@ -402,8 +405,8 @@ header h1 span {
 .qwen-color { color: var(--purple); }
 
 @media (max-width: 960px) {
-  body { padding: 12px 10px; }
-  .container { min-height: auto; display: block; }
+  body { padding: 12px 10px; overflow: auto; }
+  .container { height: auto; min-height: auto; display: block; overflow: visible; }
   .dashboard-grid { display: block; }
   .pools-column { overflow: visible; }
   .log-section { margin-top: 12px; }
