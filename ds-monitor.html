@@ -238,7 +238,7 @@ header h1 span {
 }
 .log-controls {
   display: grid;
-  grid-template-columns: minmax(180px, 1fr) auto auto auto;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 8px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
@@ -300,8 +300,8 @@ header h1 span {
 .call-log-table { min-width: 680px; }
 .call-log-row {
   display: grid;
-  grid-template-columns: 128px 78px minmax(150px, 1fr) 70px 74px 74px 64px;
-  gap: 10px;
+  grid-template-columns: 138px 76px 74px 78px 74px minmax(150px, 1fr) 90px 72px 72px 72px 62px;
+  gap: 8px;
   align-items: center;
   padding: 9px 4px;
   border-bottom: 1px solid rgba(255,255,255,0.04);
@@ -363,8 +363,6 @@ header h1 span {
   .pool-hd { flex-direction: column; align-items: flex-start; gap: 8px; }
   .gateway-card { flex-direction: column; align-items: flex-start; }
   .log-body { max-height: 160px; font-size: 10px; }
-  .log-controls { grid-template-columns: 1fr 1fr; }
-  .log-controls input { grid-column: 1 / -1; }
 }
 </style>
 </head>
@@ -434,24 +432,30 @@ header h1 span {
     <div class="log-hd">
       <div>
         <h3>模型调用日志</h3>
-        <p id="call-log-summary">输入网关 Key 后查询最近调用记录</p>
+        <p id="call-log-summary">按时间、模型和状态查询最近调用记录</p>
       </div>
       <div class="log-actions">
         <button id="log-export">导出</button>
       </div>
     </div>
     <div class="log-controls">
-      <input id="log-api-key" type="password" autocomplete="off" placeholder="网关 API Key，只保存在本机浏览器">
+      <input id="log-start" type="datetime-local" aria-label="开始时间">
+      <input id="log-end" type="datetime-local" aria-label="结束时间">
+      <input id="log-model-filter" type="text" autocomplete="off" placeholder="模型名称">
+      <select id="log-status-filter" aria-label="调用状态">
+        <option value="all">全部状态</option>
+        <option value="success">成功</option>
+        <option value="failed">失败</option>
+      </select>
       <select id="log-limit" aria-label="日志条数">
-        <option value="20">最近 20 条</option>
         <option value="50" selected>最近 50 条</option>
         <option value="100">最近 100 条</option>
+        <option value="200">最近 200 条</option>
       </select>
       <button id="log-fetch">查询日志</button>
-      <button id="log-clear-key">忘记 Key</button>
     </div>
     <div class="log-body" id="log-body">
-      <div class="no-data">等待查询。不会在公开页面里写死 API key。</div>
+      <div class="no-data">等待查询。公开页面只显示脱敏日志。</div>
     </div>
   </div>
 
@@ -463,11 +467,10 @@ header h1 span {
 
 <script>
 const GATEWAY_URL = "https://ai.autoteam.ccwu.cc/status";
-const LOGS_URL = "https://ai.autoteam.ccwu.cc/logs";
+const LOGS_URL = "https://ai.autoteam.ccwu.cc/logs/public";
 const REFRESH_MS = 15000;
 const LOG_REFRESH_MS = 30000;
 const PAGE_SIZE = 5;
-const LOG_KEY_STORAGE = "jiedimension_gateway_api_key";
 
 let dsAccounts = [];
 let qwenAccounts = [];
@@ -478,7 +481,10 @@ let callLogs = [];
 // ----- Logger -----
 const logBody = document.getElementById('log-body');
 const logSummary = document.getElementById('call-log-summary');
-const logKeyInput = document.getElementById('log-api-key');
+const logStartInput = document.getElementById('log-start');
+const logEndInput = document.getElementById('log-end');
+const logModelFilter = document.getElementById('log-model-filter');
+const logStatusFilter = document.getElementById('log-status-filter');
 const logLimitSelect = document.getElementById('log-limit');
 
 function addLog(level, msg, detail) {
@@ -513,18 +519,24 @@ function formatLogTime(value) {
 function normalizeCallLog(entry) {
   const status = Number(entry.status || entry.status_code || 0);
   const ok = typeof entry.ok === 'boolean' ? entry.ok : status >= 200 && status < 400;
-  const tools = Array.isArray(entry.tools) ? entry.tools.length : (entry.tools ?? entry.tool_count ?? 0);
   return {
-    time: entry.ts || entry.timestamp || entry.time,
-    pool: entry.pool || entry.backend || '--',
+    time: entry.time || entry.ts || entry.timestamp,
+    channel: entry.channel || entry.pool || entry.backend || '--',
+    user: entry.user || 'Jieice',
+    token: entry.token || '统一网关',
+    group: entry.group || 'default',
+    type: entry.type || entry.route || entry.endpoint || '--',
     model: entry.model || '--',
     status,
     ok,
-    latency: entry.latency_ms ?? entry.duration_ms ?? entry.ms ?? '--',
-    route: entry.route || entry.endpoint || '--',
-    tools,
-    stream: entry.stream === true,
-    error: entry.error || ''
+    latency: entry.latency_ms ?? entry.duration_ms ?? entry.ms ?? '',
+    firstByte: entry.first_byte_ms ?? '',
+    input: entry.input ?? entry.input_tokens ?? entry.prompt_tokens ?? '',
+    output: entry.output ?? entry.output_tokens ?? entry.completion_tokens ?? '',
+    cost: entry.cost ?? '',
+    requestId: entry.request_id || entry.id || '',
+    retry: entry.retry ?? 0,
+    detail: entry.detail || entry.error || ''
   };
 }
 
@@ -546,53 +558,49 @@ function renderCallLogs(entries, meta = {}) {
   logSummary.textContent = `最近 ${callLogs.length} 条 · 成功 ${okCount} · 失败 ${callLogs.length - okCount} · 最新 ${formatLogTime(latest.time)}`;
   logBody.innerHTML = `<div class="call-log-table">
     <div class="call-log-row head">
-      <span>时间</span><span>池子</span><span>模型</span><span>状态</span><span>耗时</span><span>接口</span><span>工具</span>
+      <span>时间</span><span>渠道</span><span>用户</span><span>令牌</span><span>分组</span><span>模型</span><span>用时/首字</span><span>输入</span><span>输出</span><span>花费</span><span>重试</span>
     </div>
     ${callLogs.map(log => {
       const statusClass = log.ok ? 'ok' : (log.status ? 'err' : 'warn');
       const statusText = log.status || '未知';
-      const latency = typeof log.latency === 'number' ? `${log.latency}ms` : escapeHtml(log.latency);
-      const tools = `${escapeHtml(log.tools)}${log.stream ? ' · S' : ''}`;
-      const errorTitle = log.error ? ` title="${escapeHtml(log.error)}"` : '';
-      return `<div class="call-log-row"${errorTitle}>
+      const latency = log.latency !== '' ? `${escapeHtml(log.latency)}ms` : '--';
+      const firstByte = log.firstByte !== '' ? ` / ${escapeHtml(log.firstByte)}ms` : '';
+      const cost = log.cost !== '' ? `$${escapeHtml(log.cost)}` : '--';
+      const detail = [log.detail, log.requestId ? `Request ID: ${log.requestId}` : '', `类型: ${log.type}`, `状态: ${statusText}`].filter(Boolean).join(' · ');
+      const detailTitle = detail ? ` title="${escapeHtml(detail)}"` : '';
+      return `<div class="call-log-row"${detailTitle}>
         <span>${escapeHtml(formatLogTime(log.time))}</span>
-        <span>${escapeHtml(log.pool)}</span>
+        <span>${escapeHtml(log.channel)}</span>
+        <span>${escapeHtml(log.user)}</span>
+        <span>${escapeHtml(log.token)}</span>
+        <span>${escapeHtml(log.group)}</span>
         <span class="model">${escapeHtml(log.model)}</span>
-        <span><span class="status-pill ${statusClass}">${escapeHtml(statusText)}</span></span>
-        <span>${latency}</span>
-        <span>${escapeHtml(log.route)}</span>
-        <span>${tools}</span>
+        <span><span class="status-pill ${statusClass}">${latency}${firstByte}</span></span>
+        <span>${escapeHtml(log.input || '--')}</span>
+        <span>${escapeHtml(log.output || '--')}</span>
+        <span>${cost}</span>
+        <span>${escapeHtml(log.retry)}</span>
       </div>`;
     }).join('')}
   </div>`;
 }
 
 async function fetchCallLogs() {
-  const apiKey = logKeyInput.value.trim();
-  const limit = logLimitSelect.value || '50';
-  if (!apiKey) {
-    logSummary.textContent = '输入网关 Key 后查询最近调用记录';
-    renderLogNotice('需要输入网关 API Key。Key 只保存在本机浏览器，不会写进网页源码。', 'warn');
-    return;
-  }
-
-  localStorage.setItem(LOG_KEY_STORAGE, apiKey);
   logSummary.textContent = '正在查询调用日志...';
 
   try {
-    const response = await fetch(`${LOGS_URL}?limit=${encodeURIComponent(limit)}`, {
-      cache: 'no-store',
-      headers: { 'Authorization': `Bearer ${apiKey}` }
-    });
+    const params = new URLSearchParams();
+    params.set('limit', logLimitSelect.value || '50');
+    if (logStartInput.value) params.set('start', new Date(logStartInput.value).toISOString());
+    if (logEndInput.value) params.set('end', new Date(logEndInput.value).toISOString());
+    if (logModelFilter.value.trim()) params.set('model', logModelFilter.value.trim());
+    if (logStatusFilter.value !== 'all') params.set('status', logStatusFilter.value);
+
+    const response = await fetch(`${LOGS_URL}?${params.toString()}`, { cache: 'no-store' });
 
     if (response.status === 404) {
       logSummary.textContent = '后端日志接口未部署';
-      renderLogNotice('Worker 还没有 /logs 接口。需要先给网关部署 KV 日志后端。', 'warn');
-      return;
-    }
-    if (response.status === 401 || response.status === 403) {
-      logSummary.textContent = '鉴权失败';
-      renderLogNotice('网关 Key 不正确，或 /logs 不允许当前 Key 查询。', 'err');
+      renderLogNotice('Worker 还没有公开日志接口。', 'warn');
       return;
     }
     if (response.status === 503) {
@@ -616,7 +624,7 @@ document.getElementById('log-export').addEventListener('click', () => {
     return;
   }
   const text = callLogs.map(l => {
-    return `[${formatLogTime(l.time)}] ${l.pool} ${l.model} status=${l.status || 'unknown'} ok=${l.ok} latency=${l.latency}ms route=${l.route} tools=${l.tools}${l.error ? ' error=' + l.error : ''}`;
+    return `[${formatLogTime(l.time)}] channel=${l.channel} user=${l.user} token=${l.token} group=${l.group} model=${l.model} status=${l.status || 'unknown'} ok=${l.ok} latency=${l.latency || '--'} input=${l.input || '--'} output=${l.output || '--'} cost=${l.cost || '--'} retry=${l.retry}`;
   }).join('\n');
   const blob = new Blob([text], { type: 'text/plain' });
   const a = document.createElement('a');
@@ -626,13 +634,6 @@ document.getElementById('log-export').addEventListener('click', () => {
 });
 
 document.getElementById('log-fetch').addEventListener('click', fetchCallLogs);
-document.getElementById('log-clear-key').addEventListener('click', () => {
-  localStorage.removeItem(LOG_KEY_STORAGE);
-  logKeyInput.value = '';
-  callLogs = [];
-  logSummary.textContent = '已忘记本机保存的网关 Key';
-  renderLogNotice('已清除本机浏览器保存的 Key。', 'info');
-});
 
 // ----- Pagination -----
 function renderPagination(containerId, accounts, page, setPageFn, poolName) {
@@ -821,22 +822,28 @@ async function fetchAll() {
     "更新于 " + new Date().toLocaleTimeString("zh-CN") + " · " + (REFRESH_MS/1000) + "s 刷新";
 }
 
-// ----- Init -----
-try {
-  const savedKey = localStorage.getItem(LOG_KEY_STORAGE);
-  if (savedKey) {
-    logKeyInput.value = savedKey;
-    fetchCallLogs();
-  }
-} catch {
-  renderLogNotice('浏览器阻止了 localStorage，Key 不会被记住。', 'warn');
+function toDatetimeLocal(date) {
+  const pad = n => String(n).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
+function setDefaultLogRange() {
+  const now = new Date();
+  const start = new Date(now);
+  start.setHours(0, 0, 0, 0);
+  logStartInput.value = toDatetimeLocal(start);
+  logEndInput.value = toDatetimeLocal(now);
+}
+
+// ----- Init -----
+setDefaultLogRange();
+fetchCallLogs();
 addLog('info', '监控页面启动');
 fetchAll();
 setInterval(fetchAll, REFRESH_MS);
 setInterval(() => {
-  if (logKeyInput.value.trim()) fetchCallLogs();
+  logEndInput.value = toDatetimeLocal(new Date());
+  fetchCallLogs();
 }, LOG_REFRESH_MS);
 </script>
 </body>
