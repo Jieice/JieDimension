@@ -189,15 +189,6 @@
             bgmAudio.pause();
         });
 
-        document.addEventListener('pointerdown', async (event) => {
-            if (bgmStartedOnce || (hasBgmPreference && !wantsBgmPlayback)) return;
-            if (event.target instanceof Element && event.target.closest('.theme-controls')) return;
-            hasBgmPreference = true;
-            wantsBgmPlayback = true;
-            persistBgmState();
-            try { await startBgm(bgmResumeTime); } catch (error) { }
-        });
-
         bgmAudio.addEventListener('play', () => { syncBgmUi(true); persistBgmState(); });
         bgmAudio.addEventListener('pause', () => {
             bgmResumeTime = Number.isFinite(bgmAudio.currentTime) && bgmAudio.currentTime > 0

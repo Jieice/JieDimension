@@ -9,8 +9,10 @@ description: 界维互动的开源项目与游戏作品集
 
     <div class="games-grid">
         {% for game in site.games %}
-        <a href="{{ game.url | relative_url }}" class="game-card" style="text-decoration: none;">
-            <div class="game-thumbnail" style="background-image: url('{{ game.image | relative_url }}'); background-size: cover; background-position: center;"></div>
+        <a href="{{ game.url | relative_url }}" class="game-card">
+            <figure class="game-thumbnail">
+                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy">
+            </figure>
             <div class="game-info">
                 <h3 class="game-title">{{ game.title }}</h3>
                 <span class="game-platform">{{ game.platform }}</span>

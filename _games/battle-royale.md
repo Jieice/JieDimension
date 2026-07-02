@@ -3,6 +3,8 @@ title: Cyberstorm Arena
 platform: Web / HTML5
 image: /assets/images/games/battle-royale.jpg
 status: 开发中
+featured: true
+feature_order: 3
 date: 2026-05-05
 ---
 

@@ -15,41 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.site-header');
     if (header) {
         const onScroll = throttle(() => {
-            if (window.scrollY > 50) {
-                header.style.padding = '0.5rem 0';
-                header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
-            } else {
-                header.style.padding = '0';
-                header.style.boxShadow = 'none';
-            }
+            header.classList.toggle('is-scrolled', window.scrollY > 50);
         }, 100);
+        onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
     }
 
-    // 2. Typewriter effect for the main title
-    const siteTitle = document.querySelector('.site-title span:first-child');
-    if (siteTitle) {
-        const originalText = siteTitle.innerText;
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*';
-        let iterations = 0;
-        
-        const interval = setInterval(() => {
-            siteTitle.innerText = originalText.split('')
-                .map((letter, index) => {
-                    if (index < iterations) return originalText[index];
-                    return characters[Math.floor(Math.random() * characters.length)];
-                })
-                .join('');
-            
-            if (iterations >= originalText.length) clearInterval(interval);
-            iterations += 1 / 3;
-        }, 30);
-    }
-
-    // 3. Back to Top Button
+    // 2. Back to Top Button
     const backToTopBtn = document.createElement('button');
     backToTopBtn.innerHTML = '↑';
     backToTopBtn.className = 'back-to-top';
+    backToTopBtn.type = 'button';
+    backToTopBtn.setAttribute('aria-label', '回到顶部');
     document.body.appendChild(backToTopBtn);
 
     const onScrollBackTop = throttle(() => {

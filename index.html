@@ -2,59 +2,84 @@
 layout: default
 ---
 
-<!-- Hero + Projects 合并区域 -->
-<section class="hero-compact">
-    <div class="hero-content">
-        <h1>{{ site.title }}</h1>
-        <p class="tagline">{{ site.tagline }}</p>
-        <p class="hero-description">{{ site.description }}</p>
+{% assign all_games = site.games | sort: "date" | reverse %}
+{% assign featured_games = site.games | where: "featured", true | sort: "feature_order" %}
+{% if featured_games.size == 0 %}
+{% assign featured_games = all_games %}
+{% endif %}
+
+<section class="home-hero" aria-labelledby="home-title">
+    <div class="home-hero__copy">
+        <p class="home-kicker">{{ site.tagline }}</p>
+        <h1 id="home-title">{{ site.title }}</h1>
+        <p class="home-hero__cn">界维互动工作室</p>
+        <p class="home-hero__description">{{ site.description }}。把可运行的原型、网页游戏和互动实验放到第一屏，让访客先看到已经做出来的东西。</p>
+        <div class="home-actions" aria-label="主要操作">
+            <a href="#projects" class="btn">查看作品</a>
+            <a href="mailto:{{ site.author.email }}" class="btn btn-secondary">联系合作</a>
+        </div>
     </div>
 
-    <!-- 分类筛选 -->
-    <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">全部</button>
-        <button class="filter-btn" data-filter="game">🎮 游戏</button>
-    </div>
-
-    <!-- 游戏网格 - 一行显示 -->
-    <div class="games-grid-compact" id="games-grid">
-        {% for game in site.games %}
-        <a href="{{ game.url | relative_url }}" class="game-card-compact" style="text-decoration: none;">
-            <div class="game-thumb" style="background-image: url('{{ game.image | relative_url }}');"></div>
-            <div class="game-info-compact">
-                <h3>{{ game.title }}</h3>
-                <span>{{ game.platform }}</span>
-            </div>
+    <div class="hero-projects" aria-label="精选项目">
+        {% for game in featured_games limit:3 %}
+        <a href="{{ game.url | relative_url }}" class="hero-project">
+            <span class="hero-project__cover">
+                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" {% if forloop.first %}fetchpriority="high"{% endif %}>
+            </span>
+            <span class="hero-project__body">
+                <strong>{{ game.title }}</strong>
+                <span>{{ game.status }}</span>
+            </span>
         </a>
         {% endfor %}
     </div>
 </section>
 
-<script>
-(function() {
-    const cards = Array.from(document.querySelectorAll('.game-card-compact'));
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    
-    // 只保留游戏分类
-    const isGame = (href) => {
-        return !href.includes('anchor') && !href.includes('naga') && !href.includes('godot') && !href.includes('neuro');
-    };
+<section class="studio-strip" aria-label="工作室方向">
+    <span>AI Agents</span>
+    <span>Virtual Interaction</span>
+    <span>Web Games</span>
+    <span>Independent Prototypes</span>
+</section>
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const filter = btn.dataset.filter;
-            cards.forEach(card => {
-                const href = card.getAttribute('href') || '';
-                if (filter === 'all' || isGame(href)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
-})();
-</script>
+<section id="projects" class="work-section" aria-labelledby="projects-title">
+    <div class="section-heading">
+        <h2 id="projects-title">正在成形的作品</h2>
+        <p>从轻量网页游戏到虚拟交互实验，所有项目都保留清晰入口，方便试玩、继续了解或联系讨论。</p>
+    </div>
+
+    <div class="games-grid-compact" id="games-grid">
+        {% for game in featured_games %}
+        <a href="{{ game.url | relative_url }}" class="game-card-compact{% if forloop.first %} is-featured{% endif %}">
+            <figure class="game-thumb">
+                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="{% if forloop.index <= 3 %}eager{% else %}lazy{% endif %}" {% if forloop.index <= 2 %}fetchpriority="high"{% endif %}>
+            </figure>
+            <div class="game-info-compact">
+                <div class="game-card-topline">
+                    <span>{{ game.platform }}</span>
+                    <span>{{ game.status }}</span>
+                </div>
+                <h3>{{ game.title }}</h3>
+                <p>{{ game.excerpt | strip_html | strip_newlines | truncate: 118 }}</p>
+            </div>
+        </a>
+        {% endfor %}
+        {% for game in all_games %}
+        {% unless game.featured %}
+        <a href="{{ game.url | relative_url }}" class="game-card-compact">
+            <figure class="game-thumb">
+                <img src="{{ game.image | relative_url }}" alt="{{ game.title | escape }} 预览" loading="lazy">
+            </figure>
+            <div class="game-info-compact">
+                <div class="game-card-topline">
+                    <span>{{ game.platform }}</span>
+                    <span>{{ game.status }}</span>
+                </div>
+                <h3>{{ game.title }}</h3>
+                <p>{{ game.excerpt | strip_html | strip_newlines | truncate: 118 }}</p>
+            </div>
+        </a>
+        {% endunless %}
+        {% endfor %}
+    </div>
+</section>
