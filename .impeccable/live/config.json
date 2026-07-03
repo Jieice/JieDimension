@@ -1,6 +1,0 @@
-{
-  "files": ["_layouts/default.html"],
-  "insertBefore": "</body>",
-  "commentSyntax": "html",
-  "cspChecked": true
-}

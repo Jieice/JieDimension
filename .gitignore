@@ -1,94 +1,39 @@
-# ==========================================
-# Jekyll 构建文件
-# ==========================================
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
+# build output
+dist/
 
-# ==========================================
-# Ruby 相关
-# ==========================================
-vendor/
-.bundle/
-*.gem
-Gemfile.lock
+# generated types
+.astro/
 
-# ==========================================
-# 系统文件
-# ==========================================
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# ==========================================
-# 编辑器文件
-# ==========================================
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-*.sublime-project
-*.sublime-workspace
-
-# ==========================================
-# 临时文件
-# ==========================================
-*.log
-*.tmp
-*.bak
-*~
-
-# ==========================================
-# 大文件和游戏资源（重要！）
-# ==========================================
-# 游戏安装包（不要上传到仓库）
-*.exe
-*.apk
-*.ipa
-*.zip
-*.rar
-*.7z
-*.tar.gz
-
-# 游戏工程文件（不要上传源码）
-*.unity
-*.godot
-*.blend
-*.psd
-*.ai
-
-# 视频文件（太大，用外链，但背景视频允许）
-*.mp4
-!assets/images/bgs/*.mp4
-*.avi
-*.mov
-*.mkv
-
-# 音频文件（大文件用外链）
-*.wav
-*.flac
-# 小的 MP3/OGG 可以保留
-
-# ==========================================
-# Node.js 相关（如果使用）
-# ==========================================
+# dependencies
 node_modules/
-npm-debug.log
-package-lock.json
 
-# ==========================================
-# 备份和草稿
-# ==========================================
-backup/
-drafts/
-*.backup
-_drafts/ # Jekyll 草稿文件夹
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# ==========================================
-# 其他
-# ==========================================
+# environment variables
 .env
-.git/
-.github/workflows/ # GitHub Actions 配置可以保留，但也可以选择忽略
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+.vercel
+
+package-lock.json
+bun.lockb
+yarn.lock
+
+# ide
+.idea
+*.iml
+.claude
+
+# docs
+Firefly-docs/
+
+cache/
+package/
+.obsidian/
