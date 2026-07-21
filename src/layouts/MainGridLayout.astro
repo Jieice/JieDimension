@@ -58,6 +58,12 @@ interface Props {
 		words?: number;
 		minutes?: number;
 	};
+	/** Render the page without the configured sidebars (useful for legal or utility pages). */
+	fullWidth?: boolean;
+	/** Avoid a duplicate hidden heading when the page supplies its own visible h1. */
+	visibleTitle?: boolean;
+	/** Hide the site-wide wallpaper banner when a page provides its own visual header. */
+	hideBanner?: boolean;
 }
 
 const backgroundImages = getBackgroundImages();
@@ -72,6 +78,9 @@ const {
 	postCategory,
 	headings = [],
 	bannerPostMeta,
+	fullWidth = false,
+	visibleTitle = false,
+	hideBanner = false,
 } = Astro.props;
 
 // 检查背景壁纸模式和是否允许切换
@@ -113,7 +122,7 @@ const shouldRenderGradient =
 // 检查是否为首页
 const isHomePageCheck = isHomePage(Astro.url.pathname);
 
-const shouldRenderCategoryBar = !!siteConfig.categoryBar;
+const shouldRenderCategoryBar = !!siteConfig.categoryBar && !fullWidth;
 
 // 检查是否在文章详情页
 const isPostPage = !!postSlug;
@@ -186,15 +195,18 @@ const shouldAddLeftSidebar: boolean =
 	shouldShowBothSidebarsOnPostPage && sidebarLayoutConfig.position === "right";
 
 const effectiveIsBothSidebars: boolean =
-	sidebarConfig.isBothSidebars || shouldShowBothSidebarsOnPostPage;
+	!fullWidth &&
+	(sidebarConfig.isBothSidebars || shouldShowBothSidebarsOnPostPage);
 const effectiveHasRightComponents: boolean =
-	sidebarConfig.hasRightComponents ||
-	(shouldAddRightSidebar &&
-		sidebarLayoutConfig.rightComponents.some((comp) => comp.enable));
+	!fullWidth &&
+	(sidebarConfig.hasRightComponents ||
+		(shouldAddRightSidebar &&
+			sidebarLayoutConfig.rightComponents.some((comp) => comp.enable)));
 const effectiveHasLeftComponents: boolean =
-	sidebarConfig.hasLeftComponents ||
-	(shouldAddLeftSidebar &&
-		sidebarLayoutConfig.leftComponents.some((comp) => comp.enable));
+	!fullWidth &&
+	(sidebarConfig.hasLeftComponents ||
+		(shouldAddLeftSidebar &&
+			sidebarLayoutConfig.leftComponents.some((comp) => comp.enable)));
 
 // 使用effective值重新生成网格类
 // 当position为right且文章页临时显示左侧栏时，tabletSidebar应为right（保持显示主侧栏）
@@ -295,6 +307,7 @@ const hasMultipleImages =
     class:list={[
         stickyNavbar ? "h-18 fixed top-0 left-0 right-0 z-80" : "",
         navbarWidthFull ? "" : "w-full xl:w-[92vw] max-w-(--page-width) px-0 md:px-4",
+		hideBanner ? "page-no-banner-navbar" : "",
     ]}
 >
     <div
@@ -309,7 +322,7 @@ const hasMultipleImages =
 </div>
 
 <!-- Wallpaper - 如果允许切换则始终渲染，否则只渲染当前模式 -->
-{(isWallpaperSwitchable || isBannerMode || isFullscreenMode || isOverlayMode) && (
+{!hideBanner && (isWallpaperSwitchable || isBannerMode || isFullscreenMode || isOverlayMode) && (
 <div id="wallpaper-wrapper" class:list={[
 	`absolute z-10 w-full transition duration-700 overflow-hidden ${mobileNonHomeBannerClass}`,
 	(isOverlayMode && !isWallpaperSwitchable) ? 'wallpaper-overlay' : '',
@@ -803,16 +816,17 @@ const hasMultipleImages =
 )}
 
 <!-- Main content -->
-<div class={`absolute w-full z-30 pointer-events-none ${mobileNonHomeBannerClass ? 'mobile-main-no-banner' : ''} ${!(isBannerMode && isBackgroundEnabled) ? 'no-banner-layout' : ''}`} style={isFullscreenMode ? 'top: 0;' : `top: ${finalMainPanelTop}`}>
+<div class={`absolute w-full z-30 pointer-events-none ${mobileNonHomeBannerClass ? 'mobile-main-no-banner' : ''} ${hideBanner ? 'page-no-banner' : ''} ${!(isBannerMode && isBackgroundEnabled) ? 'no-banner-layout' : ''}`} style={hideBanner ? 'top: 5.5rem !important;' : isFullscreenMode ? 'top: 0;' : `top: ${finalMainPanelTop}`}>
     <!-- The pointer-events-none here prevent blocking the click event of the TOC -->
     <div class="relative w-full xl:w-[92vw] max-w-(--page-width) mx-auto pointer-events-auto">
         <div id="main-grid"
           class={`transition duration-700 w-full left-0 right-0 grid ${gridCols} grid-rows-[auto_1fr_auto] lg:grid-rows-[auto] mx-auto gap-4 px-2 md:px-4 ${!sidebarConfig.mobileShowSidebar ? 'mobile-no-sidebar' : ''}`}
-          data-sidebar-enable={sidebarLayoutConfig.enable ? "true" : "false"}
+	data-sidebar-enable={fullWidth ? "false" : sidebarLayoutConfig.enable ? "true" : "false"}
           data-grid-hide-sidebar-on-post={hideSidebarOnPostPage ? "true" : "false"}
           data-sidebar-position={sidebarLayoutConfig.position}
           data-tablet-sidebar={sidebarLayoutConfig.tabletSidebar ?? "left"}
           data-show-both-sidebars-on-post={sidebarLayoutConfig.showBothSidebarsOnPostPage ? "true" : "false"}
+		  style={hideBanner ? "transform: none !important;" : undefined}
         >
 
             {/* 渲染左侧边栏 - 根据position和tabletSidebar配置显示 */}
@@ -859,7 +873,7 @@ const hasMultipleImages =
                 {/* 携带网格布局类名，用于JS更新父容器 */}
                 <div id="grid-class-carrier" data-grid-class={gridCols} class="hidden"></div>
                 {/* 为每个页面提供一个隐藏的h1标题，用于SEO和可访问性 */}
-                <h1 class="sr-only">{title}</h1>
+				{!visibleTitle && <h1 class="sr-only">{title}</h1>}
                 <div id="content-wrapper" class="onload-animation transition-leaving">
                     <slot></slot>
                 </div>
@@ -895,7 +909,7 @@ const hasMultipleImages =
             )}
 
             {/* 移动端底部组件 - 768px及以下显示 */}
-            {sidebarLayoutConfig.mobileBottomComponents && sidebarLayoutConfig.mobileBottomComponents.length > 0 && (
+			{!fullWidth && sidebarLayoutConfig.mobileBottomComponents && sidebarLayoutConfig.mobileBottomComponents.length > 0 && (
                 <div id="mobile-bottom-sidebar" class="col-span-1 block md:hidden mt-4">
 					<SideBar side="bottom" headings={headings}></SideBar>
                 </div>
@@ -933,4 +947,3 @@ const hasMultipleImages =
   }
 
 </style>
-
