@@ -28,9 +28,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	// 关于
 	links.push(LinkPresets.About);
 
-	// 隐私政策
-	links.push(LinkPresets.Privacy);
-
 	// 外部链接
 	links.push({
 		name: "链接",
@@ -88,11 +85,6 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		name: "关于",
 		url: "/about/",
 		icon: "material-symbols:person",
-	},
-	Privacy: {
-		name: "隐私政策",
-		url: "/privacy/",
-		icon: "material-symbols:shield-lock-outline",
 	},
 };
 

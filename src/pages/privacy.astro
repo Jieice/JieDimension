@@ -3,7 +3,7 @@ import { Icon } from "astro-icon/components";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 
 const updatedDate = "2026 年 7 月 22 日";
-const email = "jiedimension@outlook.com";
+const email = "3348149202@qq.com";
 
 const policySections = [
 	{ id: "collection", number: "01", label: "收集范围" },
@@ -775,10 +775,20 @@ const policySections = [
 	}
 
 	@media (max-width: 640px) {
+		:global(.page-no-banner-navbar #search-switch),
 		:global(.page-no-banner-navbar #music-player-switch),
 		:global(.page-no-banner-navbar #bg-player-toggle),
-		:global(.page-no-banner-navbar #display-settings-switch) {
+		:global(.page-no-banner-navbar #display-settings-switch),
+		:global(.page-no-banner-navbar #scheme-switch) {
 			display: none !important;
+		}
+
+		:global(.page-no-banner-navbar #nav-menu-switch) {
+			position: absolute;
+			top: 0.75rem;
+			right: 1rem;
+			z-index: 1;
+			display: inline-flex !important;
 		}
 
 		.policy-page {
