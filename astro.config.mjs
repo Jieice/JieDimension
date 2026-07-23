@@ -1,5 +1,4 @@
 import { setMaxListeners } from "node:events";
-import react from "@astrojs/react";
 import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
@@ -92,7 +91,6 @@ export default defineConfig({
 	},
 
 	integrations: [
-		react(),
 		swup({
 			theme: false,
 			animationClass: "transition-swup-", // see https://swup.js.org/options/#animationselector

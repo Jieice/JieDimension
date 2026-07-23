@@ -2,7 +2,6 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import * as fs from "node:fs";
 import type { APIContext, GetStaticPaths } from "astro";
-import type { ReactNode } from "react";
 import satori from "satori";
 import { removeFileExtension } from "@/utils/url-utils";
 
@@ -337,7 +336,7 @@ export async function GET({
 		});
 	}
 
-	const svg = await satori(template as ReactNode, {
+	const svg = await satori(template, {
 		width: 1200,
 		height: 630,
 		fonts,
