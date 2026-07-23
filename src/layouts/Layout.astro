@@ -73,6 +73,9 @@ if (title) {
 let ogImageUrl: string | undefined;
 if (siteConfig.post.generateOgImages && postSlug) {
 	ogImageUrl = new URL(`/og/${postSlug}.png`, Astro.site).toString();
+} else {
+	// 默认社交分享预览图，保证分享到社交媒体时有封面
+	ogImageUrl = new URL("/og/default.jpg", Astro.site).toString();
 }
 
 const favicons: Favicon[] =
@@ -138,6 +141,7 @@ const siteLang = lang.replace("_", "-");
       content={description || siteConfig.description || pageTitle}
     />
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
     {
       setOGTypeArticle ? (
         <meta property="og:type" content="article" />
@@ -154,7 +158,7 @@ const siteLang = lang.replace("_", "-");
       content={description || siteConfig.description || pageTitle}
     />
 
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     {
       favicons.map((favicon) => (

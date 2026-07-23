@@ -2,7 +2,7 @@
 title: "A Dark Forest / 黑暗森林"
 published: 2026-03-14
 description: "`A Dark Forest` is an open-source incremental game by Maksim Chmutov / TinyTakinTeller and contributors. This page embeds the published HTML5 runtime directly, instead of the itch.io project page, bec"
-image: "/assets/images/games/dark-forest.png"
+image: "/assets/images/games/dark-forest.avif"
 tags: ["游戏", "Web"]
 category: "游戏作品"
 draft: false

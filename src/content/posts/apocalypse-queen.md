@@ -2,7 +2,7 @@
 title: "末世重生：囤货女王"
 published: 2026-05-05
 description: "一款末世题材的互动叙事游戏，你将扮演重生者，在末日降临前囤积物资、建立关系、改变命运。"
-image: "/assets/images/games/apocalypse-queen.jpg"
+image: "/assets/images/games/apocalypse-queen.avif"
 tags: ["游戏", "Web"]
 category: "游戏作品"
 draft: false

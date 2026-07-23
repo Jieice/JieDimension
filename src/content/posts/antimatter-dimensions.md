@@ -2,7 +2,7 @@
 title: "Antimatter Dimensions"
 published: 2026-07-02
 description: "社区公认的深度增量游戏天花板。无尽 prestige 层级，从反物质到永恒到现实，数字规模的哲学之旅。已集成简体中文汉化。"
-image: "/assets/images/games/antimatter-dimensions.png"
+image: "/assets/images/games/antimatter-dimensions.avif"
 tags: ["游戏", "Web"]
 category: "游戏作品"
 draft: false
