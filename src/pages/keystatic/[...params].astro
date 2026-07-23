@@ -1,0 +1,14 @@
+---
+// Keystatic 后台管理页面（静态托管版）
+// 组件从单独模块导入，Astro 才能识别为 React 并用 client:only 渲染。
+// 构建时只生成空壳，React 后台在浏览器端加载，兼容 GitHub Pages 纯静态托管。
+import { Keystatic } from "./_keystatic-page";
+
+// 后台是单页应用，React 在浏览器端自己处理路由。
+// 静态构建只需生成入口 /keystatic/，进去之后的导航都走客户端。
+export function getStaticPaths() {
+	return [{ params: { params: undefined } }];
+}
+---
+
+<Keystatic client:only="react" />
