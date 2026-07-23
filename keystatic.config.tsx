@@ -1,14 +1,13 @@
 import { collection, config, fields } from "@keystatic/core";
 
 export default config({
-	// 存储方式：直接读写 GitHub 仓库（通过 Keystatic Cloud 免费认证）
+	// 存储方式：Keystatic Cloud（免费）代办登录与 GitHub 读写，
+	// 无需自己网站跑后端，完美兼容 GitHub Pages 纯静态托管。
 	storage: {
-		kind: "github",
-		repo: {
-			owner: "Jieice",
-			name: "JieDimension",
-			branch: "master",
-		},
+		kind: "cloud",
+	},
+	cloud: {
+		project: "jieice/jiedimension",
 	},
 	collections: {
 		posts: collection({
