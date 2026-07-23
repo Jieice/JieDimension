@@ -9,20 +9,14 @@ import {
 // 导航栏配置
 // ============================================================================
 const getDynamicNavBarConfig = (): NavBarConfig => {
-	const links: NavBarLink[] = [
-		LinkPresets.Home,
-	];
+	const links: NavBarLink[] = [LinkPresets.Home];
 
 	// 作品
 	links.push({
 		name: "作品",
 		url: "#",
 		icon: "material-symbols:article",
-		children: [
-			LinkPresets.Archive,
-			LinkPresets.Categories,
-			LinkPresets.Tags,
-		],
+		children: [LinkPresets.Archive, LinkPresets.Categories, LinkPresets.Tags],
 	});
 
 	// 关于
