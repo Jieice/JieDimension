@@ -1,0 +1,232 @@
+[
+  {
+    "slug": "after-work-fishing",
+    "title": "《班后钓鱼》：下班后，去月色河岸甩一竿",
+    "title_en": "After-Work Fishing: Cast a Line at the Moonlit River",
+    "description": "界维互动工作室制作的横屏夜钓模拟游戏。在月色河岸抛竿，观察鱼漂、及时扬竿，用顺滑轮盘控制收线与张力；管理跨夜鱼护，搭配钓具与稀有功法，挑战昆仑海与虚妄之海的 BOSS，把珍稀巨物收入永久收藏。",
+    "description_en": "A landscape night-fishing simulator. Cast at the moonlit bank, watch the float, set the hook in time, and use a smooth reel wheel to manage line tension.",
+    "published": "2026-07-25",
+    "image": "/assets/images/after-work-fishing/hero.jpg",
+    "tags": [
+      "游戏",
+      "Android",
+      "TapTap",
+      "独立游戏",
+      "模拟"
+    ],
+    "category": "游戏作品",
+    "pinned": true
+  },
+  {
+    "slug": "dimension-defender",
+    "title": "《界维守卫》：在多维战场活下来",
+    "title_en": "Dimension Defender: Survive the Multidimensional Battlefield",
+    "description": "界维互动工作室制作的 Android 单机弹幕生存游戏，自动射击、构筑成长、装备与 MOD 组合，带你在不断升级的怪物潮中守住维度。",
+    "description_en": "An offline Android bullet-hell survivor. Auto-fire, build crafting, gear and MOD combos.",
+    "published": "2026-07-22",
+    "image": "/assets/images/dimension-defender/hero.webp",
+    "tags": [
+      "游戏",
+      "Android",
+      "Godot",
+      "独立游戏"
+    ],
+    "category": "游戏作品",
+    "pinned": true
+  },
+  {
+    "slug": "battle-royale",
+    "title": "Cyberstorm Arena",
+    "title_en": "Cyberstorm Arena",
+    "description": "一款赛博朋克风格的大逃杀游戏，在数字竞技场中与敌人战斗，成为最后的幸存者。",
+    "description_en": "A cyberpunk battle-royale. Fight enemies in a digital arena and be the last one standing.",
+    "published": "2026-05-05",
+    "image": "/assets/images/games/battle-royale.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": true
+  },
+  {
+    "slug": "planet-drop",
+    "title": "Planet Drop / 星球合成",
+    "title_en": "Planet Drop",
+    "description": "轻松休闲的太空主题合成益智游戏，点击投放星球，合并相同星球创造更大的星球，最终目标是合成恒星！",
+    "description_en": "A relaxing space-themed merge puzzle. Drop planets, merge identical ones to forge bigger planets.",
+    "published": "2025-10-06",
+    "image": "/assets/images/games/planet-drop.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": true
+  },
+  {
+    "slug": "coin-tycoon",
+    "title": "金币大亨 · 深渊觉醒",
+    "title_en": "Coin Tycoon: Abyss Awakening",
+    "description": "一款暗黑风格的放置类点击游戏，融合了Roguelike元素和深渊探索机制。",
+    "description_en": "A dark idle clicker fused with Roguelike elements and abyss exploration mechanics.",
+    "published": "2026-05-05",
+    "image": "/assets/images/games/coin-tycoon.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": true
+  },
+  {
+    "slug": "a-dark-room",
+    "title": "A Dark Room",
+    "title_en": "A Dark Room",
+    "description": "极简文字冒险挂机游戏。开局只有一團火，逐步揭开末世世界背后的真相。叙事驱动的增量游戏经典之作。",
+    "description_en": "A minimalist text adventure idle game. A narrative-driven incremental classic.",
+    "published": "2026-07-02",
+    "image": "/assets/images/games/a-dark-room.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  },
+  {
+    "slug": "antimatter-dimensions",
+    "title": "Antimatter Dimensions",
+    "title_en": "Antimatter Dimensions",
+    "description": "社区公认的深度增量游戏天花板。无尽 prestige 层级，从反物质到永恒到现实，数字规模的哲学之旅。已集成简体中文汉化。",
+    "description_en": "The community-crowned ceiling of deep incremental games. Endless prestige layers.",
+    "published": "2026-07-02",
+    "image": "/assets/images/games/antimatter-dimensions.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  },
+  {
+    "slug": "candy-box-2",
+    "title": "Candy Box 2",
+    "title_en": "Candy Box 2",
+    "description": "表面是 ASCII 糖果点击器，底下藏着 RPG、迷宫、法術、Boss战。探索感极强，内容量惊人。",
+    "description_en": "An ASCII candy clicker hiding RPG, mazes, spells and boss fights underneath.",
+    "published": "2026-07-02",
+    "image": "/assets/images/games/candy-box-2.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  },
+  {
+    "slug": "cookie-clicker",
+    "title": "Cookie Clicker",
+    "title_en": "Cookie Clicker",
+    "description": "经典到不能再经典的点击放置游戏。烤饼干、买升级、解锁成就、探索隐藏内容。支持简体中文。",
+    "description_en": "The quintessential clicker idle game. Bake cookies, buy upgrades, unlock achievements.",
+    "published": "2026-07-02",
+    "image": "/assets/images/games/cookie-clicker.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  },
+  {
+    "slug": "maomao",
+    "title": "猫国建设者 / Kittens Game",
+    "title_en": "Kittens Game",
+    "description": "`猫国建设者 (Kittens Game)` 是一款由 bloodrizer 开发的黑暗灵魂放置类增量游戏。",
+    "description_en": "A dark-souls-tier idle incremental developed by bloodrizer.",
+    "published": "2026-07-02",
+    "image": "/assets/images/games/maomao.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  },
+  {
+    "slug": "synergism",
+    "title": "Synergism",
+    "title_en": "Synergism",
+    "description": "继 Antimatter Dimensions 之后的又一深度增量巨作。5 层 prestige 系统、协同效应机制、海量内容。支持简体中文。",
+    "description_en": "A deep incremental epic. Five prestige layers, synergy mechanics, massive content.",
+    "published": "2026-07-02",
+    "image": "/assets/images/games/synergism.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  },
+  {
+    "slug": "trimps",
+    "title": "Trimps 脆皮",
+    "title_en": "Trimps",
+    "description": "Trimps 是一款深度极高的放置类增量游戏。管理你的 Trimp 军队，探索地图，解锁科技，不断转生突破。汉化版基于 v4.5。",
+    "description_en": "A deeply layered idle incremental. Manage your Trimp army, explore, unlock tech, reincarnate.",
+    "published": "2026-07-02",
+    "image": "/assets/images/games/trimps.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  },
+  {
+    "slug": "apocalypse-queen",
+    "title": "末世重生：囤货女王",
+    "title_en": "Apocalypse Queen: Hoarder Reborn",
+    "description": "一款末世题材的互动叙事游戏，你将扮演重生者，在末日降临前囤积物资、建立关系、改变命运。",
+    "description_en": "An apocalyptic interactive narrative. Reborn before the end, hoard supplies, change fate.",
+    "published": "2026-05-05",
+    "image": "/assets/images/games/apocalypse-queen.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  },
+  {
+    "slug": "dark-forest",
+    "title": "A Dark Forest / 黑暗森林",
+    "title_en": "A Dark Forest",
+    "description": "`A Dark Forest` is an open-source incremental game by Maksim Chmutov / TinyTakinTeller and contributors. This page embeds the published HTML5 runtime directly, instead of the itch.io project page, bec",
+    "description_en": "An open-source incremental game. Embeds the published HTML5 runtime directly.",
+    "published": "2026-03-14",
+    "image": "/assets/images/games/dark-forest.avif",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  },
+  {
+    "slug": "snake",
+    "title": "Classic Snake",
+    "title_en": "Classic Snake",
+    "description": "Classic Snake, kept intentionally small: one grid, one food item, score tracking, game-over on wall or self collision, and instant restart.",
+    "description_en": "Classic Snake, kept intentionally small.",
+    "published": "2026-03-14",
+    "image": "/assets/images/games/snake.svg",
+    "tags": [
+      "游戏",
+      "Web"
+    ],
+    "category": "游戏作品",
+    "pinned": false
+  }
+]

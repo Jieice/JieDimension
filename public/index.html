@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JieDimension · 界维互动 / Indie Game Developer</title>
+  <meta name="description" content="Jieice — 独立游戏开发者，专注于 Godot、TapTap Maker 与 Web 游戏原型。已上线《班后钓鱼》《界维守卫》。Indie game developer. Play Game Jam prototypes and released titles." />
+  <meta name="keywords" content="JieDimension,界维互动,Jieice,独立游戏,游戏开发,Godot,TapTap,indie game,game dev" />
+  <meta name="author" content="Jieice" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="JieDimension · 界维互动 / Indie Game Developer" />
+  <meta property="og:description" content="独立游戏开发者作品集 — 已上线游戏、Game Jam 原型与技术博客。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.jiece.art" />
+  <meta property="og:image" content="/og/default.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-dark-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/favicon-dark-180.png" />
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#06080f" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+  <!-- ============ Header ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a href="#" class="brand" aria-label="JieDimension home">
+        <span class="brand-mark"><span>J</span></span>
+        <span>JieDimension</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="#games" data-i18n="nav.games">游戏</a>
+        <a href="#prototypes" data-i18n="nav.prototypes">原型</a>
+        <a href="#dev" data-i18n="nav.dev">开发中</a>
+        <a href="#blog" data-i18n="nav.blog">博客</a>
+        <a href="#about" data-i18n="nav.about">关于</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+          <span class="dot"></span>
+          <span id="langLabel">EN</span>
+        </button>
+        <a class="icon-btn" href="https://github.com/Jieice" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============ Hero ============ -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-eyebrow reveal">
+          <span class="dot"></span>
+          <span data-i18n="hero.eyebrow">独立游戏开发者 · 界维互动</span>
+        </div>
+        <h1 class="hero-title reveal" data-delay="1">
+          <span data-i18n="hero.title.1">用代码构筑</span><br/>
+          <span class="accent" data-i18n="hero.title.2">可玩的世界</span>
+        </h1>
+        <p class="hero-subtitle reveal" data-delay="2" data-i18n="hero.subtitle">
+          Jieice — 独立游戏开发者，专注于 Godot、TapTap Maker 与 Web 游戏原型。在这里可以试玩我的 Game Jam 作品、阅读开发笔记，并体验已上线 TapTap 的完整游戏。
+        </p>
+        <div class="hero-cta reveal" data-delay="3">
+          <a href="#games" class="btn btn--primary">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span data-i18n="hero.cta.play">试玩游戏</span>
+          </a>
+          <a href="https://github.com/Jieice" target="_blank" rel="noopener" class="btn btn--ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+            <span data-i18n="hero.cta.github">GitHub</span>
+          </a>
+        </div>
+
+        <div class="hero-stats reveal" data-delay="4">
+          <div class="hero-stat">
+            <div class="hero-stat-num">2</div>
+            <div class="hero-stat-label" data-i18n="hero.stat.games">已上线游戏</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">5+</div>
+            <div class="hero-stat-label" data-i18n="hero.stat.prototypes">Game Jam 原型</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">6+</div>
+            <div class="hero-stat-label" data-i18n="hero.stat.years">开发年限</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Featured Games (TapTap) ============ -->
+    <section class="section" id="games">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow" data-i18n="games.eyebrow">Released / 已上线</div>
+          <h2 class="section-title" data-i18n="games.title">已上线游戏</h2>
+          <p class="section-subtitle" data-i18n="games.subtitle">在 TapTap 上架的完整作品，包含云存档、排行榜与持续运营内容。</p>
+        </div>
+
+        <div class="games-featured">
+          <!-- After-Work Fishing -->
+          <article class="featured-card reveal" data-delay="1">
+            <div class="featured-media">
+              <span class="featured-badge live"><span class="dot"></span><span data-i18n="games.live">运营中</span></span>
+              <video
+                autoplay muted loop playsinline
+                poster="/assets/images/after-work-fishing/hero.jpg"
+                src="https://tapcode-sce.spark.xd.com/videos/p_s7ec/1784650882713-rec_20da3afb-2c3e-4d15-96c9-e2b0bd9078b0.mp4"
+                aria-label="After-Work Fishing gameplay video">
+              </video>
+            </div>
+            <div class="featured-body">
+              <h3 class="featured-title">班后钓鱼<span class="en">After-Work Fishing</span></h3>
+              <p class="featured-desc">横屏夜钓模拟游戏。白天是格子间里的打工人，晚上 18:35 出现在月色河岸——甩竿、盯漂、扬竿、搏鱼，27 种鱼类 + 6 大 BOSS，跨夜鱼护经济与天阶功法。</p>
+              <div class="featured-meta">
+                <span class="tag">Android</span>
+                <span class="tag">TapTap</span>
+                <span class="tag">模拟</span>
+                <span class="tag">Lua</span>
+              </div>
+              <div class="featured-actions">
+                <a href="https://www.taptap.cn/app/890877" target="_blank" rel="noopener" class="btn btn--primary">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  <span data-i18n="games.play">前往 TapTap</span>
+                </a>
+                <a href="https://www.taptap.cn/app/890877" target="_blank" rel="noopener" class="btn btn--ghost">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l5 5-5 5M4 4v7a4 4 0 0 0 4 4h12"/></svg>
+                  <span data-i18n="games.video">观看演示</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Dimension Defender -->
+          <article class="featured-card reveal" data-delay="2">
+            <div class="featured-media">
+              <span class="featured-badge live"><span class="dot"></span><span data-i18n="games.live">运营中</span></span>
+              <video
+                autoplay muted loop playsinline
+                poster="/assets/images/dimension-defender/hero.webp"
+                src="https://tapcode-sce.spark.xd.com/videos/p_678c/1785057957905-rec_942adc1c-87b0-4d4b-a5ae-539f233dd8e5.mp4"
+                aria-label="Dimension Defender gameplay video">
+              </video>
+            </div>
+            <div class="featured-body">
+              <h3 class="featured-title">界维守卫<span class="en">Dimension Defender</span></h3>
+              <p class="featured-desc">竖屏弹幕生存 Roguelike。自动射击、走位构筑、武器与 MOD 自由配装，挑战不断升级的怪物潮与高难度首领战。类 Warframe 玩法，紫卡系统提升战力。</p>
+              <div class="featured-meta">
+                <span class="tag">Android</span>
+                <span class="tag">TapTap</span>
+                <span class="tag">弹幕生存</span>
+                <span class="tag">Roguelike</span>
+              </div>
+              <div class="featured-actions">
+                <a href="https://www.taptap.cn/app/893652" target="_blank" rel="noopener" class="btn btn--primary">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  <span data-i18n="games.play">前往 TapTap</span>
+                </a>
+                <a href="https://www.taptap.cn/app/893652" target="_blank" rel="noopener" class="btn btn--ghost">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l5 5-5 5M4 4v7a4 4 0 0 0 4 4h12"/></svg>
+                  <span data-i18n="games.video">观看演示</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Game Jam Prototypes ============ -->
+    <section class="section" id="prototypes">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow" data-i18n="proto.eyebrow">Game Jam / Web</div>
+          <h2 class="section-title" data-i18n="proto.title">原型与网页游戏</h2>
+          <p class="section-subtitle" data-i18n="proto.subtitle">浏览器即可游玩的小型作品，多数为 Game Jam 产物或玩法实验。</p>
+        </div>
+
+        <div class="game-grid">
+
+          <!-- Cyberstorm Arena -->
+          <article class="game-card reveal" data-delay="1">
+            <div class="game-thumb">
+              <span class="game-status jam">JAM</span>
+              <img src="/assets/images/games/battle-royale.avif" alt="Cyberstorm Arena" loading="lazy" />
+              <div class="play-overlay">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="game-body">
+              <h3 class="game-title">Cyberstorm Arena</h3>
+              <p class="game-card-desc">赛博朋克风格大逃杀，在数字竞技场中与敌人战斗，成为最后的幸存者。</p>
+              <div class="game-tags">
+                <span class="tag">Web</span>
+                <span class="tag">大逃杀</span>
+                <span class="tag">Canvas</span>
+              </div>
+              <div class="game-links">
+                <a href="/assets/games/battle-royale/" class="primary">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  <span data-i18n="proto.play">在线游玩</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Planet Drop -->
+          <article class="game-card reveal" data-delay="2">
+            <div class="game-thumb">
+              <span class="game-status jam">JAM</span>
+              <img src="/assets/images/games/planet-drop.avif" alt="Planet Drop" loading="lazy" />
+              <div class="play-overlay">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="game-body">
+              <h3 class="game-title">Planet Drop / 星球合成</h3>
+              <p class="game-card-desc">太空主题合成益智游戏，点击投放星球合并相同星球，最终合成恒星。</p>
+              <div class="game-tags">
+                <span class="tag">Web</span>
+                <span class="tag">益智</span>
+                <span class="tag">合成</span>
+              </div>
+              <div class="game-links">
+                <a href="https://jieice.itch.io/planet-drop" target="_blank" rel="noopener" class="primary">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  <span data-i18n="proto.itch">itch.io</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Coin Tycoon -->
+          <article class="game-card reveal" data-delay="3">
+            <div class="game-thumb">
+              <span class="game-status jam">JAM</span>
+              <img src="/assets/images/games/coin-tycoon.avif" alt="Coin Tycoon" loading="lazy" />
+              <div class="play-overlay">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="game-body">
+              <h3 class="game-title">金币大亨 · 深渊觉醒</h3>
+              <p class="game-card-desc">暗黑风格放置点击游戏，融合 Roguelike 元素和深渊探索机制。</p>
+              <div class="game-tags">
+                <span class="tag">Web</span>
+                <span class="tag">放置</span>
+                <span class="tag">Roguelike</span>
+              </div>
+              <div class="game-links">
+                <a href="/assets/games/coin-tycoon/" class="primary">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  <span data-i18n="proto.play">在线游玩</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Apocalypse Queen -->
+          <article class="game-card reveal" data-delay="1">
+            <div class="game-thumb">
+              <span class="game-status jam">JAM</span>
+              <img src="/assets/images/games/apocalypse-queen.avif" alt="Apocalypse Queen" loading="lazy" />
+              <div class="play-overlay">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="game-body">
+              <h3 class="game-title">末世重生：囤货女王</h3>
+              <p class="game-card-desc">末世题材互动叙事游戏，扮演重生者在末日降临前囤积物资、改变命运。</p>
+              <div class="game-tags">
+                <span class="tag">Web</span>
+                <span class="tag">叙事</span>
+                <span class="tag">末世</span>
+              </div>
+              <div class="game-links">
+                <a href="/assets/games/apocalypse-queen/" class="primary">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  <span data-i18n="proto.play">在线游玩</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Classic Snake -->
+          <article class="game-card reveal" data-delay="2">
+            <div class="game-thumb">
+              <span class="game-status jam">JAM</span>
+              <img src="/assets/images/games/snake.svg" alt="Classic Snake" loading="lazy" />
+              <div class="play-overlay">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="game-body">
+              <h3 class="game-title">Classic Snake</h3>
+              <p class="game-card-desc">极简经典贪吃蛇，单格子单食物，方向键操作，碰撞即结束。</p>
+              <div class="game-tags">
+                <span class="tag">Web</span>
+                <span class="tag">街机</span>
+                <span class="tag">极简</span>
+              </div>
+              <div class="game-links">
+                <a href="/assets/games/snake/" class="primary">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  <span data-i18n="proto.play">在线游玩</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Fruit Merge Game -->
+          <article class="game-card reveal" data-delay="3">
+            <div class="game-thumb">
+              <span class="game-status jam">JAM</span>
+              <img src="/assets/images/games/planet-drop.jpg" alt="Fruit Merge" loading="lazy" />
+              <div class="play-overlay">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="game-body">
+              <h3 class="game-title">Fruit Merge / 水果合成</h3>
+              <p class="game-card-desc">Phaser 制作的合成水果小游戏，物理掉落 + 合成升级，移动端友好。</p>
+              <div class="game-tags">
+                <span class="tag">Web</span>
+                <span class="tag">Phaser</span>
+                <span class="tag">益智</span>
+              </div>
+              <div class="game-links">
+                <a href="/assets/games/fruit-merge-game/" class="primary">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  <span data-i18n="proto.play">在线游玩</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ In Development ============ -->
+    <section class="section" id="dev">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow" data-i18n="dev.eyebrow">In Development / 开发中</div>
+          <h2 class="section-title" data-i18n="dev.title">正在开发</h2>
+          <p class="section-subtitle" data-i18n="dev.subtitle">尚未上线的项目，部分为商业作品早期版本，更多信息暂不公开。</p>
+        </div>
+
+        <div class="game-grid">
+          <!-- CSGO Feel -->
+          <article class="game-card reveal" data-delay="1">
+            <div class="game-thumb" style="background: linear-gradient(135deg, #1a2238, #2a3550); display: grid; place-items: center;">
+              <span class="game-status dev">DEV</span>
+              <span style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--accent-amber); letter-spacing: 0.1em;">CS:GO FEEL</span>
+            </div>
+            <div class="game-body">
+              <h3 class="game-title">CSGO Feel</h3>
+              <p class="game-card-desc">战术 FPS 原型，AK-47 换弹/射击动效、附件系统、城市战 AI 与车辆系统。TapTap Maker + Lua 实现。</p>
+              <div class="game-tags">
+                <span class="tag">FPS</span>
+                <span class="tag">战术</span>
+                <span class="tag">Lua</span>
+              </div>
+              <div class="game-links">
+                <span class="tag" style="color: var(--accent-amber); border-color: rgba(255, 182, 39, 0.3);" data-i18n="dev.tba">敬请期待</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Doomsday Survival -->
+          <article class="game-card reveal" data-delay="2">
+            <div class="game-thumb" style="background: linear-gradient(135deg, #2a1a1a, #3a2525); display: grid; place-items: center;">
+              <span class="game-status dev">DEV</span>
+              <span style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--accent-magenta); letter-spacing: 0.08em;">DOOMSDAY</span>
+            </div>
+            <div class="game-body">
+              <h3 class="game-title">Doomsday Survival</h3>
+              <p class="game-card-desc">末日僵尸生存，建造防御、武器系统、尸体物理与背包 UI。TapTap Maker 制作。</p>
+              <div class="game-tags">
+                <span class="tag">生存</span>
+                <span class="tag">丧尸</span>
+                <span class="tag">Lua</span>
+              </div>
+              <div class="game-links">
+                <span class="tag" style="color: var(--accent-amber); border-color: rgba(255, 182, 39, 0.3);" data-i18n="dev.tba">敬请期待</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Loot Hunter -->
+          <article class="game-card reveal" data-delay="3">
+            <div class="game-thumb" style="background: linear-gradient(135deg, #1a2a1a, #253a25); display: grid; place-items: center;">
+              <span class="game-status dev">DEV</span>
+              <span style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--accent-lime); letter-spacing: 0.08em;">LOOT HUNTER</span>
+            </div>
+            <div class="game-body">
+              <h3 class="game-title">Loot Hunter</h3>
+              <p class="game-card-desc">战利品猎人 RPG 原型，含大量角色精灵图、装备系统与地下城探索。</p>
+              <div class="game-tags">
+                <span class="tag">RPG</span>
+                <span class="tag">像素</span>
+                <span class="tag">原型</span>
+              </div>
+              <div class="game-links">
+                <span class="tag" style="color: var(--accent-amber); border-color: rgba(255, 182, 39, 0.3);" data-i18n="dev.tba">敬请期待</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Blog ============ -->
+    <section class="section" id="blog">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow" data-i18n="blog.eyebrow">Blog / 博客</div>
+          <h2 class="section-title" data-i18n="blog.title">技术博客 & 游戏笔记</h2>
+          <p class="section-subtitle" data-i18n="blog.subtitle">关于游戏设计、增量游戏汉化与独立开发的技术随笔。</p>
+        </div>
+
+        <div class="blog-grid" id="blogGrid">
+          <!-- Cards injected by blog.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ About ============ -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-eyebrow" data-i18n="about.eyebrow">About / 关于</div>
+          <h2 class="section-title" data-i18n="about.title">关于我</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-avatar reveal" data-delay="1">
+            <div style="position: absolute; inset: 0; background: var(--grad-primary); opacity: 0.18;"></div>
+            <div style="position: absolute; inset: 0; display: grid; place-items: center;">
+              <div style="text-align: center;">
+                <div style="font-family: var(--font-display); font-size: 5rem; font-weight: 900; background: var(--grad-primary); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1;">J</div>
+                <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-2); margin-top: 12px; letter-spacing: 0.2em;">JIEICE</div>
+                <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-3); margin-top: 4px; letter-spacing: 0.16em;">界维互动</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-content reveal" data-delay="2">
+            <div class="about-bio">
+              <p data-i18n="about.bio.p1">你好，我是 Jieice，界维互动工作室的主理人。我是一名独立游戏开发者，专注于 Godot 引擎、TapTap Maker 平台与 Web 游戏原型的开发。</p>
+              <p data-i18n="about.bio.p2">我做过的事情横跨游戏全栈：从 Godot 的 C++ GDExtension、Lua 业务层，到 Web 端的可玩游戏原型；从 TapTap 小游戏的云存档与排行榜系统，到 AI Agent 编排和虚拟角色交互。我喜欢把可运行的原型放到第一屏——可玩比空谈更重要。</p>
+              <p data-i18n="about.bio.p3">目前已上线 TapTap 的作品包括横屏夜钓模拟《班后钓鱼》和竖屏弹幕生存《界维守卫》。闲暇时间会汉化一些增量游戏经典，并在 itch.io 上发布 Game Jam 原型。</p>
+            </div>
+
+            <div class="skills">
+              <div class="skill">
+                <span class="skill-label" data-i18n="about.skill.game">游戏开发 (Godot / Lua)</span>
+                <div class="skill-bar"><div class="skill-fill" style="--w: 92%; transform: scaleX(0.92);"></div></div>
+              </div>
+              <div class="skill">
+                <span class="skill-label" data-i18n="about.skill.web">Web 游戏原型</span>
+                <div class="skill-bar"><div class="skill-fill" style="--w: 88%; transform: scaleX(0.88);"></div></div>
+              </div>
+              <div class="skill">
+                <span class="skill-label" data-i18n="about.skill.ai">AI Agent 编排</span>
+                <div class="skill-bar"><div class="skill-fill" style="--w: 80%; transform: scaleX(0.80);"></div></div>
+              </div>
+              <div class="skill">
+                <span class="skill-label" data-i18n="about.skill.live2d">Live2D / 虚拟角色</span>
+                <div class="skill-bar"><div class="skill-fill" style="--w: 75%; transform: scaleX(0.75);"></div></div>
+              </div>
+            </div>
+
+            <div class="about-links">
+              <a href="https://github.com/Jieice" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+                <span>GitHub</span>
+              </a>
+              <a href="https://space.bilibili.com/27840409" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.387-.947.258-.257.574-.386.946-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>
+                <span>Bilibili</span>
+              </a>
+              <a href="https://www.taptap.cn/developer/344688" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="2"/><circle cx="12" cy="10" r="2" fill="currentColor"/></svg>
+                <span>TapTap</span>
+              </a>
+              <a href="mailto:3348149202@qq.com">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                <span>Email</span>
+              </a>
+              <a href="https://jieice.itch.io" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 2h18a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm9 5.5c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5 4.5-2 4.5-4.5-2-4.5-4.5-4.5zm0 2c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5 1.1-2.5 2.5-2.5z"/></svg>
+                <span>itch.io</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ Footer ============ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-copy" data-i18n="footer.copy">© 2026 Jieice · 界维互动工作室. 保留所有权利.</div>
+      <div class="footer-links">
+        <a href="https://github.com/Jieice" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <a href="https://space.bilibili.com/27840409" target="_blank" rel="noopener" aria-label="Bilibili">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.387-.947.258-.257.574-.386.946-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>
+        </a>
+        <a href="mailto:3348149202@qq.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ Back to top ============ -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <!-- ============ Blog Modal ============ -->
+  <div class="blog-modal" id="blogModal" aria-hidden="true" role="dialog">
+    <div class="blog-modal-backdrop" id="blogModalBackdrop"></div>
+    <div class="blog-modal-content">
+      <button class="blog-modal-close" id="blogModalClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="blog-modal-hero" id="blogModalHero"></div>
+      <div class="blog-modal-body">
+        <div class="blog-modal-meta" id="blogModalMeta"></div>
+        <h2 class="blog-modal-title" id="blogModalTitle"></h2>
+        <div class="markdown-body" id="blogModalContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Scripts ============ -->
+  <script src="/assets/js/marked.min.js"></script>
+  <script src="/assets/js/highlight.min.js"></script>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/blog.js"></script>
+</body>
+</html>
