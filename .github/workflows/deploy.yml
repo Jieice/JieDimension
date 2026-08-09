@@ -28,7 +28,7 @@ jobs:
           cp -r public/. dist/
           # Ensure .nojekyll and CNAME are present
           touch dist/.nojekyll
-          echo "www.jiece.art" > dist/CNAME
+          echo "jieice.l.cd" > dist/CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
