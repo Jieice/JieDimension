@@ -31,6 +31,28 @@
   // Initial language
   setLang(getLang());
 
+  /* ---------- 樱花飘落 ---------- */
+  const petalsBox = document.getElementById("petals");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (petalsBox && !reduceMotion) {
+    const count = window.innerWidth < 640 ? 10 : 16;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement("i");
+      p.className = "petal";
+      const size = 8 + Math.random() * 8;
+      const duration = 9 + Math.random() * 9;
+      p.style.width = size.toFixed(1) + "px";
+      p.style.height = (size * 0.82).toFixed(1) + "px";
+      p.style.left = (Math.random() * 100).toFixed(2) + "vw";
+      p.style.opacity = (0.45 + Math.random() * 0.45).toFixed(2);
+      p.style.animationDuration = duration.toFixed(2) + "s";
+      p.style.animationDelay = (-Math.random() * duration).toFixed(2) + "s";
+      frag.appendChild(p);
+    }
+    petalsBox.appendChild(frag);
+  }
+
   /* ---------- Sticky header shadow ---------- */
   const header = document.getElementById("siteHeader");
   const backToTop = document.getElementById("backToTop");

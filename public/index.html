@@ -21,17 +21,21 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/favicon-dark-180.png" />
 
   <!-- Theme -->
-  <meta name="theme-color" content="#06080f" />
+  <meta name="theme-color" content="#fff8fa" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Baloo+2:wght@500;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
+
+  <!-- 樱花飘落层（petals 由 main.js 生成） -->
+  <div class="petals" id="petals" aria-hidden="true"></div>
 
   <!-- ============ Header ============ -->
   <header class="site-header" id="siteHeader">
@@ -58,7 +62,7 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
         </a>
         <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </button>
       </div>
     </div>
@@ -68,44 +72,54 @@
 
     <!-- ============ Hero ============ -->
     <section class="hero">
-      <div class="container hero-inner">
-        <div class="hero-eyebrow reveal">
-          <span class="dot"></span>
-          <span data-i18n="hero.eyebrow">独立游戏开发者 · 界维互动</span>
-        </div>
-        <h1 class="hero-title reveal" data-delay="1">
-          <span data-i18n="hero.title.1">用代码构筑</span><br/>
-          <span class="accent" data-i18n="hero.title.2">可玩的世界</span>
-        </h1>
-        <p class="hero-subtitle reveal" data-delay="2" data-i18n="hero.subtitle">
-          Jieice — 独立游戏开发者，专注于 Godot、TapTap Maker 与 Web 游戏原型。在这里可以试玩我的 Game Jam 作品、阅读开发笔记，并体验已上线 TapTap 的完整游戏。
-        </p>
-        <div class="hero-cta reveal" data-delay="3">
-          <a href="#games" class="btn btn--primary">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            <span data-i18n="hero.cta.play">试玩游戏</span>
-          </a>
-          <a href="https://github.com/Jieice" target="_blank" rel="noopener" class="btn btn--ghost">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
-            <span data-i18n="hero.cta.github">GitHub</span>
-          </a>
-        </div>
+      <div class="hero-scene">
+        <div class="cloud c1" aria-hidden="true"></div>
+        <div class="cloud c2" aria-hidden="true"></div>
+        <div class="cloud c3" aria-hidden="true"></div>
+        <div class="container hero-inner">
+          <div class="hero-eyebrow reveal">
+            <span class="dot"></span>
+            <span data-i18n="hero.eyebrow">独立游戏开发者 · 界维互动</span>
+          </div>
+          <h1 class="hero-title reveal" data-delay="1">
+            <span data-i18n="hero.title.1">用代码构筑</span><br/>
+            <span class="accent" data-i18n="hero.title.2">可玩的世界</span>
+          </h1>
+          <p class="hero-subtitle reveal" data-delay="2" data-i18n="hero.subtitle">
+            Jieice — 独立游戏开发者，专注于 Godot、TapTap Maker 与 Web 游戏原型。在这里可以试玩我的 Game Jam 作品、阅读开发笔记，并体验已上线 TapTap 的完整游戏。
+          </p>
+          <div class="hero-cta reveal" data-delay="3">
+            <a href="#games" class="btn btn--primary">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span data-i18n="hero.cta.play">试玩游戏</span>
+            </a>
+            <a href="https://github.com/Jieice" target="_blank" rel="noopener" class="btn btn--ghost">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+              <span data-i18n="hero.cta.github">GitHub</span>
+            </a>
+          </div>
 
-        <div class="hero-stats reveal" data-delay="4">
-          <div class="hero-stat">
-            <div class="hero-stat-num">2</div>
-            <div class="hero-stat-label" data-i18n="hero.stat.games">已上线游戏</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-num">5+</div>
-            <div class="hero-stat-label" data-i18n="hero.stat.prototypes">Game Jam 原型</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-num">6+</div>
-            <div class="hero-stat-label" data-i18n="hero.stat.years">开发年限</div>
+          <div class="hero-stats reveal" data-delay="4">
+            <div class="hero-stat">
+              <div class="hero-stat-num">2</div>
+              <div class="hero-stat-label" data-i18n="hero.stat.games">已上线游戏</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">5+</div>
+              <div class="hero-stat-label" data-i18n="hero.stat.prototypes">Game Jam 原型</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">6+</div>
+              <div class="hero-stat-label" data-i18n="hero.stat.years">开发年限</div>
+            </div>
           </div>
         </div>
+        <div class="mascot-bubble" data-i18n="mascot.hello">欢迎来到界维的小站～ 每一款游戏都可以直接玩哦！(≧▽≦)</div>
       </div>
+      <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,40 C240,80 480,0 720,30 C960,60 1200,10 1440,45 L1440,70 L0,70 Z" fill="#fff8fa"/>
+        <path d="M0,52 C260,20 520,70 760,45 C1000,20 1240,65 1440,40 L1440,70 L0,70 Z" fill="#ffeef4" opacity="0.6"/>
+      </svg>
     </section>
 
     <!-- ============ Featured Games (TapTap) ============ -->
@@ -152,16 +166,7 @@
           </article>
 
           <!-- Dimension Defender -->
-          <article class="featured-card reveal" data-delay="2">
-            <div class="featured-media">
-              <span class="featured-badge live"><span class="dot"></span><span data-i18n="games.live">运营中</span></span>
-              <video
-                autoplay muted loop playsinline
-                poster="/assets/images/dimension-defender/hero.webp"
-                src="https://tapcode-sce.spark.xd.com/videos/p_678c/1785057957905-rec_942adc1c-87b0-4d4b-a5ae-539f233dd8e5.mp4"
-                aria-label="Dimension Defender gameplay video">
-              </video>
-            </div>
+          <article class="featured-card flip reveal" data-delay="2">
             <div class="featured-body">
               <h3 class="featured-title">界维守卫<span class="en">Dimension Defender</span></h3>
               <p class="featured-desc">竖屏弹幕生存 Roguelike。自动射击、走位构筑、武器与 MOD 自由配装，挑战不断升级的怪物潮与高难度首领战。类 Warframe 玩法，紫卡系统提升战力。</p>
@@ -181,6 +186,15 @@
                   <span data-i18n="games.video">观看演示</span>
                 </a>
               </div>
+            </div>
+            <div class="featured-media">
+              <span class="featured-badge live"><span class="dot"></span><span data-i18n="games.live">运营中</span></span>
+              <video
+                autoplay muted loop playsinline
+                poster="/assets/images/dimension-defender/hero.webp"
+                src="https://tapcode-sce.spark.xd.com/videos/p_678c/1785057957905-rec_942adc1c-87b0-4d4b-a5ae-539f233dd8e5.mp4"
+                aria-label="Dimension Defender gameplay video">
+              </video>
             </div>
           </article>
         </div>
@@ -370,9 +384,9 @@
         <div class="game-grid">
           <!-- CSGO Feel -->
           <article class="game-card reveal" data-delay="1">
-            <div class="game-thumb" style="background: linear-gradient(135deg, #1a2238, #2a3550); display: grid; place-items: center;">
+            <div class="game-thumb dev-thumb dev-thumb--fps">
               <span class="game-status dev">DEV</span>
-              <span style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--accent-amber); letter-spacing: 0.1em;">CS:GO FEEL</span>
+              <span class="dev-word">CS:GO FEEL</span>
             </div>
             <div class="game-body">
               <h3 class="game-title">CSGO Feel</h3>
@@ -383,16 +397,16 @@
                 <span class="tag">Lua</span>
               </div>
               <div class="game-links">
-                <span class="tag" style="color: var(--accent-amber); border-color: rgba(255, 182, 39, 0.3);" data-i18n="dev.tba">敬请期待</span>
+                <span class="tba" data-i18n="dev.tba">敬请期待</span>
               </div>
             </div>
           </article>
 
           <!-- Doomsday Survival -->
           <article class="game-card reveal" data-delay="2">
-            <div class="game-thumb" style="background: linear-gradient(135deg, #2a1a1a, #3a2525); display: grid; place-items: center;">
+            <div class="game-thumb dev-thumb dev-thumb--doom">
               <span class="game-status dev">DEV</span>
-              <span style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--accent-magenta); letter-spacing: 0.08em;">DOOMSDAY</span>
+              <span class="dev-word">DOOMSDAY</span>
             </div>
             <div class="game-body">
               <h3 class="game-title">Doomsday Survival</h3>
@@ -403,16 +417,16 @@
                 <span class="tag">Lua</span>
               </div>
               <div class="game-links">
-                <span class="tag" style="color: var(--accent-amber); border-color: rgba(255, 182, 39, 0.3);" data-i18n="dev.tba">敬请期待</span>
+                <span class="tba" data-i18n="dev.tba">敬请期待</span>
               </div>
             </div>
           </article>
 
           <!-- Loot Hunter -->
           <article class="game-card reveal" data-delay="3">
-            <div class="game-thumb" style="background: linear-gradient(135deg, #1a2a1a, #253a25); display: grid; place-items: center;">
+            <div class="game-thumb dev-thumb dev-thumb--loot">
               <span class="game-status dev">DEV</span>
-              <span style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--accent-lime); letter-spacing: 0.08em;">LOOT HUNTER</span>
+              <span class="dev-word">LOOT HUNTER</span>
             </div>
             <div class="game-body">
               <h3 class="game-title">Loot Hunter</h3>
@@ -423,7 +437,7 @@
                 <span class="tag">原型</span>
               </div>
               <div class="game-links">
-                <span class="tag" style="color: var(--accent-amber); border-color: rgba(255, 182, 39, 0.3);" data-i18n="dev.tba">敬请期待</span>
+                <span class="tba" data-i18n="dev.tba">敬请期待</span>
               </div>
             </div>
           </article>
@@ -455,14 +469,15 @@
         </div>
 
         <div class="about-grid">
-          <div class="about-avatar reveal" data-delay="1">
-            <div style="position: absolute; inset: 0; background: var(--grad-primary); opacity: 0.18;"></div>
-            <div style="position: absolute; inset: 0; display: grid; place-items: center;">
-              <div style="text-align: center;">
-                <div style="font-family: var(--font-display); font-size: 5rem; font-weight: 900; background: var(--grad-primary); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1;">J</div>
-                <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-2); margin-top: 12px; letter-spacing: 0.2em;">JIEICE</div>
-                <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-3); margin-top: 4px; letter-spacing: 0.16em;">界维互动</div>
-              </div>
+          <div class="about-card reveal" data-delay="1">
+            <div class="avatar-ring"><div class="avatar-core">J</div></div>
+            <div class="about-name">Jieice</div>
+            <div class="about-role" data-i18n="about.role">界维互动工作室 · 主理人</div>
+            <div class="about-divider"></div>
+            <div class="about-mini-stats">
+              <span class="mini-stat"><b>2</b> <span data-i18n="hero.stat.games">已上线游戏</span></span>
+              <span class="mini-stat"><b>5+</b> <span data-i18n="hero.stat.prototypes">Game Jam 原型</span></span>
+              <span class="mini-stat"><b>6+</b> <span data-i18n="hero.stat.years">开发年限</span></span>
             </div>
           </div>
 
@@ -475,20 +490,32 @@
 
             <div class="skills">
               <div class="skill">
-                <span class="skill-label" data-i18n="about.skill.game">游戏开发 (Godot / Lua)</span>
-                <div class="skill-bar"><div class="skill-fill" style="--w: 92%; transform: scaleX(0.92);"></div></div>
+                <div class="skill-top">
+                  <span class="skill-label" data-i18n="about.skill.game">游戏开发 (Godot / Lua)</span>
+                  <span class="skill-lv">Lv.92</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--w: 0.92;"></div></div>
               </div>
               <div class="skill">
-                <span class="skill-label" data-i18n="about.skill.web">Web 游戏原型</span>
-                <div class="skill-bar"><div class="skill-fill" style="--w: 88%; transform: scaleX(0.88);"></div></div>
+                <div class="skill-top">
+                  <span class="skill-label" data-i18n="about.skill.web">Web 游戏原型</span>
+                  <span class="skill-lv">Lv.88</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--w: 0.88;"></div></div>
               </div>
               <div class="skill">
-                <span class="skill-label" data-i18n="about.skill.ai">AI Agent 编排</span>
-                <div class="skill-bar"><div class="skill-fill" style="--w: 80%; transform: scaleX(0.80);"></div></div>
+                <div class="skill-top">
+                  <span class="skill-label" data-i18n="about.skill.ai">AI Agent 编排</span>
+                  <span class="skill-lv">Lv.80</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--w: 0.80;"></div></div>
               </div>
               <div class="skill">
-                <span class="skill-label" data-i18n="about.skill.live2d">Live2D / 虚拟角色</span>
-                <div class="skill-bar"><div class="skill-fill" style="--w: 75%; transform: scaleX(0.75);"></div></div>
+                <div class="skill-top">
+                  <span class="skill-label" data-i18n="about.skill.live2d">Live2D / 虚拟角色</span>
+                  <span class="skill-lv">Lv.75</span>
+                </div>
+                <div class="skill-bar"><div class="skill-fill" style="--w: 0.75;"></div></div>
               </div>
             </div>
 
@@ -541,21 +568,23 @@
 
   <!-- ============ Back to top ============ -->
   <button class="back-to-top" id="backToTop" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
   </button>
 
   <!-- ============ Blog Modal ============ -->
   <div class="blog-modal" id="blogModal" aria-hidden="true" role="dialog">
     <div class="blog-modal-backdrop" id="blogModalBackdrop"></div>
     <div class="blog-modal-content">
-      <button class="blog-modal-close" id="blogModalClose" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-      <div class="blog-modal-hero" id="blogModalHero"></div>
-      <div class="blog-modal-body">
-        <div class="blog-modal-meta" id="blogModalMeta"></div>
-        <h2 class="blog-modal-title" id="blogModalTitle"></h2>
-        <div class="markdown-body" id="blogModalContent"></div>
+      <div class="blog-modal-sheet">
+        <button class="blog-modal-close" id="blogModalClose" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="blog-modal-hero" id="blogModalHero"></div>
+        <div class="blog-modal-body">
+          <div class="blog-modal-meta" id="blogModalMeta"></div>
+          <h2 class="blog-modal-title" id="blogModalTitle"></h2>
+          <div class="markdown-body" id="blogModalContent"></div>
+        </div>
       </div>
     </div>
   </div>

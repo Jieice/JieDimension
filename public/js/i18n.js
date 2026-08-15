@@ -21,6 +21,7 @@ window.I18N = {
     "hero.stat.games": "已上线游戏",
     "hero.stat.prototypes": "Game Jam 原型",
     "hero.stat.years": "开发年限",
+    "mascot.hello": "欢迎来到界维的小站～ 每一款游戏都可以直接玩哦！(≧▽≦)",
 
     // Featured Games
     "games.eyebrow": "Released / 已上线",
@@ -91,6 +92,7 @@ window.I18N = {
     "hero.stat.games": "Released Games",
     "hero.stat.prototypes": "Game Jam Prototypes",
     "hero.stat.years": "Years Developing",
+    "mascot.hello": "Welcome to JieDimension~ Every game is playable right here! (≧▽≦)",
 
     // Featured Games
     "games.eyebrow": "Released",

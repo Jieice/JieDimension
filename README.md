@@ -2,7 +2,7 @@
 
 独立游戏开发者 Jieice 的个人作品集网站，展示已上线游戏、Game Jam 原型与技术博客。
 
-Indie game developer portfolio for Jieice — released games, Game Jam prototypes, and a tech blog. Bilingual (zh-CN / en) with a neon-arcade dark theme built on pure static HTML/CSS/JS (no build step).
+Indie game developer portfolio for Jieice — released games, Game Jam prototypes, and a tech blog. Bilingual (zh-CN / en) with a sakura-pink cute theme (樱色物语) built on pure static HTML/CSS/JS (no build step).
 
 ## Structure / 目录
 

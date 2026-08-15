@@ -67,7 +67,6 @@
       empty.className = "blog-empty";
       empty.style.gridColumn = "1 / -1";
       empty.style.textAlign = "center";
-      empty.style.color = "var(--text-3)";
       empty.style.padding = "48px 0";
       empty.textContent = currentLang === "en" ? "No posts yet" : "暂无文章";
       grid.innerHTML = "";
@@ -86,11 +85,13 @@
       const excerpt = currentLang === "en" && post.description_en ? post.description_en : post.description;
       const date = formatDate(post.published, currentLang);
       const category = post.category || "Blog";
-      const tags = Array.isArray(post.tags) ? post.tags : (post.tags ? [post.tags] : []);
       const image = post.image || "/og/default.jpg";
+      const readMore = currentLang === "en" ? "Read More" : "阅读全文";
+      const pin = post.pinned ? `<span class="blog-pin">📌</span>` : "";
 
       card.innerHTML = `
         <div class="blog-thumb">
+          ${pin}
           <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="lazy" />
         </div>
         <div class="blog-body">
@@ -101,7 +102,7 @@
           </div>
           <h3 class="blog-title">${escapeHtml(title)}</h3>
           <p class="blog-excerpt">${escapeHtml(excerpt)}</p>
-          <div class="blog-tags">${tags.slice(0, 4).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
+          <span class="blog-more">${readMore} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       `;
 
@@ -140,16 +141,17 @@
     const category = post.category || "Blog";
 
     modalTitle.textContent = title;
-    modalMeta.innerHTML = `<span class="cat" style="color: var(--accent-magenta); font-weight: 700;">${escapeHtml(category)}</span><span>·</span><span>${date}</span>`;
+    modalMeta.innerHTML = `<span class="cat">${escapeHtml(category)}</span><span>·</span><span>${date}</span>`;
     modalHero.innerHTML = post.image
       ? `<img src="${escapeHtml(post.image)}" alt="${escapeHtml(title)}" />`
       : "";
-    modalContent.innerHTML = `<p style="color: var(--text-3);">${currentLang === "en" ? "Loading…" : "加载中…"}</p>`;
+    modalContent.innerHTML = `<p style="color: var(--ink-3);">${currentLang === "en" ? "Loading…" : "加载中…"}</p>`;
 
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
-    modal.scrollTo({ top: 0 });
+    const scroller = modal.querySelector(".blog-modal-content");
+    if (scroller) scroller.scrollTo({ top: 0 });
 
     try {
       const res = await fetch(`/content/posts/${post.slug}.md`);
@@ -166,7 +168,7 @@
         });
       }
     } catch (err) {
-      modalContent.innerHTML = `<p style="color: var(--accent-magenta);">${currentLang === "en" ? "Failed to load post." : "文章加载失败。"}</p>`;
+      modalContent.innerHTML = `<p style="color: var(--pink-deep);">${currentLang === "en" ? "Failed to load post." : "文章加载失败。"}</p>`;
     }
   }
 
@@ -187,7 +189,7 @@
       postsCache = posts;
       renderCards(posts);
     } catch (err) {
-      grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--text-3); padding: 48px 0;">${currentLang === "en" ? "Failed to load posts." : "博客加载失败。"}</div>`;
+      grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--ink-3); padding: 48px 0;">${currentLang === "en" ? "Failed to load posts." : "博客加载失败。"}</div>`;
     }
   }
 
