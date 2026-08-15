@@ -29,7 +29,7 @@ public/                 # Static site root (deployed as-is)
 
 ## Deploy / 部署
 
-Push to `master` — GitHub Actions copies `public/` to `dist/` and ships it to GitHub Pages at **www.jiece.art**.
+Push to `master` — GitHub Actions copies `public/` to `dist/` and ships it to GitHub Pages at **[jieice.l.cd](https://jieice.l.cd/)**.
 
 ## Featured Games / 已上线游戏
 
