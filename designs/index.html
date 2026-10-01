@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JieDimension 页面重构 · 四版设计稿对比</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #0b0e1a;
+  --panel: #121628;
+  --stroke: rgba(150, 170, 255, 0.16);
+  --text-0: #f0f2ff;
+  --text-1: #c2c9e8;
+  --text-2: #8b93b8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Noto Sans SC", -apple-system, sans-serif;
+  background: var(--bg); color: var(--text-1);
+  line-height: 1.7; padding: 60px 24px 80px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; }
+.head { text-align: center; margin-bottom: 56px; }
+.head h1 {
+  font-family: "Noto Serif SC", serif;
+  font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight: 900; color: var(--text-0);
+  margin-bottom: 14px;
+}
+.head p { color: var(--text-2); max-width: 640px; margin: 0 auto; font-size: 0.95rem; }
+.head .note {
+  display: inline-block; margin-top: 18px; padding: 8px 18px; border-radius: 999px;
+  border: 1px dashed var(--stroke); color: var(--text-2); font-size: 0.82rem;
+}
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+.card {
+  background: var(--panel); border: 1px solid var(--stroke); border-radius: 18px;
+  overflow: hidden; transition: all 0.3s; display: flex; flex-direction: column;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px -20px rgba(0,0,0,0.7); }
+.preview { height: 200px; position: relative; overflow: hidden; display: grid; place-items: center; }
+.preview .v {
+  font-family: "Noto Serif SC", serif; font-weight: 900; font-size: 4.6rem;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.4));
+}
+.pv1 { background: linear-gradient(160deg, #d8f1ff 0%, #ffeef4 55%, #ffd6e6 100%); }
+.pv1 .v { background-image: linear-gradient(135deg, #ff9ec7, #ff4d94); }
+.pv2 { background: linear-gradient(160deg, #0a0f2e 0%, #131a4a 50%, #2a2358 80%, #6b3f74 100%); }
+.pv2 .v { background-image: linear-gradient(120deg, #6ee7ff, #a78bfa, #f0a6ff); }
+.pv3 { background: linear-gradient(160deg, #1a0b32 0%, #2a1550 55%, #ff2e97 160%); }
+.pv3 .v { background-image: linear-gradient(90deg, #ff2e97, #8b5cf6, #00f0ff); }
+.pv4 { background: linear-gradient(160deg, #0d0a1a 0%, #1e1636 50%, #3d2154 80%, #7a2f5e 100%); }
+.pv4 .v { background-image: linear-gradient(135deg, #ffd6e6, #ff5fa8, #c95cff); }
+.pv4 .moon-dot {
+  position: absolute; top: 26px; right: 34px;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: radial-gradient(circle at 34% 32%, #fffdf5, #ffe9b8 55%, #ffd98a);
+  box-shadow: 0 0 28px 10px rgba(255, 233, 184, 0.4);
+}
+.swatches { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 7px; }
+.sw { width: 22px; height: 22px; border-radius: 7px; border: 2px solid rgba(255,255,255,0.55); }
+.card-body { padding: 24px 26px 28px; flex: 1; display: flex; flex-direction: column; }
+.card h2 { font-size: 1.25rem; color: var(--text-0); margin-bottom: 6px; }
+.card .sub { font-size: 0.82rem; margin-bottom: 14px; }
+.c1 .sub { color: #ff7eb3; } .c2 .sub { color: #a78bfa; } .c3 .sub { color: #00f0ff; } .c4 .sub { color: #ff5fa8; }
+.card p.desc { color: var(--text-2); font-size: 0.88rem; margin-bottom: 16px; flex: 1; }
+.feats { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
+.feats span {
+  font-size: 0.74rem; padding: 4px 11px; border-radius: 999px;
+  background: rgba(150, 170, 255, 0.08); border: 1px solid var(--stroke); color: var(--text-2);
+}
+.open {
+  display: block; text-align: center; padding: 12px; border-radius: 12px;
+  font-weight: 700; font-size: 0.92rem; transition: all 0.25s;
+}
+.c1 .open { background: linear-gradient(135deg, #ff9ec7, #ff4d94); color: #fff; }
+.c2 .open { background: linear-gradient(120deg, #6ee7ff, #a78bfa, #f0a6ff); color: #0a0e24; }
+.c3 .open { background: linear-gradient(90deg, #ff2e97, #8b5cf6, #00f0ff); color: #16062b; }
+.c4 .open { background: linear-gradient(135deg, #ffd6e6, #ff5fa8 55%, #c95cff); color: #2a0a24; }
+.card:hover .open { filter: brightness(1.12); }
+.tips {
+  margin-top: 48px; padding: 24px 28px; border-radius: 16px;
+  background: var(--panel); border: 1px solid var(--stroke);
+  color: var(--text-2); font-size: 0.88rem;
+}
+.tips b { color: var(--text-0); }
+.tips li { margin: 8px 0 0 1.2em; list-style: disc; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>JieDimension 页面重构 · 设计方向对比</h1>
+    <p>四版设计稿均完整保留原有信息：已上线游戏（含演示视频）、6 款网页原型、3 款开发中项目、博客、关于与技能、社交链接、中英双语框架。区别只在视觉语言与氛围。</p>
+    <span class="note">图片与视频引用 ../public 下的真实资源，直接双击打开即可预览</span>
+  </div>
+
+  <div class="grid">
+    <div class="card c1">
+      <div class="preview pv1">
+        <span class="v">V1</span>
+        <div class="swatches">
+          <span class="sw" style="background:#ff7eb3"></span>
+          <span class="sw" style="background:#ffd6e6"></span>
+          <span class="sw" style="background:#8fd3ff"></span>
+          <span class="sw" style="background:#ffd98a"></span>
+        </div>
+      </div>
+      <div class="card-body">
+        <h2>樱色物语</h2>
+        <div class="sub">浅色 · 樱花粉 · 可爱手账风</div>
+        <p class="desc">参考 Hexo-Sakura 樱花主题：霞鹜文楷手写体、花瓣飘落、云朵漂移、拍立得统计卡、贴纸感卡片与波浪分隔。亲和力最强，适合日常向内容与博客阅读。</p>
+        <div class="feats">
+          <span>✿ 花瓣飘落</span><span>☁ 云朵动画</span><span>📷 拍立得卡片</span><span>💬 看板娘气泡</span><span>✎ 手写字体</span>
+        </div>
+        <a class="open" href="v1-sakura.html">预览 V1 →</a>
+      </div>
+    </div>
+
+    <div class="card c2">
+      <div class="preview pv2">
+        <span class="v">V2</span>
+        <div class="swatches">
+          <span class="sw" style="background:#6ee7ff"></span>
+          <span class="sw" style="background:#a78bfa"></span>
+          <span class="sw" style="background:#f0a6ff"></span>
+          <span class="sw" style="background:#ffd98a"></span>
+        </div>
+      </div>
+      <div class="card-body">
+        <h2>星海蝶夜</h2>
+        <div class="sub">暗色 · 星空 · 玻璃拟态</div>
+        <p class="desc">参考 Butterfly 暗色模式二次元博客：Canvas 星空流星、动漫夜空横幅（月亮+远山+极光）、玻璃卡片、蝴蝶元素与衬线标题。质感最"高级"，作品展示氛围感强。</p>
+        <div class="feats">
+          <span>✦ 星空流星</span><span>🌙 动漫横幅</span><span>🦋 蝴蝶飞舞</span><span>▤ 玻璃拟态</span><span>◈ 衬线标题</span>
+        </div>
+        <a class="open" href="v2-stellar.html">预览 V2 →</a>
+      </div>
+    </div>
+
+    <div class="card c3">
+      <div class="preview pv3">
+        <span class="v">V3</span>
+        <div class="swatches">
+          <span class="sw" style="background:#ff2e97"></span>
+          <span class="sw" style="background:#8b5cf6"></span>
+          <span class="sw" style="background:#00f0ff"></span>
+          <span class="sw" style="background:#ffd166"></span>
+        </div>
+      </div>
+      <div class="card-body">
+        <h2>电玩梦核</h2>
+        <div class="sub">暗色 · 蒸汽波 · 复古街机</div>
+        <p class="desc">蒸汽波太阳 + CRT 扫描线 + 透视网格地平线，卡片做成游戏卡带、博客做成任务日志、关于页做成玩家档案（HP/MP 条）。与"游戏开发者"身份契合度最高。</p>
+        <div class="feats">
+          <span>☀ 蒸汽波太阳</span><span>▤ CRT 扫描线</span><span>🎰 跑马灯</span><span> cartridges 卡带卡片</span><span>🕹 HUD 记分板</span>
+        </div>
+        <a class="open" href="v3-arcade.html">预览 V3 →</a>
+      </div>
+    </div>
+
+    <div class="card c4">
+      <div class="preview pv4">
+        <span class="v">V4</span>
+        <span class="moon-dot"></span>
+        <div class="swatches">
+          <span class="sw" style="background:#ff5fa8"></span>
+          <span class="sw" style="background:#ffb7cf"></span>
+          <span class="sw" style="background:#ffe9b8"></span>
+          <span class="sw" style="background:#a78bfa"></span>
+        </div>
+      </div>
+      <div class="card-body">
+        <h2>夜樱物语</h2>
+        <div class="sub">深色 · 夜樱发光 · 月下樱枝</div>
+        <p class="desc">樱色物语的黑夜篇（よざくら）：深紫夜空、月晕与樱枝剪影、发光夜樱花瓣与萤火虫、夜色玻璃卡片。与 V1 共用同一套手写体与卡片语言，日夜两版可随时切换。</p>
+        <div class="feats">
+          <span>🌙 月晕月亮</span><span>✿ 发光花瓣</span><span>✨ 萤火虫</span><span>🌸 月下樱枝</span><span>◈ 夜色玻璃卡</span>
+        </div>
+        <a class="open" href="v4-night-sakura.html">预览 V4 →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tips">
+    <b>选择建议：</b>
+    <ul>
+      <li>四版均为单文件设计稿（无外部依赖除字体），选定后我会基于该方向正式重写 public/ 下的 index.html + styles.css，并保留 i18n 双语、blog.js 动态加载、视频懒播放等现有功能。</li>
+      <li>也可以混搭：例如「V2 的暗色星空 + V3 的 HUD 记分板」「V1 的配色 + V2 的布局」——告诉我你喜欢的元素组合即可。</li>
+      <li>博客列表在设计稿中为静态演示（6 篇），正式版会沿用 posts.json 动态加载全部 15 篇并支持弹窗阅读。</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

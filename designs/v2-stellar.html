@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>设计稿 V2 · 星海蝶夜 — JieDimension 重构方案</title>
+<meta name="description" content="JieDimension 页面重构设计稿 V2：暗夜星海玻璃拟态二次元博客风格" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   V2 · 星海蝶夜 Stellar Night
+   参考方向：Hexo-Butterfly 暗色模式 / 星空二次元博客
+   深蓝紫夜空 · 星野画布 · 玻璃拟态卡片 · 极光渐变 · 衬线标题
+   ============================================================ */
+:root {
+  --bg-0: #070b1e;
+  --bg-1: #0b1130;
+  --bg-2: #101740;
+  --glass: rgba(148, 170, 255, 0.07);
+  --glass-hi: rgba(148, 170, 255, 0.13);
+  --stroke: rgba(148, 170, 255, 0.18);
+  --stroke-hi: rgba(150, 200, 255, 0.45);
+  --text-0: #eef2ff;
+  --text-1: #c3cdf2;
+  --text-2: #8e9ac6;
+  --text-3: #5c6792;
+  --cyan: #6ee7ff;
+  --violet: #a78bfa;
+  --magenta: #f0a6ff;
+  --gold: #ffd98a;
+  --grad-main: linear-gradient(120deg, #6ee7ff 0%, #a78bfa 55%, #f0a6ff 100%);
+  --grad-aurora: linear-gradient(180deg, rgba(110, 231, 255, 0.14), rgba(167, 139, 250, 0.10) 45%, transparent 80%);
+  --glow-cyan: 0 0 40px rgba(110, 231, 255, 0.25);
+  --glow-violet: 0 0 40px rgba(167, 139, 250, 0.3);
+  --font-serif: "Noto Serif SC", serif;
+  --font-sans: "Noto Sans SC", -apple-system, sans-serif;
+  --font-disp: "Outfit", "Noto Sans SC", sans-serif;
+  --r-lg: 20px;
+  --r-md: 14px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-0);
+  color: var(--text-1);
+  line-height: 1.7; font-size: 16px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img, video { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+::selection { background: rgba(167, 139, 250, 0.4); color: #fff; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-0); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--cyan), var(--violet)); border-radius: 99px; }
+
+.container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 100px 0; position: relative; }
+
+/* ---------- 星空画布 ---------- */
+#starfield { position: fixed; inset: 0; z-index: -3; }
+.nebula {
+  position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(110, 231, 255, 0.08), transparent 65%),
+    radial-gradient(ellipse 50% 45% at 85% 25%, rgba(167, 139, 250, 0.1), transparent 65%),
+    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(240, 166, 255, 0.06), transparent 70%);
+}
+
+/* ---------- 蝴蝶 ---------- */
+.butterfly {
+  position: fixed; z-index: -1; pointer-events: none;
+  width: 22px; height: 22px;
+  opacity: 0.6;
+  animation: flutter linear infinite;
+}
+.butterfly svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px rgba(240, 166, 255, 0.8)); }
+.butterfly .wing { transform-origin: 11px 11px; animation: flap 0.6s ease-in-out infinite alternate; }
+.butterfly .wing.r { transform-origin: 11px 11px; animation: flapR 0.6s ease-in-out infinite alternate; }
+@keyframes flap { from { transform: rotateY(0deg); } to { transform: rotateY(70deg); } }
+@keyframes flapR { from { transform: rotateY(0deg); } to { transform: rotateY(-70deg); } }
+@keyframes flutter {
+  0%   { transform: translate(0, 0) rotate(8deg); }
+  25%  { transform: translate(6vw, -8vh) rotate(-6deg); }
+  50%  { transform: translate(14vw, 2vh) rotate(10deg); }
+  75%  { transform: translate(8vw, 9vh) rotate(-8deg); }
+  100% { transform: translate(0, 0) rotate(8deg); }
+}
+
+/* ---------- 顶栏 ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(7, 11, 30, 0.62);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid var(--stroke);
+}
+.nav { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; font-family: var(--font-disp); font-weight: 800; font-size: 1.2rem; color: var(--text-0); letter-spacing: 0.04em; }
+.brand-mark {
+  width: 38px; height: 38px; border-radius: 12px;
+  background: var(--grad-main);
+  display: grid; place-items: center;
+  color: #0a0e24; font-weight: 800; font-size: 1.1rem;
+  box-shadow: var(--glow-violet);
+}
+.nav-links { display: flex; gap: 4px; }
+.nav-links a {
+  position: relative; padding: 9px 18px; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 500; color: var(--text-2);
+  transition: all 0.25s;
+}
+.nav-links a:hover { color: var(--text-0); background: var(--glass); }
+.nav-links a::after {
+  content: ""; position: absolute; left: 50%; bottom: 4px;
+  width: 0; height: 2px; border-radius: 2px;
+  background: var(--grad-main); transition: all 0.3s; transform: translateX(-50%);
+}
+.nav-links a:hover::after { width: 40%; }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.lang-toggle {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 10px;
+  background: var(--glass); border: 1px solid var(--stroke);
+  font-size: 0.85rem; font-weight: 700; color: var(--cyan);
+  transition: all 0.25s;
+}
+.lang-toggle:hover { border-color: var(--stroke-hi); box-shadow: var(--glow-cyan); }
+.lang-toggle .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.icon-btn {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: var(--glass); border: 1px solid var(--stroke); color: var(--text-1);
+  transition: all 0.25s;
+}
+.icon-btn:hover { color: var(--cyan); border-color: var(--stroke-hi); box-shadow: var(--glow-cyan); }
+.icon-btn svg { width: 17px; height: 17px; }
+.menu-btn { display: none; }
+
+/* ---------- Hero · 动漫夜空横幅 ---------- */
+.hero { position: relative; overflow: hidden; }
+.hero-banner {
+  position: relative;
+  min-height: 88vh;
+  display: flex; align-items: center;
+  background:
+    linear-gradient(180deg, #0a0f2e 0%, #131a4a 45%, #2a2358 72%, #45306b 88%, #6b3f74 100%);
+  overflow: hidden;
+}
+/* 月亮 */
+.hero-banner .moon {
+  position: absolute; top: 12%; right: 14%;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #fff9e8, #ffe9b8 55%, #f4cf8f);
+  box-shadow: 0 0 60px 18px rgba(255, 233, 184, 0.35), 0 0 140px 60px rgba(255, 233, 184, 0.12);
+  animation: moonGlow 6s ease-in-out infinite;
+}
+@keyframes moonGlow { 0%,100% { box-shadow: 0 0 60px 18px rgba(255,233,184,0.35), 0 0 140px 60px rgba(255,233,184,0.12); } 50% { box-shadow: 0 0 80px 26px rgba(255,233,184,0.45), 0 0 170px 70px rgba(255,233,184,0.18); } }
+/* 极光带 */
+.aurora {
+  position: absolute; top: 0; left: 0; right: 0; height: 55%;
+  background:
+    radial-gradient(ellipse 70% 100% at 30% 0%, rgba(110, 231, 255, 0.16), transparent 60%),
+    radial-gradient(ellipse 60% 90% at 75% 10%, rgba(167, 139, 250, 0.2), transparent 60%);
+  filter: blur(2px);
+  animation: auroraShift 12s ease-in-out infinite alternate;
+}
+@keyframes auroraShift { from { transform: skewX(-4deg) translateX(-2%); opacity: 0.85; } to { transform: skewX(4deg) translateX(2%); opacity: 1; } }
+/* 远山剪影 */
+.mountains { position: absolute; bottom: 0; left: 0; width: 100%; pointer-events: none; }
+.hero-inner { position: relative; z-index: 3; padding: 120px 0 160px; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 20px; border-radius: 999px;
+  background: rgba(10, 14, 40, 0.5); border: 1px solid var(--stroke);
+  backdrop-filter: blur(8px);
+  color: var(--cyan); font-size: 0.88rem; font-weight: 700; letter-spacing: 0.1em;
+  margin-bottom: 28px;
+}
+.hero-eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); animation: twinkle 2.4s ease infinite; }
+@keyframes twinkle { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  font-weight: 900; line-height: 1.22; color: var(--text-0);
+  text-shadow: 0 4px 30px rgba(110, 231, 255, 0.25);
+  margin-bottom: 22px;
+}
+.hero-title .accent {
+  background: linear-gradient(120deg, #6ee7ff, #f0a6ff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-subtitle {
+  max-width: 620px; color: var(--text-1); font-size: 1.06rem;
+  margin-bottom: 40px;
+}
+.hero-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 56px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 32px; border-radius: 12px;
+  font-weight: 700; font-size: 1rem;
+  transition: all 0.3s;
+}
+.btn svg { width: 18px; height: 18px; }
+.btn--primary {
+  background: var(--grad-main); color: #0a0e24;
+  box-shadow: 0 10px 30px -8px rgba(167, 139, 250, 0.55);
+}
+.btn--primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px -8px rgba(167, 139, 250, 0.7); }
+.btn--ghost {
+  background: rgba(10, 14, 40, 0.5); color: var(--text-0);
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(8px);
+}
+.btn--ghost:hover { border-color: var(--stroke-hi); box-shadow: var(--glow-cyan); transform: translateY(-3px); }
+
+/* 星座统计 */
+.hero-stats { display: flex; gap: 0; }
+.hero-stat {
+  position: relative; padding: 0 40px;
+  border-left: 1px solid var(--stroke);
+}
+.hero-stat:first-child { border-left: none; padding-left: 0; }
+.hero-stat-num {
+  font-family: var(--font-disp); font-size: 2.4rem; font-weight: 800; line-height: 1.15;
+  background: var(--grad-main); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-stat-label { font-size: 0.85rem; color: var(--text-2); letter-spacing: 0.05em; }
+
+/* ---------- 通用 Section ---------- */
+.section-head { margin-bottom: 54px; }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--font-disp); font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--violet);
+  margin-bottom: 14px;
+}
+.section-eyebrow::before { content: ""; width: 36px; height: 1.5px; background: var(--grad-main); }
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 3.6vw, 2.5rem); font-weight: 900;
+  color: var(--text-0); margin-bottom: 12px;
+}
+.section-subtitle { color: var(--text-2); font-size: 0.98rem; max-width: 560px; }
+
+/* ---------- 玻璃卡片基底 ---------- */
+.glass-card {
+  position: relative;
+  background: var(--glass);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: all 0.35s ease;
+}
+.glass-card:hover {
+  background: var(--glass-hi);
+  border-color: var(--stroke-hi);
+  box-shadow: 0 20px 50px -18px rgba(110, 231, 255, 0.28);
+  transform: translateY(-5px);
+}
+
+/* ---------- 已上线游戏 ---------- */
+.featured-card {
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  overflow: hidden; margin-bottom: 34px;
+}
+.featured-media { position: relative; min-height: 360px; }
+.featured-media video, .featured-media img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.featured-media::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 60%, rgba(11, 17, 48, 0.85));
+  pointer-events: none;
+}
+.featured-card.flip .featured-media::after {
+  background: linear-gradient(270deg, transparent 60%, rgba(11, 17, 48, 0.85));
+}
+.featured-card.flip { grid-template-columns: 1fr 1.2fr; }
+.featured-badge {
+  position: absolute; top: 18px; left: 18px; z-index: 3;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 999px;
+  background: rgba(10, 14, 40, 0.65); border: 1px solid var(--stroke-hi);
+  backdrop-filter: blur(8px);
+  color: #7dffb0; font-weight: 700; font-size: 0.82rem;
+}
+.featured-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #7dffb0; box-shadow: 0 0 8px #7dffb0; animation: twinkle 2s infinite; }
+.featured-body { padding: 44px 46px; display: flex; flex-direction: column; justify-content: center; }
+.featured-title { font-family: var(--font-serif); font-size: 1.85rem; font-weight: 900; color: var(--text-0); line-height: 1.35; }
+.featured-title .en {
+  display: block; font-family: var(--font-disp); font-size: 0.9rem; font-weight: 600;
+  background: var(--grad-main); -webkit-background-clip: text; background-clip: text; color: transparent;
+  letter-spacing: 0.14em; text-transform: uppercase; margin-top: 6px;
+}
+.featured-desc { color: var(--text-2); margin: 18px 0 22px; font-size: 0.95rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  padding: 5px 14px; border-radius: 8px;
+  background: rgba(110, 231, 255, 0.08); border: 1px solid var(--stroke);
+  color: var(--text-2); font-size: 0.78rem; font-weight: 600;
+  transition: all 0.25s;
+}
+.tag:hover { color: var(--cyan); border-color: var(--stroke-hi); }
+.featured-actions { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+
+/* ---------- 原型网格 ---------- */
+.game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.game-card { overflow: hidden; display: flex; flex-direction: column; }
+.game-thumb { position: relative; aspect-ratio: 16/10; overflow: hidden; }
+.game-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.game-card:hover .game-thumb img { transform: scale(1.08); }
+.game-thumb::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(7, 11, 30, 0.85));
+}
+.game-status {
+  position: absolute; top: 14px; left: 14px; z-index: 2;
+  padding: 4px 12px; border-radius: 8px;
+  font-family: var(--font-disp); font-weight: 700; font-size: 0.7rem; letter-spacing: 0.16em;
+}
+.game-status.jam { background: rgba(255, 217, 138, 0.16); color: var(--gold); border: 1px solid rgba(255, 217, 138, 0.4); backdrop-filter: blur(6px); }
+.game-status.dev { background: rgba(125, 255, 176, 0.12); color: #7dffb0; border: 1px solid rgba(125, 255, 176, 0.35); backdrop-filter: blur(6px); }
+.play-overlay {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: rgba(11, 17, 48, 0); z-index: 2;
+  opacity: 0; transition: all 0.3s;
+}
+.game-card:hover .play-overlay { opacity: 1; background: rgba(11, 17, 48, 0.35); }
+.play-overlay svg {
+  width: 54px; height: 54px; color: var(--cyan);
+  background: rgba(10, 14, 40, 0.8); border: 1px solid var(--stroke-hi);
+  border-radius: 50%; padding: 13px;
+  box-shadow: var(--glow-cyan);
+}
+.game-body { padding: 20px 22px 24px; flex: 1; display: flex; flex-direction: column; }
+.game-title { font-family: var(--font-serif); font-size: 1.18rem; font-weight: 700; color: var(--text-0); margin-bottom: 8px; }
+.game-card-desc { color: var(--text-2); font-size: 0.87rem; margin-bottom: 14px; flex: 1; }
+.game-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+.game-links .primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 20px; border-radius: 10px;
+  background: rgba(110, 231, 255, 0.1); border: 1px solid var(--stroke-hi);
+  color: var(--cyan); font-weight: 700; font-size: 0.86rem;
+  transition: all 0.25s;
+}
+.game-links .primary:hover { background: var(--grad-main); color: #0a0e24; border-color: transparent; box-shadow: var(--glow-cyan); }
+.game-links .primary svg { width: 14px; height: 14px; }
+.game-links .tba {
+  display: inline-flex; padding: 9px 20px; border-radius: 10px;
+  border: 1px dashed rgba(255, 217, 138, 0.45); color: var(--gold);
+  font-weight: 700; font-size: 0.86rem;
+}
+.dev-thumb-fallback { display: grid; place-items: center; aspect-ratio: 16/10; position: relative; }
+.dev-thumb-fallback::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(7, 11, 30, 0.7)); }
+.dev-thumb-fallback .word {
+  font-family: var(--font-disp); font-weight: 800; letter-spacing: 0.18em;
+  color: var(--text-0); font-size: 1.4rem; text-shadow: 0 0 24px rgba(110, 231, 255, 0.5);
+  z-index: 2;
+}
+
+/* ---------- 博客 · 星轨时间线 ---------- */
+#blog {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(167, 139, 250, 0.07), transparent 70%);
+}
+.blog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.blog-card { display: grid; grid-template-columns: 200px 1fr; overflow: hidden; cursor: pointer; }
+.blog-thumb { position: relative; overflow: hidden; }
+.blog-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.blog-card:hover .blog-thumb img { transform: scale(1.08); }
+.blog-thumb::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(270deg, rgba(16, 23, 64, 0.9), transparent 55%);
+}
+.blog-body { padding: 22px 26px; display: flex; flex-direction: column; }
+.blog-meta { display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: var(--text-3); margin-bottom: 10px; }
+.blog-meta .cat {
+  padding: 3px 12px; border-radius: 6px;
+  background: rgba(167, 139, 250, 0.14); color: var(--violet);
+  font-weight: 700; border: 1px solid rgba(167, 139, 250, 0.3);
+}
+.blog-meta .pin { color: var(--gold); }
+.blog-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; color: var(--text-0); margin-bottom: 8px; line-height: 1.5; }
+.blog-excerpt {
+  color: var(--text-2); font-size: 0.86rem; flex: 1;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.blog-more {
+  margin-top: 14px; color: var(--cyan); font-weight: 700; font-size: 0.83rem;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.blog-more svg { width: 13px; height: 13px; transition: transform 0.25s; }
+.blog-card:hover .blog-more svg { transform: translateX(4px); }
+
+/* ---------- 关于 ---------- */
+.about-grid { display: grid; grid-template-columns: 360px 1fr; gap: 46px; align-items: start; }
+.about-card { padding: 40px 32px; text-align: center; position: sticky; top: 100px; }
+.about-avatar-ring {
+  width: 120px; height: 120px; margin: 0 auto 20px;
+  border-radius: 50%; padding: 3px;
+  background: conic-gradient(from 0deg, #6ee7ff, #a78bfa, #f0a6ff, #6ee7ff);
+  animation: ringSpin 8s linear infinite;
+  position: relative;
+}
+@keyframes ringSpin { to { transform: rotate(360deg); } }
+.about-avatar-core {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #1a2352, #0b1130);
+  display: grid; place-items: center;
+  animation: ringSpin 8s linear infinite reverse;
+}
+.about-avatar-core span {
+  font-family: var(--font-disp); font-size: 3rem; font-weight: 800;
+  background: var(--grad-main); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.about-name { font-family: var(--font-serif); font-size: 1.45rem; font-weight: 900; color: var(--text-0); }
+.about-role { color: var(--violet); font-size: 0.88rem; margin: 6px 0 22px; }
+.about-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--stroke-hi), transparent); margin: 22px 0; }
+.about-quote {
+  font-family: var(--font-serif); color: var(--text-2); font-size: 0.92rem; line-height: 1.9;
+}
+.about-quote b { color: var(--cyan); }
+.about-bio p { color: var(--text-2); margin-bottom: 16px; font-size: 0.97rem; }
+.about-bio p:first-child { color: var(--text-1); font-size: 1.05rem; }
+.about-bio em { color: var(--magenta); font-style: normal; font-weight: 700; }
+.skills { margin: 30px 0; display: grid; gap: 20px; }
+.skill-label { display: flex; justify-content: space-between; font-weight: 700; font-size: 0.88rem; color: var(--text-1); margin-bottom: 9px; }
+.skill-label .pct { font-family: var(--font-disp); color: var(--cyan); }
+.skill-bar { height: 8px; border-radius: 99px; background: rgba(148, 170, 255, 0.12); overflow: hidden; }
+.skill-fill {
+  height: 100%; border-radius: 99px; background: var(--grad-main);
+  transform-origin: left; transform: scaleX(0);
+  transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 12px rgba(110, 231, 255, 0.5);
+}
+.skill.visible .skill-fill { transform: scaleX(var(--w)); }
+.about-links { display: flex; flex-wrap: wrap; gap: 12px; }
+.about-links a {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 11px 22px; border-radius: 12px;
+  background: var(--glass); border: 1px solid var(--stroke);
+  font-weight: 700; font-size: 0.88rem; color: var(--text-1);
+  transition: all 0.25s;
+}
+.about-links a:hover { border-color: var(--stroke-hi); color: var(--cyan); box-shadow: var(--glow-cyan); transform: translateY(-3px); }
+.about-links a svg { width: 16px; height: 16px; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-top: 80px;
+  border-top: 1px solid var(--stroke);
+  background: rgba(7, 11, 30, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 44px 0 36px;
+}
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.footer-copy { font-size: 0.9rem; color: var(--text-3); }
+.footer-copy b { background: var(--grad-main); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.footer-links { display: flex; gap: 10px; }
+.footer-links a {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: var(--glass); border: 1px solid var(--stroke); color: var(--text-2);
+  transition: all 0.25s;
+}
+.footer-links a:hover { color: var(--cyan); border-color: var(--stroke-hi); box-shadow: var(--glow-cyan); transform: translateY(-3px); }
+.footer-links a svg { width: 17px; height: 17px; }
+
+/* ---------- 回到顶部 ---------- */
+.back-to-top {
+  position: fixed; right: 26px; bottom: 30px; z-index: 90;
+  width: 48px; height: 48px; border-radius: 14px;
+  background: var(--glass); border: 1px solid var(--stroke);
+  backdrop-filter: blur(10px);
+  display: grid; place-items: center; color: var(--cyan);
+  opacity: 0; transform: translateY(16px); pointer-events: none;
+  transition: all 0.3s;
+}
+.back-to-top.visible { opacity: 1; transform: none; pointer-events: auto; }
+.back-to-top:hover { box-shadow: var(--glow-cyan); border-color: var(--stroke-hi); }
+.back-to-top svg { width: 19px; height: 19px; }
+
+/* ---------- 设计稿标注 ---------- */
+.design-tag {
+  position: fixed; left: 18px; bottom: 22px; z-index: 95;
+  background: rgba(10, 14, 40, 0.85); border: 1px solid var(--stroke);
+  backdrop-filter: blur(10px);
+  padding: 10px 18px; border-radius: 12px;
+  font-size: 0.82rem; font-weight: 700; color: var(--text-1);
+  display: flex; align-items: center; gap: 10px;
+}
+.design-tag .num {
+  width: 24px; height: 24px; border-radius: 8px;
+  background: var(--grad-main); display: grid; place-items: center;
+  font-family: var(--font-disp); font-size: 0.8rem; color: #0a0e24;
+}
+.design-tag a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- 滚动显现 ---------- */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal[data-delay="1"] { transition-delay: 0.12s; }
+.reveal[data-delay="2"] { transition-delay: 0.24s; }
+.reveal[data-delay="3"] { transition-delay: 0.36s; }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1020px) {
+  .game-grid { grid-template-columns: repeat(2, 1fr); }
+  .featured-card, .featured-card.flip { grid-template-columns: 1fr; }
+  .featured-media { min-height: 240px; }
+  .featured-media::after, .featured-card.flip .featured-media::after { background: linear-gradient(180deg, transparent 55%, rgba(11,17,48,0.85)); }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-card { position: static; }
+}
+@media (max-width: 640px) {
+  .game-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .blog-card { grid-template-columns: 1fr; }
+  .blog-thumb { height: 160px; }
+  .blog-thumb::after { background: linear-gradient(180deg, transparent 40%, rgba(16,23,64,0.9)); }
+  .nav-links { display: none; }
+  .menu-btn {
+    display: grid; width: 38px; height: 38px; place-items: center;
+    border-radius: 10px; background: var(--glass); border: 1px solid var(--stroke); color: var(--text-1);
+  }
+  .nav-links.mobile-open {
+    display: flex; position: absolute; top: 70px; left: 0; right: 0;
+    flex-direction: column; background: rgba(7, 11, 30, 0.96);
+    padding: 16px 24px; gap: 6px; border-bottom: 1px solid var(--stroke);
+    backdrop-filter: blur(14px);
+  }
+  .section { padding: 68px 0; }
+  .hero-banner { min-height: 76vh; }
+  .hero-stats { flex-wrap: wrap; gap: 18px; }
+  .hero-stat { padding: 0 22px; }
+  .featured-body { padding: 28px 26px 32px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+<div class="nebula"></div>
+
+<div class="design-tag">
+  <span class="num">2</span>
+  <span>星海蝶夜 · 暗色玻璃风</span>
+  <a href="index.html">← 返回对比页</a>
+</div>
+
+<!-- ============ Header ============ -->
+<header class="site-header">
+  <div class="container nav">
+    <a href="#" class="brand" aria-label="JieDimension home">
+      <span class="brand-mark">J</span>
+      <span>JieDimension</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#games">游戏</a>
+      <a href="#prototypes">原型</a>
+      <a href="#dev">开发中</a>
+      <a href="#blog">博客</a>
+      <a href="#about">关于</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="lang-toggle" aria-label="Toggle language">
+        <span class="dot"></span><span>EN</span>
+      </button>
+      <a class="icon-btn" href="https://github.com/Jieice" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ Hero · 夜空横幅 ============ -->
+  <section class="hero">
+    <div class="hero-banner">
+      <div class="aurora"></div>
+      <div class="moon"></div>
+      <svg class="mountains" viewBox="0 0 1440 240" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,240 L0,150 L180,60 L340,170 L520,80 L700,190 L880,100 L1080,180 L1260,90 L1440,170 L1440,240 Z" fill="#1a1b46" opacity="0.85"/>
+        <path d="M0,240 L0,190 L240,110 L430,200 L640,130 L860,210 L1100,140 L1300,200 L1440,160 L1440,240 Z" fill="#12122f"/>
+      </svg>
+      <div class="container hero-inner">
+        <div class="hero-eyebrow reveal">
+          <span class="dot"></span>
+          <span>独立游戏开发者 · 界维互动</span>
+        </div>
+        <h1 class="hero-title reveal" data-delay="1">
+          用代码构筑<br/>
+          <span class="accent">可玩的世界</span>
+        </h1>
+        <p class="hero-subtitle reveal" data-delay="2">
+          Jieice — 独立游戏开发者，专注于 Godot、TapTap Maker 与 Web 游戏原型。在这里可以试玩我的 Game Jam 作品、阅读开发笔记，并体验已上线 TapTap 的完整游戏。
+        </p>
+        <div class="hero-cta reveal" data-delay="3">
+          <a href="#games" class="btn btn--primary">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span>试玩游戏</span>
+          </a>
+          <a href="https://github.com/Jieice" target="_blank" rel="noopener" class="btn btn--ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+        <div class="hero-stats reveal" data-delay="4">
+          <div class="hero-stat">
+            <div class="hero-stat-num">2</div>
+            <div class="hero-stat-label">已上线游戏</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">5+</div>
+            <div class="hero-stat-label">Game Jam 原型</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">6+</div>
+            <div class="hero-stat-label">开发年限</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Featured Games ============ -->
+  <section class="section" id="games">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-eyebrow">Released · 已上线</div>
+        <h2 class="section-title">已上线游戏</h2>
+        <p class="section-subtitle">在 TapTap 上架的完整作品，包含云存档、排行榜与持续运营内容。</p>
+      </div>
+
+      <article class="featured-card glass-card reveal" data-delay="1">
+        <div class="featured-media">
+          <span class="featured-badge"><span class="dot"></span>运营中</span>
+          <video autoplay muted loop playsinline
+            poster="../public/assets/images/after-work-fishing/hero.jpg"
+            src="https://tapcode-sce.spark.xd.com/videos/p_s7ec/1784650882713-rec_20da3afb-2c3e-4d15-96c9-e2b0bd9078b0.mp4"></video>
+        </div>
+        <div class="featured-body">
+          <h3 class="featured-title">班后钓鱼<span class="en">After-Work Fishing</span></h3>
+          <p class="featured-desc">横屏夜钓模拟游戏。白天是格子间里的打工人，晚上 18:35 出现在月色河岸——甩竿、盯漂、扬竿、搏鱼，27 种鱼类 + 6 大 BOSS，跨夜鱼护经济与天阶功法。</p>
+          <div class="tags">
+            <span class="tag">Android</span><span class="tag">TapTap</span><span class="tag">模拟</span><span class="tag">Lua</span>
+          </div>
+          <div class="featured-actions">
+            <a href="https://www.taptap.cn/app/890877" target="_blank" rel="noopener" class="btn btn--primary">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span>前往 TapTap</span>
+            </a>
+            <a href="https://www.taptap.cn/app/890877" target="_blank" rel="noopener" class="btn btn--ghost">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l5 5-5 5M4 4v7a4 4 0 0 0 4 4h12"/></svg>
+              <span>观看演示</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="featured-card glass-card flip reveal" data-delay="2">
+        <div class="featured-body">
+          <h3 class="featured-title">界维守卫<span class="en">Dimension Defender</span></h3>
+          <p class="featured-desc">竖屏弹幕生存 Roguelike。自动射击、走位构筑、武器与 MOD 自由配装，挑战不断升级的怪物潮与高难度首领战。类 Warframe 玩法，紫卡系统提升战力。</p>
+          <div class="tags">
+            <span class="tag">Android</span><span class="tag">TapTap</span><span class="tag">弹幕生存</span><span class="tag">Roguelike</span>
+          </div>
+          <div class="featured-actions">
+            <a href="https://www.taptap.cn/app/893652" target="_blank" rel="noopener" class="btn btn--primary">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span>前往 TapTap</span>
+            </a>
+            <a href="https://www.taptap.cn/app/893652" target="_blank" rel="noopener" class="btn btn--ghost">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l5 5-5 5M4 4v7a4 4 0 0 0 4 4h12"/></svg>
+              <span>观看演示</span>
+            </a>
+          </div>
+        </div>
+        <div class="featured-media">
+          <span class="featured-badge"><span class="dot"></span>运营中</span>
+          <video autoplay muted loop playsinline
+            poster="../public/assets/images/dimension-defender/hero.webp"
+            src="https://tapcode-sce.spark.xd.com/videos/p_678c/1785057957905-rec_942adc1c-87b0-4d4b-a5ae-539f233dd8e5.mp4"></video>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ Prototypes ============ -->
+  <section class="section" id="prototypes">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-eyebrow">Game Jam · Web</div>
+        <h2 class="section-title">原型与网页游戏</h2>
+        <p class="section-subtitle">浏览器即可游玩的小型作品，多数为 Game Jam 产物或玩法实验。</p>
+      </div>
+
+      <div class="game-grid">
+        <article class="game-card glass-card reveal" data-delay="1">
+          <div class="game-thumb">
+            <span class="game-status jam">JAM</span>
+            <img src="../public/assets/images/games/battle-royale.avif" alt="Cyberstorm Arena" loading="lazy" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="game-body">
+            <h3 class="game-title">Cyberstorm Arena</h3>
+            <p class="game-card-desc">赛博朋克风格大逃杀，在数字竞技场中与敌人战斗，成为最后的幸存者。</p>
+            <div class="game-tags"><span class="tag">Web</span><span class="tag">大逃杀</span><span class="tag">Canvas</span></div>
+            <div class="game-links">
+              <a href="#" class="primary"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span>在线游玩</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card glass-card reveal" data-delay="2">
+          <div class="game-thumb">
+            <span class="game-status jam">JAM</span>
+            <img src="../public/assets/images/games/planet-drop.avif" alt="Planet Drop" loading="lazy" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="game-body">
+            <h3 class="game-title">Planet Drop / 星球合成</h3>
+            <p class="game-card-desc">太空主题合成益智游戏，点击投放星球合并相同星球，最终合成恒星。</p>
+            <div class="game-tags"><span class="tag">Web</span><span class="tag">益智</span><span class="tag">合成</span></div>
+            <div class="game-links">
+              <a href="https://jieice.itch.io/planet-drop" target="_blank" rel="noopener" class="primary"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span>itch.io</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card glass-card reveal" data-delay="3">
+          <div class="game-thumb">
+            <span class="game-status jam">JAM</span>
+            <img src="../public/assets/images/games/coin-tycoon.avif" alt="Coin Tycoon" loading="lazy" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="game-body">
+            <h3 class="game-title">金币大亨 · 深渊觉醒</h3>
+            <p class="game-card-desc">暗黑风格放置点击游戏，融合 Roguelike 元素和深渊探索机制。</p>
+            <div class="game-tags"><span class="tag">Web</span><span class="tag">放置</span><span class="tag">Roguelike</span></div>
+            <div class="game-links">
+              <a href="#" class="primary"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span>在线游玩</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card glass-card reveal" data-delay="1">
+          <div class="game-thumb">
+            <span class="game-status jam">JAM</span>
+            <img src="../public/assets/images/games/apocalypse-queen.avif" alt="Apocalypse Queen" loading="lazy" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="game-body">
+            <h3 class="game-title">末世重生：囤货女王</h3>
+            <p class="game-card-desc">末世题材互动叙事游戏，扮演重生者在末日降临前囤积物资、改变命运。</p>
+            <div class="game-tags"><span class="tag">Web</span><span class="tag">叙事</span><span class="tag">末世</span></div>
+            <div class="game-links">
+              <a href="#" class="primary"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span>在线游玩</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card glass-card reveal" data-delay="2">
+          <div class="game-thumb">
+            <span class="game-status jam">JAM</span>
+            <img src="../public/assets/images/games/snake.svg" alt="Classic Snake" loading="lazy" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="game-body">
+            <h3 class="game-title">Classic Snake</h3>
+            <p class="game-card-desc">极简经典贪吃蛇，单格子单食物，方向键操作，碰撞即结束。</p>
+            <div class="game-tags"><span class="tag">Web</span><span class="tag">街机</span><span class="tag">极简</span></div>
+            <div class="game-links">
+              <a href="#" class="primary"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span>在线游玩</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card glass-card reveal" data-delay="3">
+          <div class="game-thumb">
+            <span class="game-status jam">JAM</span>
+            <img src="../public/assets/images/games/planet-drop.jpg" alt="Fruit Merge" loading="lazy" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="game-body">
+            <h3 class="game-title">Fruit Merge / 水果合成</h3>
+            <p class="game-card-desc">Phaser 制作的合成水果小游戏，物理掉落 + 合成升级，移动端友好。</p>
+            <div class="game-tags"><span class="tag">Web</span><span class="tag">Phaser</span><span class="tag">益智</span></div>
+            <div class="game-links">
+              <a href="#" class="primary"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span>在线游玩</span></a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ In Development ============ -->
+  <section class="section" id="dev">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-eyebrow">In Development · 开发中</div>
+        <h2 class="section-title">正在开发</h2>
+        <p class="section-subtitle">尚未上线的项目，部分为商业作品早期版本，更多信息暂不公开。</p>
+      </div>
+
+      <div class="game-grid">
+        <article class="game-card glass-card reveal" data-delay="1">
+          <div class="dev-thumb-fallback" style="background: linear-gradient(140deg, #16204a, #2a3a7a);">
+            <span class="game-status dev">DEV</span>
+            <span class="word">CS:GO FEEL</span>
+          </div>
+          <div class="game-body">
+            <h3 class="game-title">CSGO Feel</h3>
+            <p class="game-card-desc">战术 FPS 原型，AK-47 换弹/射击动效、附件系统、城市战 AI 与车辆系统。TapTap Maker + Lua 实现。</p>
+            <div class="game-tags"><span class="tag">FPS</span><span class="tag">战术</span><span class="tag">Lua</span></div>
+            <div class="game-links"><span class="tba">敬请期待</span></div>
+          </div>
+        </article>
+
+        <article class="game-card glass-card reveal" data-delay="2">
+          <div class="dev-thumb-fallback" style="background: linear-gradient(140deg, #3a1a33, #6b2f5a);">
+            <span class="game-status dev">DEV</span>
+            <span class="word">DOOMSDAY</span>
+          </div>
+          <div class="game-body">
+            <h3 class="game-title">Doomsday Survival</h3>
+            <p class="game-card-desc">末日僵尸生存，建造防御、武器系统、尸体物理与背包 UI。TapTap Maker 制作。</p>
+            <div class="game-tags"><span class="tag">生存</span><span class="tag">丧尸</span><span class="tag">Lua</span></div>
+            <div class="game-links"><span class="tba">敬请期待</span></div>
+          </div>
+        </article>
+
+        <article class="game-card glass-card reveal" data-delay="3">
+          <div class="dev-thumb-fallback" style="background: linear-gradient(140deg, #12303a, #1f5a66);">
+            <span class="game-status dev">DEV</span>
+            <span class="word">LOOT HUNTER</span>
+          </div>
+          <div class="game-body">
+            <h3 class="game-title">Loot Hunter</h3>
+            <p class="game-card-desc">战利品猎人 RPG 原型，含大量角色精灵图、装备系统与地下城探索。</p>
+            <div class="game-tags"><span class="tag">RPG</span><span class="tag">像素</span><span class="tag">原型</span></div>
+            <div class="game-links"><span class="tba">敬请期待</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Blog ============ -->
+  <section class="section" id="blog">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-eyebrow">Blog · 博客</div>
+        <h2 class="section-title">技术博客 &amp; 游戏笔记</h2>
+        <p class="section-subtitle">关于游戏设计、增量游戏汉化与独立开发的技术随笔。</p>
+      </div>
+
+      <div class="blog-grid">
+        <article class="blog-card glass-card reveal" data-delay="1">
+          <div class="blog-thumb"><img src="../public/assets/images/after-work-fishing/hero.jpg" alt="" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="cat">游戏作品</span><span class="pin">★ 置顶</span><span>2026-07-25</span></div>
+            <h3 class="blog-title">《班后钓鱼》：下班后，去月色河岸甩一竿</h3>
+            <p class="blog-excerpt">界维互动工作室制作的横屏夜钓模拟游戏。在月色河岸抛竿，观察鱼漂、及时扬竿，用顺滑轮盘控制收线与张力。</p>
+            <span class="blog-more">阅读全文 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="blog-card glass-card reveal" data-delay="2">
+          <div class="blog-thumb"><img src="../public/assets/images/dimension-defender/hero.webp" alt="" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="cat">游戏作品</span><span class="pin">★ 置顶</span><span>2026-07-22</span></div>
+            <h3 class="blog-title">《界维守卫》：在多维战场活下来</h3>
+            <p class="blog-excerpt">界维互动工作室制作的 Android 单机弹幕生存游戏，自动射击、构筑成长、装备与 MOD 组合。</p>
+            <span class="blog-more">阅读全文 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="blog-card glass-card reveal" data-delay="1">
+          <div class="blog-thumb"><img src="../public/assets/images/games/battle-royale.avif" alt="" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="cat">游戏作品</span><span>2026-05-05</span></div>
+            <h3 class="blog-title">Cyberstorm Arena</h3>
+            <p class="blog-excerpt">一款赛博朋克风格的大逃杀游戏，在数字竞技场中与敌人战斗，成为最后的幸存者。</p>
+            <span class="blog-more">阅读全文 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="blog-card glass-card reveal" data-delay="2">
+          <div class="blog-thumb"><img src="../public/assets/images/games/antimatter-dimensions.avif" alt="" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="cat">游戏作品</span><span>2026-07-02</span></div>
+            <h3 class="blog-title">Antimatter Dimensions</h3>
+            <p class="blog-excerpt">社区公认的深度增量游戏天花板。无尽 prestige 层级，从反物质到永恒到现实，数字规模的哲学之旅。</p>
+            <span class="blog-more">阅读全文 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="blog-card glass-card reveal" data-delay="1">
+          <div class="blog-thumb"><img src="../public/assets/images/games/cookie-clicker.avif" alt="" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="cat">游戏作品</span><span>2026-07-02</span></div>
+            <h3 class="blog-title">Cookie Clicker</h3>
+            <p class="blog-excerpt">经典到不能再经典的点击放置游戏。烤饼干、买升级、解锁成就、探索隐藏内容。支持简体中文。</p>
+            <span class="blog-more">阅读全文 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+
+        <article class="blog-card glass-card reveal" data-delay="2">
+          <div class="blog-thumb"><img src="../public/assets/images/games/dark-forest.avif" alt="" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="cat">游戏作品</span><span>2026-03-14</span></div>
+            <h3 class="blog-title">A Dark Forest / 黑暗森林</h3>
+            <p class="blog-excerpt">开源增量游戏，页面直接嵌入发布的 HTML5 运行时，而不是 itch.io 的项目页。</p>
+            <span class="blog-more">阅读全文 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ About ============ -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-eyebrow">About · 关于</div>
+        <h2 class="section-title">关于我</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card glass-card reveal" data-delay="1">
+          <div class="about-avatar-ring">
+            <div class="about-avatar-core"><span>J</span></div>
+          </div>
+          <div class="about-name">Jieice</div>
+          <div class="about-role">界维互动工作室 · 主理人</div>
+          <div class="about-divider"></div>
+          <p class="about-quote">
+            “我喜欢把可运行的原型放到第一屏——<br/><b>可玩比空谈更重要。</b>”
+          </p>
+          <div class="about-divider"></div>
+          <p class="about-quote" style="font-size:0.85rem;">
+            <b>2</b> 款已上线 · <b>5+</b> 原型 · <b>6+</b> 年开发
+          </p>
+        </div>
+
+        <div class="about-content reveal" data-delay="2">
+          <div class="about-bio">
+            <p>你好，我是 Jieice，界维互动工作室的主理人。我是一名独立游戏开发者，专注于 Godot 引擎、TapTap Maker 平台与 Web 游戏原型的开发。</p>
+            <p>我做过的事情横跨游戏全栈：从 Godot 的 C++ GDExtension、Lua 业务层，到 Web 端的可玩游戏原型；从 TapTap 小游戏的云存档与排行榜系统，到 AI Agent 编排和虚拟角色交互。我喜欢把可运行的原型放到第一屏——<em>可玩比空谈更重要</em>。</p>
+            <p>目前已上线 TapTap 的作品包括横屏夜钓模拟《班后钓鱼》和竖屏弹幕生存《界维守卫》。闲暇时间会汉化一些增量游戏经典，并在 itch.io 上发布 Game Jam 原型。</p>
+          </div>
+
+          <div class="skills">
+            <div class="skill">
+              <div class="skill-label"><span>游戏开发 (Godot / Lua)</span><span class="pct">92%</span></div>
+              <div class="skill-bar"><div class="skill-fill" style="--w: 0.92;"></div></div>
+            </div>
+            <div class="skill">
+              <div class="skill-label"><span>Web 游戏原型</span><span class="pct">88%</span></div>
+              <div class="skill-bar"><div class="skill-fill" style="--w: 0.88;"></div></div>
+            </div>
+            <div class="skill">
+              <div class="skill-label"><span>AI Agent 编排</span><span class="pct">80%</span></div>
+              <div class="skill-bar"><div class="skill-fill" style="--w: 0.80;"></div></div>
+            </div>
+            <div class="skill">
+              <div class="skill-label"><span>Live2D / 虚拟角色</span><span class="pct">75%</span></div>
+              <div class="skill-bar"><div class="skill-fill" style="--w: 0.75;"></div></div>
+            </div>
+          </div>
+
+          <div class="about-links">
+            <a href="https://github.com/Jieice" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a href="https://space.bilibili.com/27840409" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.387-.947.258-.257.574-.386.946-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>
+              <span>Bilibili</span>
+            </a>
+            <a href="https://www.taptap.cn/developer/344688" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="2"/><circle cx="12" cy="10" r="2" fill="currentColor"/></svg>
+              <span>TapTap</span>
+            </a>
+            <a href="mailto:3348149202@qq.com">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              <span>Email</span>
+            </a>
+            <a href="https://jieice.itch.io" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 2h18a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm9 5.5c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5 4.5-2 4.5-4.5-2-4.5-4.5-4.5zm0 2c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5 1.1-2.5 2.5-2.5z"/></svg>
+              <span>itch.io</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-copy">© 2026 <b>Jieice</b> · 界维互动工作室. 保留所有权利.</div>
+    <div class="footer-links">
+      <a href="https://github.com/Jieice" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.74-1.56-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.3-.52-1.48.1-3.08 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+      </a>
+      <a href="https://space.bilibili.com/27840409" target="_blank" rel="noopener" aria-label="Bilibili">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.387-.947.258-.257.574-.386.946-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>
+      </a>
+      <a href="mailto:3348149202@qq.com" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+/* 星空画布：星星 + 流星 */
+(function () {
+  const cv = document.getElementById("starfield");
+  const ctx = cv.getContext("2d");
+  let W, H, stars = [], meteors = [];
+  function resize() {
+    W = cv.width = window.innerWidth;
+    H = cv.height = window.innerHeight;
+    stars = [];
+    const n = Math.min(220, Math.floor(W * H / 8000));
+    for (let i = 0; i < n; i++) {
+      stars.push({
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.4 + 0.3,
+        p: Math.random() * Math.PI * 2,
+        s: 0.008 + Math.random() * 0.02,
+        c: Math.random() < 0.15 ? "167,139,250" : (Math.random() < 0.3 ? "240,166,255" : "220,235,255"),
+      });
+    }
+  }
+  function spawnMeteor() {
+    if (Math.random() < 0.006 && meteors.length < 2) {
+      meteors.push({
+        x: Math.random() * W * 0.8 + W * 0.1,
+        y: -20,
+        vx: -(2 + Math.random() * 3), vy: 3 + Math.random() * 3,
+        life: 1,
+      });
+    }
+  }
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach((s) => {
+      s.p += s.s;
+      const a = 0.35 + Math.abs(Math.sin(s.p)) * 0.6;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(" + s.c + "," + a + ")";
+      ctx.fill();
+    });
+    spawnMeteor();
+    meteors.forEach((m) => {
+      const grad = ctx.createLinearGradient(m.x, m.y, m.x - m.vx * 14, m.y - m.vy * 14);
+      grad.addColorStop(0, "rgba(255,255,255," + m.life + ")");
+      grad.addColorStop(1, "rgba(110,231,255,0)");
+      ctx.strokeStyle = grad; ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(m.x, m.y);
+      ctx.lineTo(m.x - m.vx * 14, m.y - m.vy * 14);
+      ctx.stroke();
+      m.x += m.vx; m.y += m.vy; m.life -= 0.008;
+    });
+    meteors = meteors.filter((m) => m.life > 0 && m.y < H + 40);
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener("resize", resize);
+  resize(); tick();
+})();
+
+/* 蝴蝶 */
+(function () {
+  const spots = [
+    { left: "6%", top: "34%", dur: "16s", delay: "-3s", scale: 1 },
+    { left: "88%", top: "58%", dur: "21s", delay: "-9s", scale: 0.7 },
+    { left: "14%", top: "76%", dur: "26s", delay: "-15s", scale: 0.55 },
+  ];
+  spots.forEach((s) => {
+    const b = document.createElement("div");
+    b.className = "butterfly";
+    b.style.left = s.left; b.style.top = s.top;
+    b.style.animationDuration = s.dur; b.style.animationDelay = s.delay;
+    b.style.transform += " scale(" + s.scale + ")";
+    b.innerHTML = '<svg viewBox="0 0 22 22"><g class="wing"><path d="M11 11 C6 2, 1 3, 1.5 8 C2 12, 7 12, 11 11 Z" fill="rgba(240,166,255,0.75)"/></g><g class="wing r"><path d="M11 11 C16 2, 21 3, 20.5 8 C20 12, 15 12, 11 11 Z" fill="rgba(167,139,250,0.75)"/></g><path d="M11 11 C9.5 16, 10 19, 10.8 21 M11 11 C12.5 16, 12 19, 11.2 21" stroke="rgba(255,255,255,0.7)" stroke-width="0.8" fill="none"/></svg>';
+    document.body.appendChild(b);
+  });
+})();
+
+/* 滚动显现 & 交互 */
+(function () {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  const sk = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("visible"); sk.unobserve(e.target); }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll(".skill-bar").forEach((el) => sk.observe(el));
+
+  const btn = document.getElementById("backToTop");
+  window.addEventListener("scroll", () => {
+    btn.classList.toggle("visible", window.scrollY > 500);
+  }, { passive: true });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+  const vio = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (en.isIntersecting) en.target.play().catch(() => {});
+      else en.target.pause();
+    });
+  }, { threshold: 0.25 });
+  document.querySelectorAll(".featured-media video").forEach((v) => vio.observe(v));
+
+  const menuBtn = document.getElementById("menuBtn");
+  const navLinks = document.getElementById("navLinks");
+  menuBtn.addEventListener("click", () => navLinks.classList.toggle("mobile-open"));
+  navLinks.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => navLinks.classList.remove("mobile-open")));
+})();
+</script>
+</body>
+</html>
