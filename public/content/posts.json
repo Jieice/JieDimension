@@ -35,21 +35,6 @@
     "pinned": true
   },
   {
-    "slug": "battle-royale",
-    "title": "Cyberstorm Arena",
-    "title_en": "Cyberstorm Arena",
-    "description": "一款赛博朋克风格的大逃杀游戏，在数字竞技场中与敌人战斗，成为最后的幸存者。",
-    "description_en": "A cyberpunk battle-royale. Fight enemies in a digital arena and be the last one standing.",
-    "published": "2026-05-05",
-    "image": "/assets/images/games/battle-royale.avif",
-    "tags": [
-      "游戏",
-      "Web"
-    ],
-    "category": "游戏作品",
-    "pinned": true
-  },
-  {
     "slug": "coin-tycoon",
     "title": "金币大亨 · 深渊觉醒",
     "title_en": "Coin Tycoon: Abyss Awakening",
