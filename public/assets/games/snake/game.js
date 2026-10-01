@@ -8,6 +8,9 @@ import {
     togglePause,
 } from "./snake-logic.js";
 
+const I18N = window.SNAKE_I18N;
+const T = window.GameI18N;
+
 const GAME_CONFIG = {
     width: 16,
     height: 16,
@@ -161,17 +164,17 @@ function render() {
 function getStatusText(currentState) {
     switch (currentState.status) {
         case GAME_STATUS.READY:
-            return "Press an arrow key, WASD, or tap a direction to start.";
+            return T.text(I18N, "snake.status.ready");
         case GAME_STATUS.RUNNING:
-            return "Eat food, grow longer, and avoid the walls and your tail.";
+            return T.text(I18N, "snake.status.running");
         case GAME_STATUS.PAUSED:
-            return "Paused. Press Start, Enter, or Space to resume.";
+            return T.text(I18N, "snake.status.paused");
         case GAME_STATUS.GAME_OVER:
-            if (currentState.gameOverReason === "filled") {
-                return `Board cleared. Final score: ${currentState.score}.`;
-            }
-
-            return `Game over. Final score: ${currentState.score}. Press Restart to play again.`;
+            return T.format(
+                I18N,
+                currentState.gameOverReason === "filled" ? "snake.status.cleared" : "snake.status.over",
+                { score: currentState.score },
+            );
         default:
             return "";
     }
@@ -179,14 +182,14 @@ function getStatusText(currentState) {
 
 function getPauseButtonLabel(status) {
     if (status === GAME_STATUS.RUNNING) {
-        return "Pause";
+        return T.text(I18N, "snake.pause");
     }
 
     if (status === GAME_STATUS.PAUSED) {
-        return "Resume";
+        return T.text(I18N, "snake.resume");
     }
 
-    return "Start";
+    return T.text(I18N, "snake.start");
 }
 
 function toIndex(x, y) {
