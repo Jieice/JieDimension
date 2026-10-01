@@ -7,6 +7,7 @@ import { GameState } from '../core/state.js';
 import { safeExecute, throwError, ErrorCodes } from '../core/error.js';
 import { ABYSS_CONFIG } from '../constants.js';
 import { snd } from '../utils/sound.js';
+import { t } from '../i18n.js';
 
 /**
  * 深渊状态
@@ -70,7 +71,10 @@ export function getAbyssData() {
 export function startAbyss() {
   return safeExecute(() => {
     if (!isAbyssUnlocked()) {
-      throwError(ErrorCodes.FEATURE_LOCKED, { feature: '深渊', requirement: `${ABYSS_CONFIG.UNLOCK_REBIRTH}次重生` });
+      throwError(ErrorCodes.FEATURE_LOCKED, {
+        feature: t('name.abyss'),
+        requirement: t('tpl.rebirthTimes', { n: ABYSS_CONFIG.UNLOCK_REBIRTH })
+      });
     }
     
     const state = getAbyssState();

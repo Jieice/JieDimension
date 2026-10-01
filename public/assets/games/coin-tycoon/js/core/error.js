@@ -3,6 +3,8 @@
  * 提供统一的错误处理机制
  */
 
+import { t, tr } from '../i18n.js';
+
 /**
  * 游戏错误类
  */
@@ -63,26 +65,26 @@ export const ErrorCodes = {
 };
 
 /**
- * 错误消息映射
+ * 错误代码 → 词典键（文案随站点语言切换）
  */
-const ErrorMessages = {
-  [ErrorCodes.UNKNOWN]: '发生未知错误',
-  [ErrorCodes.INVALID_ARGUMENT]: '无效的参数',
-  [ErrorCodes.NOT_FOUND]: '资源未找到',
-  [ErrorCodes.INSUFFICIENT_COINS]: '金币不足',
-  [ErrorCodes.INSUFFICIENT_MATERIALS]: '材料不足',
-  [ErrorCodes.INSUFFICIENT_GEMS]: '宝石不足',
-  [ErrorCodes.UPGRADE_NOT_FOUND]: '升级项不存在',
-  [ErrorCodes.EQUIPMENT_NOT_FOUND]: '装备不存在',
-  [ErrorCodes.PET_NOT_FOUND]: '宠物不存在',
-  [ErrorCodes.INVALID_STATE]: '游戏状态无效',
-  [ErrorCodes.SAVE_FAILED]: '保存失败',
-  [ErrorCodes.LOAD_FAILED]: '加载失败',
-  [ErrorCodes.FEATURE_LOCKED]: '功能未解锁',
-  [ErrorCodes.LEVEL_TOO_LOW]: '等级不足',
-  [ErrorCodes.CHAPTER_NOT_COMPLETED]: '章节未完成',
-  [ErrorCodes.ON_COOLDOWN]: '技能冷却中',
-  [ErrorCodes.CHALLENGE_ACTIVE]: '挑战进行中'
+const ErrorKeys = {
+  [ErrorCodes.UNKNOWN]: 'err.generic',
+  [ErrorCodes.INVALID_ARGUMENT]: 'err.invalidArg',
+  [ErrorCodes.NOT_FOUND]: 'err.notFound',
+  [ErrorCodes.INSUFFICIENT_COINS]: 'err.noCoins',
+  [ErrorCodes.INSUFFICIENT_MATERIALS]: 'err.noMaterials',
+  [ErrorCodes.INSUFFICIENT_GEMS]: 'err.noGems',
+  [ErrorCodes.UPGRADE_NOT_FOUND]: 'err.noUpgrade',
+  [ErrorCodes.EQUIPMENT_NOT_FOUND]: 'err.noEquipment',
+  [ErrorCodes.PET_NOT_FOUND]: 'err.noPet',
+  [ErrorCodes.INVALID_STATE]: 'err.badState',
+  [ErrorCodes.SAVE_FAILED]: 'err.saveFail',
+  [ErrorCodes.LOAD_FAILED]: 'err.loadFail',
+  [ErrorCodes.FEATURE_LOCKED]: 'err.locked',
+  [ErrorCodes.LEVEL_TOO_LOW]: 'err.lowLevel',
+  [ErrorCodes.CHAPTER_NOT_COMPLETED]: 'err.chapterIncomplete',
+  [ErrorCodes.ON_COOLDOWN]: 'err.cooldown',
+  [ErrorCodes.CHALLENGE_ACTIVE]: 'err.challengeActive'
 };
 
 /**
@@ -92,7 +94,9 @@ const ErrorMessages = {
  * @returns {GameError}
  */
 export function createError(code, context = {}) {
-  const message = ErrorMessages[code] || ErrorMessages[ErrorCodes.UNKNOWN];
+  const message = context.message
+    ? tr(context.message)
+    : t(ErrorKeys[code] || 'err.generic');
   return new GameError(code, message, context);
 }
 
@@ -159,7 +163,7 @@ export async function safeExecuteAsync(fn, fallback = null, errorHandler = null)
 function showDefaultError(error) {
   const message = error instanceof GameError 
     ? error.message 
-    : '发生错误，请刷新页面重试';
+    : t('err.unknown');
   
   showNotification(message, 'error');
 }

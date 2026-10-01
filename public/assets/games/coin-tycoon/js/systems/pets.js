@@ -7,6 +7,7 @@ import { safeExecute, throwError, ErrorCodes } from '../core/error.js';
 import { PET_CONFIG } from '../constants.js';
 import { snd } from '../utils/sound.js';
 import { recalculateDerivedStats } from './derived-stats.js';
+import { t } from '../i18n.js';
 
 /**
  * 获取所有宠物
@@ -199,14 +200,14 @@ export function getActivePet() {
 export function checkPetEvolution(id) {
   const pet = getPet(id);
   if (!pet || !pet.owned) {
-    return { canEvolve: false, reason: '宠物不存在或未拥有' };
+    return { canEvolve: false, reason: t('err.petMissing') };
   }
   
   const evolutionLevel = 10;
   if (pet.level < evolutionLevel) {
     return { 
       canEvolve: false, 
-      reason: `需要等级${evolutionLevel}`,
+      reason: t('tpl.needLevel', { n: evolutionLevel }),
       currentLevel: pet.level,
       requiredLevel: evolutionLevel
     };

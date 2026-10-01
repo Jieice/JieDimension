@@ -9,6 +9,7 @@ import { fmt, formatTime, formatPercent } from './utils/format.js';
 import { snd, setSoundEnabled, isSoundEnabled } from './utils/sound.js';
 import { save, exportSave, importSave, clearSave, calculateOfflineEarnings } from './utils/storage.js';
 import { recalculateDerivedStats } from './systems/derived-stats.js';
+import { t, tr } from './i18n.js';
 import * as UpgradeSystem from './systems/upgrades.js';
 import * as BossSystem from './systems/boss.js';
 import * as PetSystem from './systems/pets.js';
@@ -22,6 +23,17 @@ import {
   TITLES, BOSS_CONFIG, GACHA_CONFIG, ABYSS_CONFIG,
   TIME_CHALLENGE_CONFIG
 } from './constants.js';
+
+// ==================== 通用 ====================
+
+// 材料键 → 本地化名称（随语言切换）
+const MATERIAL_KEYS = ['iron', 'crystal', 'dragonScale', 'ancientGem'];
+const MATERIAL_ICONS = { iron: '🪨', crystal: '💎', dragonScale: '🐉', ancientGem: '🔮', gachaTix: '🎫' };
+
+function materialName(key) {
+  if (key === 'gachaTix') return t('mat.ticket');
+  return MATERIAL_KEYS.includes(key) ? t(`mat.${key}`) : key;
+}
 
 // ==================== 通知 ====================
 
@@ -40,7 +52,7 @@ export function notify(message, type = 'info') {
 export function showNumberPop(value, isCrit, x, y) {
   const el = document.createElement('div');
   el.className = 'number-pop';
-  el.textContent = (isCrit ? '暴击! ' : '+') + fmt(value);
+  el.textContent = (isCrit ? t('n.crit') + ' ' : '+') + fmt(value);
   el.style.left = x + 'px';
   el.style.top = y + 'px';
   el.style.color = isCrit ? '#ef4444' : '#fbbf24';
@@ -74,9 +86,9 @@ export function showAchievementPopup(achievement) {
   popup.innerHTML = `
     <span class="icon">${achievement.icon}</span>
     <div>
-      <div style="font-size:.7rem;color:var(--txm);margin-bottom:2px">🏆 成就解锁</div>
-      <div class="text">${achievement.name}</div>
-      <div style="font-size:.7rem;color:var(--txm);margin-top:2px">${achievement.desc}</div>
+      <div style="font-size:.7rem;color:var(--txm);margin-bottom:2px">${t('n.achUnlocked')}</div>
+      <div class="text">${tr(achievement.name)}</div>
+      <div style="font-size:.7rem;color:var(--txm);margin-top:2px">${tr(achievement.desc)}</div>
     </div>
   `;
   document.body.appendChild(popup);
@@ -102,7 +114,7 @@ export function updateFullUI() {
   // 玩家信息
   const player = s.get('player') || {};
   if (el('player-level')) el('player-level').textContent = player.level || 1;
-  if (el('player-title')) el('player-title').textContent = player.title || '新手矿工';
+  if (el('player-title')) el('player-title').textContent = tr(player.title) || t('title.1');
   if (el('player-exp-bar')) {
     const pct = player.expNext > 0 ? Math.min(100, (player.exp / player.expNext) * 100) : 0;
     el('player-exp-bar').style.width = pct + '%';
@@ -112,7 +124,7 @@ export function updateFullUI() {
   const chapters = s.get('chapters') || [];
   const curChapter = s.get('curChapter') || 0;
   const chapter = chapters[curChapter];
-  if (el('chapter-name')) el('chapter-name').textContent = chapter ? chapter.name : '第1章';
+  if (el('chapter-name')) el('chapter-name').textContent = chapter ? tr(chapter.name) : t('card.chapter');
   if (el('chapter-progress') && chapter) {
     const pct = Math.min(100, (s.get('lifetimeEarned') || 0) / chapter.goal * 100);
     el('chapter-progress').textContent = Math.floor(pct) + '%';
@@ -135,7 +147,7 @@ export function updateFullUI() {
   // Boss 信息
   const boss = s.get('boss') || {};
   if (el('boss-level')) el('boss-level').textContent = boss.level || 1;
-  if (el('boss-name')) el('boss-name').textContent = boss.name || '矿洞守护者';
+  if (el('boss-name')) el('boss-name').textContent = tr(boss.name) || t('boss.1');
   if (el('boss-hp')) el('boss-hp').textContent = fmt(boss.hp || 0);
   if (el('boss-max-hp')) el('boss-max-hp').textContent = fmt(boss.maxHp || 1000);
   if (el('boss-hp-bar')) {
@@ -162,9 +174,9 @@ export function renderUpgrades() {
         <button class="mult-btn ${buyMultiplier === 1 ? 'active' : ''}" data-mult="1">×1</button>
         <button class="mult-btn ${buyMultiplier === 10 ? 'active' : ''}" data-mult="10">×10</button>
         <button class="mult-btn ${buyMultiplier === 100 ? 'active' : ''}" data-mult="100">×100</button>
-        <button class="mult-btn ${buyMultiplier === 'max' ? 'active' : ''}" data-mult="max">最大</button>
+        <button class="mult-btn ${buyMultiplier === 'max' ? 'active' : ''}" data-mult="max">${t('ui.max')}</button>
       </div>
-      <button class="sm-btn orange" id="auto-buy-toggle">自动购买: 关</button>
+      <button class="sm-btn orange" id="auto-buy-toggle">${t('ui.autoBuy')}: ${GameState.get('autoBuy.enabled') ? t('ui.on') : t('ui.off')}</button>
     </div>
   `;
 
@@ -174,21 +186,21 @@ export function renderUpgrades() {
     const costText = buyMultiplier === 1
       ? fmt(u.cost)
       : buyMultiplier === 'max'
-        ? `可买${u.maxBuy}次`
+        ? t('tpl.maxBuy', { n: u.maxBuy })
         : `×${buyMultiplier}`;
     html += `
       <div class="u-item ${isSyn ? 'syn' : ''} ${isRec ? 'recommended' : ''}" data-key="${u.key}">
         <div class="u-info">
-          <div class="u-name">${u.name}</div>
-          <div class="u-desc">${getUpgradeDesc(u.key)}</div>
+          <div class="u-name">${tr(u.name)}</div>
+          <div class="u-desc">${tr(getUpgradeDesc(u.key))}</div>
           <div class="u-lvl">
             <span class="badge lv">Lv.${u.level}</span>
-            <span class="badge ef">${u.name === '工厂协同' ? (u.level * 10).toFixed(0) + '%协同' : '效果 ' + u.effect.toFixed(1)}</span>
+            <span class="badge ef">${isSyn ? t('tpl.synergy', { n: (u.level * 10).toFixed(0) }) : t('tpl.effect', { n: u.effect.toFixed(1) })}</span>
           </div>
         </div>
         <button class="u-btn" data-buy="${u.key}" ${!u.canBuy ? 'disabled' : ''}>
           <span class="cost">💰 ${costText}</span>
-          <span>购买</span>
+          <span>${t('ui.buy')}</span>
         </button>
       </div>
     `;
@@ -216,7 +228,7 @@ export function renderUpgrades() {
         renderUpgrades();
         updateFullUI();
       } else {
-        notify('金币不足！', 'error');
+        notify(t('n.coins'), 'error');
       }
     });
   });
@@ -227,9 +239,9 @@ export function renderUpgrades() {
     autoBtn.addEventListener('click', () => {
       const enabled = !GameState.get('autoBuy.enabled');
       GameState.set('autoBuy.enabled', enabled);
-      autoBtn.textContent = `自动购买: ${enabled ? '开' : '关'}`;
+      autoBtn.textContent = `${t('ui.autoBuy')}: ${enabled ? t('ui.on') : t('ui.off')}`;
       autoBtn.classList.toggle('auto-on', enabled);
-      notify(enabled ? '自动购买已开启' : '自动购买已关闭', 'info');
+      notify(enabled ? t('n.autoOn') : t('n.autoOff'), 'info');
     });
   }
 }
@@ -273,7 +285,7 @@ export function refreshUpgradeButtons() {
         costSpan.textContent = `💰 ${fmt(cost)}`;
       } else if (buyMultiplier === 'max') {
         const maxBuy = UpgradeSystem.getMaxBuyCount(key);
-        costSpan.textContent = `可买${maxBuy}次`;
+        costSpan.textContent = t('tpl.maxBuy', { n: maxBuy });
       }
     }
   });
@@ -294,7 +306,7 @@ export function renderSkills() {
   const prestigePts = GameState.get('prestige.points') || 0;
 
   let html = `<div style="margin-bottom:12px;color:var(--txm);font-size:.8rem">
-    转生点: <span style="color:var(--pd);font-weight:700">${prestigePts}</span>
+    ${t('tpl.prestigePts', { n: `<span style="color:var(--pd);font-weight:700">${prestigePts}</span>` })}
   </div>`;
 
   skills.forEach((skill, i) => {
@@ -302,12 +314,12 @@ export function renderSkills() {
     html += `
       <div class="sk-item ${owned ? 'ok' : ''}">
         <div class="u-info">
-          <div class="sk-name">${skill.name}</div>
-          <div class="sk-desc">${skill.desc}</div>
-          <div class="sk-cost">消耗: ${skill.cost} 转生点</div>
+          <div class="sk-name">${tr(skill.name)}</div>
+          <div class="sk-desc">${tr(skill.desc)}</div>
+          <div class="sk-cost">${t('tpl.skillCost', { n: skill.cost })}</div>
         </div>
         <button class="sk-btn" data-skill-idx="${i}" ${owned || prestigePts < skill.cost ? 'disabled' : ''}>
-          ${owned ? '✓ 已学' : '学习'}
+          ${owned ? t('ui.learned') : t('ui.learn')}
         </button>
       </div>
     `;
@@ -331,7 +343,7 @@ function buySkill(idx) {
 
   const prestigePts = GameState.get('prestige.points') || 0;
   if (prestigePts < skill.cost) {
-    notify('转生点不足！', 'error');
+    notify(t('n.prestige'), 'error');
     return;
   }
 
@@ -340,7 +352,7 @@ function buySkill(idx) {
   GameState.set('skills', [...skills]);
   recalculateDerivedStats();
   snd('upgrade');
-  notify(`学会技能: ${skill.name}`, 'success');
+  notify(t('tpl.skillLearned', { name: tr(skill.name) }), 'success');
   renderSkills();
   updateFullUI();
 }
@@ -356,12 +368,12 @@ export function renderEquipment() {
 
   // 已装备
   const slots = [
-    { key: 'weapon', name: '武器', icon: '⚔️' },
-    { key: 'armor', name: '护甲', icon: '🛡️' },
-    { key: 'ring', name: '戒指', icon: '💍' }
+    { key: 'weapon', name: t('slot.weapon'), icon: '⚔️' },
+    { key: 'armor', name: t('slot.armor'), icon: '🛡️' },
+    { key: 'ring', name: t('slot.ring'), icon: '💍' }
   ];
 
-  let html = '<div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--p)">已装备</div>';
+  let html = `<div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--p)">${t('ui.equippedTitle')}</div>`;
   html += '<div class="eq-grid">';
   slots.forEach(slot => {
     const item = equipment[slot.key] || {};
@@ -369,13 +381,13 @@ export function renderEquipment() {
     html += `
       <div class="eq-card ${hasItem ? 'filled' : ''}">
         <div class="eq-slot-icon">${hasItem ? (item.icon || slot.icon) : slot.icon}</div>
-        <div class="eq-slot-name">${hasItem ? item.name : '空'}</div>
-        <div class="eq-slot-bonus">${hasItem ? '加成: ' + (item.bonus || 0).toFixed(1) : ''}</div>
+        <div class="eq-slot-name">${hasItem ? tr(item.name) : t('slot.empty')}</div>
+        <div class="eq-slot-bonus">${hasItem ? t('tpl.bonus', { n: (item.bonus || 0).toFixed(1) }) : ''}</div>
         ${hasItem ? `<div style="font-size:.6rem;color:var(--txm)">Lv.${item.level || 0}</div>` : ''}
         <div style="margin-top:6px;display:flex;gap:4px;justify-content:center">
           ${hasItem ? `
-            <button class="sm-btn green" data-enhance="${slot.key}" style="font-size:.6rem;padding:3px 8px">强化</button>
-            <button class="sm-btn orange" data-unequip="${slot.key}" style="font-size:.6rem;padding:3px 8px">卸下</button>
+            <button class="sm-btn green" data-enhance="${slot.key}" style="font-size:.6rem;padding:3px 8px">${t('ui.enhance')}</button>
+            <button class="sm-btn orange" data-unequip="${slot.key}" style="font-size:.6rem;padding:3px 8px">${t('ui.unequip')}</button>
           ` : ''}
         </div>
       </div>
@@ -384,21 +396,22 @@ export function renderEquipment() {
   html += '</div>';
 
   // 背包
-  html += '<div style="font-weight:700;font-size:.85rem;margin:12px 0 8px;color:var(--s)">背包</div>';
+  html += `<div style="font-weight:700;font-size:.85rem;margin:12px 0 8px;color:var(--s)">${t('ui.bag')}</div>`;
   if (inventory.length === 0) {
-    html += '<div style="color:var(--txm);font-size:.8rem;text-align:center;padding:20px">背包空空如也，去祈愿获取装备吧！</div>';
+    html += `<div style="color:var(--txm);font-size:.8rem;text-align:center;padding:20px">${t('ui.bagEmpty')}</div>`;
   } else {
     inventory.forEach((item, i) => {
       const rarity = item.rarity || 'c';
       const rarityNames = { sr: 'SR', r: 'R', uc: 'UC', c: 'C' };
       const rarityColors = { sr: '#FF9800', r: '#2196F3', uc: '#4CAF50', c: '#9e9e9e' };
+      const typeNames = { weapon: t('slot.weapon'), armor: t('slot.armor'), ring: t('slot.ring') };
       html += `
         <div class="u-item" style="border-left:3px solid ${rarityColors[rarity] || '#9e9e9e'}">
           <div class="u-info">
-            <div class="u-name">${item.icon || ''} ${item.name} <span style="color:${rarityColors[rarity]};font-size:.65rem">[${rarityNames[rarity] || 'C'}]</span></div>
-            <div class="u-desc">${item.type === 'weapon' ? '武器' : item.type === 'armor' ? '护甲' : item.type === 'ring' ? '戒指' : '物品'}</div>
+            <div class="u-name">${item.icon || ''} ${tr(item.name)} <span style="color:${rarityColors[rarity]};font-size:.65rem">[${rarityNames[rarity] || 'C'}]</span></div>
+            <div class="u-desc">${typeNames[item.type] || t('slot.item')}</div>
           </div>
-          <button class="sm-btn green" data-equip-idx="${i}" data-equip-type="${item.type}">装备</button>
+          <button class="sm-btn green" data-equip-idx="${i}" data-equip-type="${item.type}">${t('ui.equip')}</button>
         </div>
       `;
     });
@@ -418,7 +431,7 @@ export function renderEquipment() {
         const result = EquipmentSystem.equipItem(slot, inventory[idx]);
         if (result) {
           snd('upgrade');
-          notify('装备成功！', 'success');
+          notify(t('n.equipOk'), 'success');
           renderEquipment();
           updateFullUI();
         }
@@ -432,7 +445,7 @@ export function renderEquipment() {
       const slot = btn.dataset.enhance;
       const result = EquipmentSystem.enhanceEquipment(slot);
       if (result) {
-        notify(result.success ? `强化成功！Lv.${result.newLevel}` : '强化失败...', result.success ? 'success' : 'warning');
+        notify(result.success ? t('tpl.enhanceOk', { n: result.newLevel }) : t('n.enhanceFail'), result.success ? 'success' : 'warning');
         renderEquipment();
         updateFullUI();
       }
@@ -444,7 +457,7 @@ export function renderEquipment() {
     btn.addEventListener('click', () => {
       const slot = btn.dataset.unequip;
       EquipmentSystem.unequipItem(slot);
-      notify('已卸下装备', 'info');
+      notify(t('n.unequipped'), 'info');
       renderEquipment();
       updateFullUI();
     });
@@ -466,14 +479,14 @@ export function renderPets() {
       <div class="pet-card ${pet.owned ? 'owned' : ''} ${pet.active ? 'active' : ''}">
         <div class="pet-icon">${pet.icon}</div>
         <div class="pet-info">
-          <div class="pet-name">${pet.name} ${pet.owned ? `<span class="pet-level">Lv.${pet.level || 1}</span>` : ''}</div>
-          <div class="pet-desc">${pet.desc}</div>
+          <div class="pet-name">${tr(pet.name)} ${pet.owned ? `<span class="pet-level">Lv.${pet.level || 1}</span>` : ''}</div>
+          <div class="pet-desc">${tr(pet.desc)}</div>
           ${!pet.owned ? `<div class="sk-cost">💰 ${fmt(pet.cost)}</div>` : ''}
         </div>
         <div style="display:flex;flex-direction:column;gap:4px">
-          ${!pet.owned ? `<button class="sm-btn green" data-pet-buy="${i}">购买</button>` : ''}
-          ${pet.owned && !pet.active ? `<button class="sm-btn orange" data-pet-activate="${i}">出战</button>` : ''}
-          ${pet.owned ? `<button class="sm-btn purple" data-pet-upgrade="${i}" style="font-size:.6rem">升级 💰${fmt(upgradeCost)}</button>` : ''}
+          ${!pet.owned ? `<button class="sm-btn green" data-pet-buy="${i}">${t('ui.buy')}</button>` : ''}
+          ${pet.owned && !pet.active ? `<button class="sm-btn orange" data-pet-activate="${i}">${t('ui.deploy')}</button>` : ''}
+          ${pet.owned ? `<button class="sm-btn purple" data-pet-upgrade="${i}" style="font-size:.6rem">${t('tpl.petUpgrade', { n: fmt(upgradeCost) })}</button>` : ''}
         </div>
       </div>
     `;
@@ -486,11 +499,11 @@ export function renderPets() {
       const idx = parseInt(btn.dataset.petBuy);
       const result = PetSystem.buyPet(pets[idx].id);
       if (result) {
-        notify(`获得宠物: ${pets[idx].name}！`, 'success');
+        notify(t('tpl.petBought', { name: tr(pets[idx].name) }), 'success');
         renderPets();
         updateFullUI();
       } else {
-        notify('金币不足！', 'error');
+        notify(t('n.coins'), 'error');
       }
     });
   });
@@ -499,7 +512,7 @@ export function renderPets() {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.petActivate);
       PetSystem.activatePet(pets[idx].id);
-      notify(`${pets[idx].name} 已出战！`, 'success');
+      notify(t('tpl.petDeployed', { name: tr(pets[idx].name) }), 'success');
       renderPets();
       updateFullUI();
     });
@@ -510,11 +523,11 @@ export function renderPets() {
       const idx = parseInt(btn.dataset.petUpgrade);
       const result = PetSystem.upgradePet(pets[idx].id);
       if (result) {
-        notify(`${pets[idx].name} 升级成功！`, 'success');
+        notify(t('tpl.petUpgraded', { name: tr(pets[idx].name) }), 'success');
         renderPets();
         updateFullUI();
       } else {
-        notify('金币不足！', 'error');
+        notify(t('n.coins'), 'error');
       }
     });
   });
@@ -530,10 +543,10 @@ export function renderResearch() {
   const materials = GameState.get('materials') || {};
 
   let html = '<div style="margin-bottom:12px;display:flex;gap:12px;flex-wrap:wrap;color:var(--txm);font-size:.75rem">';
-  html += `<span>🪨 铁: <b style="color:var(--tx2)">${materials.iron || 0}</b></span>`;
-  html += `<span>💎 水晶: <b style="color:var(--tx2)">${materials.crystal || 0}</b></span>`;
-  html += `<span>🐉 龙鳞: <b style="color:var(--tx2)">${materials.dragonScale || 0}</b></span>`;
-  html += `<span>🔮 古宝石: <b style="color:var(--tx2)">${materials.ancientGem || 0}</b></span>`;
+  html += `<span>🪨 ${t('mat.iron')}: <b style="color:var(--tx2)">${materials.iron || 0}</b></span>`;
+  html += `<span>💎 ${t('mat.crystal')}: <b style="color:var(--tx2)">${materials.crystal || 0}</b></span>`;
+  html += `<span>🐉 ${t('mat.dragonScale')}: <b style="color:var(--tx2)">${materials.dragonScale || 0}</b></span>`;
+  html += `<span>🔮 ${t('mat.ancientGem')}: <b style="color:var(--tx2)">${materials.ancientGem || 0}</b></span>`;
   html += '</div>';
 
   research.forEach((item, i) => {
@@ -543,12 +556,12 @@ export function renderResearch() {
     html += `
       <div class="sk-item ${owned ? 'ok' : ''}">
         <div class="u-info">
-          <div class="sk-name">${item.name}</div>
-          <div class="sk-desc">${item.desc}</div>
-          <div class="sk-cost">消耗: 🪨 ${fmt(matCost)} 铁矿</div>
+          <div class="sk-name">${tr(item.name)}</div>
+          <div class="sk-desc">${tr(item.desc)}</div>
+          <div class="sk-cost">${t('tpl.researchCost', { n: fmt(matCost) })}</div>
         </div>
         <button class="sk-btn" data-research-idx="${i}" ${owned || !canAfford ? 'disabled' : ''}>
-          ${owned ? '✓ 完成' : '研究'}
+          ${owned ? t('ui.done') : t('ui.research')}
         </button>
       </div>
     `;
@@ -572,7 +585,7 @@ function buyResearch(idx) {
 
   const materials = GameState.get('materials') || {};
   if ((materials.iron || 0) < item.cost) {
-    notify('铁矿不足！', 'error');
+    notify(t('n.iron'), 'error');
     return;
   }
 
@@ -581,7 +594,7 @@ function buyResearch(idx) {
   GameState.set('research', [...research]);
   recalculateDerivedStats();
   snd('upgrade');
-  notify(`研究完成: ${item.name}`, 'success');
+  notify(t('tpl.researchDone', { name: tr(item.name) }), 'success');
   renderResearch();
   updateFullUI();
 }
@@ -599,26 +612,26 @@ export function renderGacha() {
   let html = `
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
       <div style="color:var(--txm);font-size:.8rem">
-        祈愿券: <span style="color:var(--pp);font-weight:700">${tix}</span>
+        ${t('tpl.gachaTix', { n: `<span style="color:var(--pp);font-weight:700">${tix}</span>` })}
       </div>
       <div style="display:flex;gap:8px">
         <button class="m-btn" id="gacha-1" ${coins < GACHA_CONFIG.COST_1 && tix < 1 ? 'disabled' : ''}>
-          单抽 💰${GACHA_CONFIG.COST_1}
+          ${t('tpl.gachaSingle', { n: GACHA_CONFIG.COST_1 })}
         </button>
         <button class="m-btn" id="gacha-10" ${coins < GACHA_CONFIG.COST_10 ? 'disabled' : ''}>
-          十连 💰${GACHA_CONFIG.COST_10}
+          ${t('tpl.gachaTen', { n: GACHA_CONFIG.COST_10 })}
         </button>
       </div>
     </div>
     <div style="margin-bottom:16px">
-      <div style="font-size:.75rem;color:var(--txm);margin-bottom:4px">R保底: ${pity.sr.current}/${pity.sr.max}</div>
+      <div style="font-size:.75rem;color:var(--txm);margin-bottom:4px">${t('tpl.pity', { a: pity.sr.current, b: pity.sr.max })}</div>
       <div style="height:6px;background:var(--card2);border-radius:6px;overflow:hidden">
         <div style="height:100%;width:${pity.sr.percent}%;background:linear-gradient(90deg,var(--s),var(--p));border-radius:6px;transition:width .3s"></div>
       </div>
     </div>
-    <div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--p)">祈愿记录</div>
+    <div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--p)">${t('ui.gachaLog')}</div>
     <div id="gacha-results" style="min-height:60px;color:var(--txm);font-size:.8rem;text-align:center;padding:12px">
-      点击按钮开始祈愿
+      ${t('ui.gachaHint')}
     </div>
   `;
 
@@ -636,7 +649,7 @@ export function renderGacha() {
         renderGacha();
         updateFullUI();
       } else {
-        notify('资源不足！', 'error');
+        notify(t('n.resources'), 'error');
       }
     });
   }
@@ -649,7 +662,7 @@ export function renderGacha() {
         renderGacha();
         updateFullUI();
       } else {
-        notify('金币不足！', 'error');
+        notify(t('n.coins'), 'error');
       }
     });
   }
@@ -668,7 +681,7 @@ function showGachaResults(results) {
       <div style="padding:8px 12px;background:var(--card);border-radius:var(--radius-sm);border:1px solid ${rarityColors[r.rarity]};text-align:center;min-width:70px">
         <div style="font-size:1.3rem">${r.icon || '?'}</div>
         <div style="font-size:.7rem;font-weight:700;color:${rarityColors[r.rarity]}">[${rarityNames[r.rarity]}]</div>
-        <div style="font-size:.65rem;color:var(--tx2)">${r.name}</div>
+        <div style="font-size:.65rem;color:var(--tx2)">${tr(r.name)}</div>
       </div>
     `;
   });
@@ -691,7 +704,7 @@ export function renderExpedition() {
 
   const expeditionState = GameState.get('expeditionState') || {};
 
-  let html = '<div style="font-weight:700;font-size:.85rem;margin-bottom:12px;color:var(--p)">派遣远征</div>';
+  let html = `<div style="font-weight:700;font-size:.85rem;margin-bottom:12px;color:var(--p)">${t('ui.expTitle')}</div>`;
 
   expeditions.forEach(exp => {
     const state = expeditionState[exp.id];
@@ -701,17 +714,16 @@ export function renderExpedition() {
     html += `
       <div class="u-item">
         <div class="u-info">
-          <div class="u-name">${exp.name}</div>
-          <div class="u-desc">${exp.desc}</div>
-          <div class="u-desc">奖励: ${Object.entries(exp.reward).map(([k, v]) => {
-            const names = { iron: '铁矿', crystal: '水晶', dragonScale: '龙鳞', ancientGem: '古宝石', gachaTix: '祈愿券' };
-            return `${names[k] || k}×${v}`;
-          }).join(', ')}</div>
+          <div class="u-name">${tr(exp.name)}</div>
+          <div class="u-desc">${tr(exp.desc)}</div>
+          <div class="u-desc">${t('tpl.rewards', { list: Object.entries(exp.reward).map(([k, v]) => {
+            return `${materialName(k)}×${v}`;
+          }).join(', ') })}</div>
           <div class="sk-cost">💰 ${fmt(exp.cost)} · ⏱ ${formatTime(exp.time)}</div>
-          ${isActive ? `<div class="sk-cost" id="exp-timer-${exp.id}">进行中...</div>` : ''}
+          ${isActive ? `<div class="sk-cost" id="exp-timer-${exp.id}">${t('tpl.expRunning')}</div>` : ''}
         </div>
-        ${isComplete ? `<button class="sm-btn green" data-exp-claim="${exp.id}">领取</button>` : ''}
-        ${!isActive && !isComplete ? `<button class="sm-btn orange" data-exp-start="${exp.id}" ${GameState.get('coins') < exp.cost ? 'disabled' : ''}>派遣</button>` : ''}
+        ${isComplete ? `<button class="sm-btn green" data-exp-claim="${exp.id}">${t('ui.claim')}</button>` : ''}
+        ${!isActive && !isComplete ? `<button class="sm-btn orange" data-exp-start="${exp.id}" ${GameState.get('coins') < exp.cost ? 'disabled' : ''}>${t('ui.send')}</button>` : ''}
       </div>
     `;
   });
@@ -725,13 +737,13 @@ export function renderExpedition() {
       const exp = expeditions.find(e => e.id === expId);
       if (!exp) return;
       const coins = GameState.get('coins') || 0;
-      if (coins < exp.cost) { notify('金币不足！', 'error'); return; }
+      if (coins < exp.cost) { notify(t('n.coins'), 'error'); return; }
       GameState.set('coins', coins - exp.cost);
       const state = GameState.get('expeditionState') || {};
       state[expId] = { endTime: Date.now() + exp.time * 1000, reward: exp.reward, claimed: false };
       GameState.set('expeditionState', state);
       snd('upgrade');
-      notify('远征已派遣！', 'success');
+      notify(t('n.expSent'), 'success');
       renderExpedition();
       updateFullUI();
       updateDailyProgress('expedition', 1);
@@ -754,7 +766,7 @@ export function renderExpedition() {
       expeditionState[expId] = state;
       GameState.set('expeditionState', expeditionState);
       snd('big');
-      notify('远征奖励已领取！', 'success');
+      notify(t('n.expClaimed'), 'success');
       renderExpedition();
       updateFullUI();
     });
@@ -772,7 +784,7 @@ function updateExpeditionTimers(expeditions) {
       const timerEl = $(`exp-timer-${exp.id}`);
       if (timerEl) {
         const remaining = Math.max(0, Math.floor((s.endTime - Date.now()) / 1000));
-        timerEl.textContent = `剩余: ${formatTime(remaining)}`;
+        timerEl.textContent = t('tpl.expRemaining', { t: formatTime(remaining) });
       }
     }
   });
@@ -799,7 +811,7 @@ export function renderWorldBoss() {
   let html = `
     <div style="text-align:center;padding:16px">
       <div style="font-size:2.5rem;margin-bottom:8px">💀</div>
-      <div style="font-weight:700;font-size:1rem;color:var(--a);margin-bottom:4px">${wboss.name}</div>
+      <div style="font-weight:700;font-size:1rem;color:var(--a);margin-bottom:4px">${tr(wboss.name)}</div>
       <div style="font-size:.75rem;color:var(--txm);margin-bottom:12px">Lv.${wboss.level || 1}</div>
       <div style="max-width:300px;margin:0 auto">
         <div style="height:12px;background:var(--card2);border-radius:12px;overflow:hidden;margin-bottom:4px">
@@ -809,13 +821,13 @@ export function renderWorldBoss() {
       </div>
       <div style="margin-top:16px">
         <button class="m-btn" id="wboss-atk" ${isDefeated ? 'disabled' : ''}>
-          ⚔️ 攻击 (使用点击力)
+          ${t('tpl.wbossAtk')}
         </button>
       </div>
       <div style="margin-top:12px;font-size:.75rem;color:var(--txm)">
-        你的贡献伤害: <span style="color:var(--og);font-weight:700">${fmt(GameState.get('stats.wbossDmg') || 0)}</span>
+        ${t('tpl.wbossContrib', { n: `<span style="color:var(--og);font-weight:700">${fmt(GameState.get('stats.wbossDmg') || 0)}</span>` })}
       </div>
-      ${isDefeated ? '<div style="margin-top:12px;color:var(--ok);font-weight:700">🎉 世界Boss已被击败！奖励已发放。</div>' : ''}
+      ${isDefeated ? `<div style="margin-top:12px;color:var(--ok);font-weight:700">${t('n.wbossDown')}</div>` : ''}
     </div>
   `;
 
@@ -844,7 +856,7 @@ export function renderWorldBoss() {
         GameState.increment('materials.dragonScale', 5);
         GameState.increment('gachaTix', 2);
         snd('boss');
-        notify(`世界Boss击败！获得 💰${fmt(reward)} + 龙鳞×5 + 祈愿券×2`, 'success');
+        notify(t('tpl.wbossKill', { n: fmt(reward) }), 'success');
         document.querySelector('.app')?.classList.add('shake-screen');
         setTimeout(() => document.querySelector('.app')?.classList.remove('shake-screen'), 500);
         // 重生世界Boss
@@ -871,8 +883,9 @@ export function renderWorldBoss() {
 }
 
 function getWorldBossName(level) {
+  // 存档保存中文原名，展示时再经 tr() 翻译，避免切换语言后存档被写死成英文
   const names = ['深渊领主', '虚空巨兽', '混沌之主', '毁灭使者', '永恒守卫', '终焉之王'];
-  return names[Math.min(level - 1, names.length - 1)] || `世界Boss Lv.${level}`;
+  return names[Math.min(level - 1, names.length - 1)] || `World Boss Lv.${level}`;
 }
 
 // ==================== 成就标签页 ====================
@@ -901,8 +914,8 @@ export function renderAchievements() {
       <div class="ach-item ${unlocked ? 'unlocked' : ''}">
         <div class="ach-icon">${ach.icon}</div>
         <div class="ach-info">
-          <div class="ach-name">${ach.name} ${unlocked ? '✓' : ''}</div>
-          <div class="ach-desc">${ach.desc}</div>
+          <div class="ach-name">${tr(ach.name)} ${unlocked ? '✓' : ''}</div>
+          <div class="ach-desc">${tr(ach.desc)}</div>
           <div style="font-size:.65rem;color:var(--txm);margin-top:2px">${fmt(current)}/${fmt(ach.tgt)} (${Math.floor(pct)}%)</div>
           <div class="ach-bonus">${ach.bonus}</div>
         </div>
@@ -930,44 +943,39 @@ export function renderCollection() {
   const totalSlots = 3;
 
   let html = `
-    <div style="font-weight:700;font-size:.85rem;margin-bottom:12px;color:var(--p)">收藏进度</div>
+    <div style="font-weight:700;font-size:.85rem;margin-bottom:12px;color:var(--p)">${t('ui.colProgress')}</div>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px">
       <div class="u-item" style="margin:0">
         <div class="u-info">
-          <div class="u-name">🐾 宠物收集</div>
+          <div class="u-name">${t('ui.petCol')}</div>
           <div class="u-desc">${ownedPets}/${totalPets}</div>
         </div>
       </div>
       <div class="u-item" style="margin:0">
         <div class="u-info">
-          <div class="u-name">⚔️ 装备栏位</div>
+          <div class="u-name">${t('ui.eqSlots')}</div>
           <div class="u-desc">${equippedSlots}/${totalSlots}</div>
         </div>
       </div>
       <div class="u-item" style="margin:0">
         <div class="u-info">
-          <div class="u-name">📊 统计数据</div>
-          <div class="u-desc">点击: ${fmt(GameState.get('stats.clicks') || 0)}</div>
+          <div class="u-name">${t('ui.stats')}</div>
+          <div class="u-desc">${t('tpl.clicks', { n: fmt(GameState.get('stats.clicks') || 0) })}</div>
         </div>
       </div>
       <div class="u-item" style="margin:0">
         <div class="u-info">
-          <div class="u-name">⏱ 游戏时长</div>
+          <div class="u-name">${t('ui.playTime')}</div>
           <div class="u-desc">${formatTime((GameState.get('stats.playTime') || 0) / 10)}</div>
         </div>
       </div>
     </div>
-    <div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--s)">材料仓库</div>
+    <div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--s)">${t('ui.materials')}</div>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
   `;
 
   const materials = GameState.get('materials') || {};
-  const matInfo = [
-    { key: 'iron', name: '铁矿', icon: '🪨' },
-    { key: 'crystal', name: '水晶', icon: '💎' },
-    { key: 'dragonScale', name: '龙鳞', icon: '🐉' },
-    { key: 'ancientGem', name: '古宝石', icon: '🔮' }
-  ];
+  const matInfo = MATERIAL_KEYS.map(key => ({ key, name: t(`mat.${key}`), icon: MATERIAL_ICONS[key] }));
 
   matInfo.forEach(m => {
     html += `
@@ -983,8 +991,8 @@ export function renderCollection() {
   html += `
     </div>
     <div style="margin-top:12px;font-size:.75rem;color:var(--txm)">
-      💎 宝石: <span style="color:var(--s);font-weight:700">${GameState.get('gems') || 0}</span> ·
-      🎫 祈愿券: <span style="color:var(--pp);font-weight:700">${GameState.get('gachaTix') || 0}</span>
+      ${t('tpl.gems', { n: `<span style="color:var(--s);font-weight:700">${GameState.get('gems') || 0}</span>` })} ·
+      ${t('tpl.tickets', { n: `<span style="color:var(--pp);font-weight:700">${GameState.get('gachaTix') || 0}</span>` })}
     </div>
   `;
 
@@ -1001,24 +1009,24 @@ export function showSettingsModal() {
   overlay.className = 'modal-ov';
   overlay.innerHTML = `
     <div class="modal" style="max-width:400px;text-align:left">
-      <h2>⚙️ 设置</h2>
+      <h2>${t('ui.settings')}</h2>
       <div style="margin-top:16px">
         <div class="qol-option">
-          <span>🔊 音效</span>
+          <span>${t('ui.sound')}</span>
           <label class="toggle-switch">
             <input type="checkbox" id="set-sound" ${isSoundEnabled() ? 'checked' : ''}>
             <span class="toggle-slider"></span>
           </label>
         </div>
         <div class="qol-option">
-          <span>🎨 紧凑模式</span>
+          <span>${t('ui.compact')}</span>
           <label class="toggle-switch">
             <input type="checkbox" id="set-compact" ${GameState.get('qolSettings.compactMode') ? 'checked' : ''}>
             <span class="toggle-slider"></span>
           </label>
         </div>
         <div class="qol-option">
-          <span>💡 推荐升级</span>
+          <span>${t('ui.recommend')}</span>
           <label class="toggle-switch">
             <input type="checkbox" id="set-recommend" ${GameState.get('qolSettings.showRecommendations') !== false ? 'checked' : ''}>
             <span class="toggle-slider"></span>
@@ -1026,13 +1034,13 @@ export function showSettingsModal() {
         </div>
       </div>
       <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
-        <button class="sm-btn green" id="set-save">💾 保存游戏</button>
-        <button class="sm-btn orange" id="set-export">📤 导出存档</button>
-        <button class="sm-btn purple" id="set-import">📥 导入存档</button>
-        <button class="sm-btn" style="background:var(--a)" id="set-reset">🗑️ 重置游戏</button>
+        <button class="sm-btn green" id="set-save">${t('ui.saveGame')}</button>
+        <button class="sm-btn orange" id="set-export">${t('ui.exportSave')}</button>
+        <button class="sm-btn purple" id="set-import">${t('ui.importSave')}</button>
+        <button class="sm-btn" style="background:var(--a)" id="set-reset">${t('ui.resetGame')}</button>
       </div>
       <div style="margin-top:12px;text-align:center">
-        <button class="m-btn" id="set-close">关闭</button>
+        <button class="m-btn" id="set-close">${t('ui.close')}</button>
       </div>
     </div>
   `;
@@ -1059,7 +1067,7 @@ export function showSettingsModal() {
   // 保存
   $('set-save').addEventListener('click', () => {
     GameState.save();
-    notify('游戏已保存！', 'success');
+    notify(t('n.saved'), 'success');
   });
 
   // 导出
@@ -1067,30 +1075,30 @@ export function showSettingsModal() {
     const data = exportSave();
     if (data) {
       navigator.clipboard.writeText(data).then(() => {
-        notify('存档已复制到剪贴板！', 'success');
+        notify(t('n.copied'), 'success');
       }).catch(() => {
-        prompt('复制以下存档代码：', data);
+        prompt(t('prompt.export'), data);
       });
     }
   });
 
   // 导入
   $('set-import').addEventListener('click', () => {
-    const data = prompt('粘贴存档代码：');
+    const data = prompt(t('prompt.import'));
     if (data) {
       const result = importSave(data);
       if (result) {
-        notify('存档导入成功！即将刷新...', 'success');
+        notify(t('n.importOk'), 'success');
         setTimeout(() => location.reload(), 1000);
       } else {
-        notify('存档导入失败！', 'error');
+        notify(t('n.importFail'), 'error');
       }
     }
   });
 
   // 重置
   $('set-reset').addEventListener('click', () => {
-    if (confirm('⚠️ 确定重置？所有进度将丢失！')) {
+    if (confirm(t('confirm.reset'))) {
       clearSave();
       location.reload();
     }
@@ -1115,25 +1123,25 @@ export function showPrestigeModal() {
   overlay.className = 'modal-ov';
   overlay.innerHTML = `
     <div class="modal" style="max-width:380px">
-      <h2>🔄 转生</h2>
+      <h2>${t('ui.prestigeTitle')}</h2>
       <div style="margin:16px 0;color:var(--tx2);font-size:.85rem">
-        <p>转生将重置金币和升级，但保留：</p>
+        <p>${t('ui.prestigeNote')}</p>
         <ul style="margin:8px 0 0 16px;color:var(--txm);font-size:.8rem">
-          <li>技能（已学习的）</li>
-          <li>宠物</li>
-          <li>研究</li>
-          <li>装备</li>
+          <li>${t('ui.prestigeKeep.skills')}</li>
+          <li>${t('tab.pt')}</li>
+          <li>${t('tab.rs')}</li>
+          <li>${t('tab.eq')}</li>
         </ul>
         <div style="margin-top:12px;padding:12px;background:var(--card);border-radius:var(--radius-sm)">
-          <div>累计收入: <span style="color:var(--p)">${fmt(coins)}</span> / ${fmt(PRESTIGE_CONFIG.THRESHOLD)}</div>
-          <div style="margin-top:4px">可获得: <span style="color:var(--pd);font-weight:700">${pointsGain} 转生点</span></div>
+          <div>${t('tpl.prestigeTotal', { n: `<span style="color:var(--p)">${fmt(coins)}</span>`, t: fmt(PRESTIGE_CONFIG.THRESHOLD) })}</div>
+          <div style="margin-top:4px">${t('tpl.prestigeGain', { n: `<span style="color:var(--pd);font-weight:700">${pointsGain}</span>` })}</div>
         </div>
       </div>
       <button class="m-btn" id="prestige-btn" ${!canPrestige ? 'disabled' : ''} style="${canPrestige ? 'background:linear-gradient(145deg,var(--pp),#7e22ce)' : ''}">
-        ${canPrestige ? `🔄 转生 (获得${pointsGain}点)` : '条件不足'}
+        ${canPrestige ? t('tpl.prestigeBtn', { n: pointsGain }) : t('ui.condNotMet')}
       </button>
       <div style="margin-top:8px">
-        <button class="m-btn" id="prestige-close" style="background:var(--card2);color:var(--txm);box-shadow:none">取消</button>
+        <button class="m-btn" id="prestige-close" style="background:var(--card2);color:var(--txm);box-shadow:none">${t('ui.cancel')}</button>
       </div>
     </div>
   `;
@@ -1183,7 +1191,7 @@ function doPrestige(pointsGain) {
   recalculateDerivedStats();
   GameState.save();
   snd('prestige');
-  notify(`转生成功！获得 ${pointsGain} 转生点`, 'success');
+  notify(t('tpl.prestigeOk', { n: pointsGain }), 'success');
   renderAllTabs();
   updateFullUI();
 }
@@ -1201,20 +1209,20 @@ export function showRebirthModal() {
   overlay.className = 'modal-ov';
   overlay.innerHTML = `
     <div class="modal" style="max-width:380px">
-      <h2>✨ 重生</h2>
+      <h2>${t('ui.rebirthTitle')}</h2>
       <div style="margin:16px 0;color:var(--tx2);font-size:.85rem">
-        <p>重生将重置大部分进度，但获得永久加成。</p>
+        <p>${t('ui.rebirthNote')}</p>
         <div style="margin-top:12px;padding:12px;background:var(--card);border-radius:var(--radius-sm)">
-          <div>需要: <span style="color:var(--pd)">${REBIRTH_CONFIG.PRESTIGE_THRESHOLD}次转生</span></div>
-          <div style="margin-top:4px">当前: <span style="color:var(--s)">${prestigeCount}次</span></div>
-          <div style="margin-top:4px">效果: 全局倍率 +${(GameState.get('rebirth.count') || 0) + 1}0%</div>
+          <div>${t('tpl.rebirthNeed', { n: `<span style="color:var(--pd)">${REBIRTH_CONFIG.PRESTIGE_THRESHOLD}</span>` })}</div>
+          <div style="margin-top:4px">${t('tpl.rebirthCur', { n: `<span style="color:var(--s)">${prestigeCount}</span>` })}</div>
+          <div style="margin-top:4px">${t('tpl.rebirthEff', { n: (GameState.get('rebirth.count') || 0) + 1 })}</div>
         </div>
       </div>
       <button class="m-btn" id="rebirth-btn" ${!canRebirth ? 'disabled' : ''} style="${canRebirth ? 'background:linear-gradient(145deg,var(--s),#0284c7)' : ''}">
-        ${canRebirth ? '✨ 重生' : `需要${REBIRTH_CONFIG.PRESTIGE_THRESHOLD}次转生`}
+        ${canRebirth ? t('ui.rebirthBtn') : t('tpl.rebirthBtn', { n: REBIRTH_CONFIG.PRESTIGE_THRESHOLD })}
       </button>
       <div style="margin-top:8px">
-        <button class="m-btn" id="rebirth-close" style="background:var(--card2);color:var(--txm);box-shadow:none">取消</button>
+        <button class="m-btn" id="rebirth-close" style="background:var(--card2);color:var(--txm);box-shadow:none">${t('ui.cancel')}</button>
       </div>
     </div>
   `;
@@ -1242,7 +1250,7 @@ function doRebirth() {
   recalculateDerivedStats();
   GameState.save();
   snd('rebirth');
-  notify(`重生成功！全局倍率 ×${fresh.rebirth.mult.toFixed(1)}`, 'success');
+  notify(t('tpl.rebirthOk', { n: fresh.rebirth.mult.toFixed(1) }), 'success');
   renderAllTabs();
   updateFullUI();
 }
@@ -1387,7 +1395,7 @@ export function checkChapterProgress() {
       chapters[curChapter].done = true;
       GameState.set('chapters', [...chapters]);
       GameState.set('curChapter', curChapter + 1);
-      notify(`🎉 章节「${chapter.name}」完成！`, 'success');
+      notify(t('tpl.chapterDone', { name: tr(chapter.name) }), 'success');
       snd('achievement');
       document.querySelector('.app')?.classList.add('chapter-transition');
       setTimeout(() => document.querySelector('.app')?.classList.remove('chapter-transition'), 600);
@@ -1411,14 +1419,14 @@ export function addExp(amount) {
     // 更新称号
     let title = '新手矿工';
     const sortedTitles = Object.entries(TITLES).sort((a, b) => parseInt(b[0]) - parseInt(a[0]));
-    for (const [lvl, t] of sortedTitles) {
-      if (player.level >= parseInt(lvl)) { title = t; break; }
+    for (const [lvl, titleName] of sortedTitles) {
+      if (player.level >= parseInt(lvl)) { title = titleName; break; }
     }
     player.title = title;
 
     GameState.set('player', { ...player });
     snd('upgrade');
-    notify(`升级！达到 Lv.${player.level}`, 'success');
+    notify(t('tpl.levelUp', { n: player.level }), 'success');
   }
 
   GameState.set('player', { ...player });
@@ -1466,7 +1474,7 @@ export function setupAllEventListeners(game) {
 
       const result = BossSystem.attackBoss(dmg);
       if (result.defeated) {
-        notify('🎉 Boss被击败！奖励已发放！', 'success');
+        notify(t('n.bossDown'), 'success');
         snd('boss');
         document.querySelector('.app')?.classList.add('shake-screen');
         setTimeout(() => document.querySelector('.app')?.classList.remove('shake-screen'), 500);
@@ -1490,21 +1498,22 @@ export function setupAllEventListeners(game) {
     const enabled = !isSoundEnabled();
     setSoundEnabled(enabled);
     GameState.set('soundOn', enabled);
-    notify(enabled ? '音效已开启' : '音效已关闭', 'info');
+    notify(enabled ? t('n.soundOn') : t('n.soundOff'), 'info');
   });
 
   $('btn-theme')?.addEventListener('click', () => {
     const themes = ['gold', 'blue', 'purple', 'green'];
+    const themeKeys = { gold: 'ui.themeGold', blue: 'ui.themeBlue', purple: 'ui.themePurple', green: 'ui.themeGreen' };
     const current = GameState.get('theme') || 'gold';
     const idx = themes.indexOf(current);
     const next = themes[(idx + 1) % themes.length];
     GameState.set('theme', next);
-    notify(`主题切换: ${next}`, 'info');
+    notify(t('tpl.themeSwitch', { name: t(themeKeys[next] || 'ui.themeGold') }), 'info');
   });
 
   $('btn-save')?.addEventListener('click', () => {
     GameState.save();
-    notify('游戏已保存！', 'success');
+    notify(t('n.saved'), 'success');
   });
 
   $('btn-settings')?.addEventListener('click', () => {

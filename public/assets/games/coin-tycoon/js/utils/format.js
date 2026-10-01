@@ -2,6 +2,8 @@
  * 格式化工具函数
  */
 
+import { t } from '../i18n.js';
+
 const SUFFIXES = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc'];
 
 /**
@@ -36,12 +38,12 @@ export function formatTime(seconds) {
   const s = Math.floor(seconds % 60);
   
   if (h > 0) {
-    return `${h}小时${m}分钟`;
+    return t('tpl.timeH', { h, m });
   }
   if (m > 0) {
-    return `${m}分${s}秒`;
+    return t('tpl.timeM', { m, s });
   }
-  return `${s}秒`;
+  return t('tpl.timeS', { s });
 }
 
 /**

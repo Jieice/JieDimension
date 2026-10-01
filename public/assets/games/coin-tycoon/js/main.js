@@ -20,7 +20,8 @@ import {
 import { save, load, AutoSaveManager, calculateOfflineEarnings } from './utils/storage.js';
 import { snd, resumeAudioContext, setSoundEnabled } from './utils/sound.js';
 import { $, createElement, delegate } from './utils/dom.js';
-import { fmt } from './utils/format.js';
+import { fmt, formatTime } from './utils/format.js';
+import { t } from './i18n.js';
 
 // 导入系统模块
 import * as UpgradeSystem from './systems/upgrades.js';
@@ -272,7 +273,7 @@ class Game {
       this.state.increment('coins', offline.earnings);
       this.state.increment('totalEarned', offline.earnings);
       this.state.increment('lifetimeEarned', offline.earnings);
-      notify(`离线收益: +${fmt(offline.earnings)} 金币 (${formatTime(offline.offlineTime)})`, 'success');
+      notify(t('tpl.offline', { n: fmt(offline.earnings), t: formatTime(offline.offlineTime) }), 'success');
     }
   }
 
@@ -383,21 +384,11 @@ class Game {
    * 重置游戏
    */
   reset() {
-    if (confirm('确定重置？所有进度将丢失！')) {
+    if (confirm(t('confirm.reset'))) {
       localStorage.removeItem(GAME_CONFIG.SAVE_KEY);
       location.reload();
     }
   }
-}
-
-// 导入格式化时间（用于离线收益显示）
-function formatTime(seconds) {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = Math.floor(seconds % 60);
-  if (h > 0) return `${h}小时${m}分钟`;
-  if (m > 0) return `${m}分${s}秒`;
-  return `${s}秒`;
 }
 
 // 导出游戏实例
