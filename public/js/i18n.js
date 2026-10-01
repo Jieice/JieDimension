@@ -37,7 +37,6 @@ window.I18N = {
     "proto.title": "原型与网页游戏",
     "proto.subtitle": "浏览器即可游玩的小型作品，多数为 Game Jam 产物或玩法实验。",
     "proto.play": "在线游玩",
-    "proto.itch": "itch.io",
     "proto.source": "源码",
 
     // In development
@@ -108,8 +107,7 @@ window.I18N = {
     "proto.eyebrow": "Game Jam / Web",
     "proto.title": "Prototypes & Web Games",
     "proto.subtitle": "Small projects playable in the browser — mostly Game Jam entries and gameplay experiments.",
-    "proto.play": "Play Online",
-    "proto.itch": "itch.io",
+    "proto.play": "Play in browser",
     "proto.source": "Source",
 
     // In development

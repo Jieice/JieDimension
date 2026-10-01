@@ -50,21 +50,6 @@
     "pinned": true
   },
   {
-    "slug": "planet-drop",
-    "title": "Planet Drop / 星球合成",
-    "title_en": "Planet Drop",
-    "description": "轻松休闲的太空主题合成益智游戏，点击投放星球，合并相同星球创造更大的星球，最终目标是合成恒星！",
-    "description_en": "A relaxing space-themed merge puzzle. Drop planets, merge identical ones to forge bigger planets.",
-    "published": "2025-10-06",
-    "image": "/assets/images/games/planet-drop.avif",
-    "tags": [
-      "游戏",
-      "Web"
-    ],
-    "category": "游戏作品",
-    "pinned": true
-  },
-  {
     "slug": "coin-tycoon",
     "title": "金币大亨 · 深渊觉醒",
     "title_en": "Coin Tycoon: Abyss Awakening",
@@ -177,21 +162,6 @@
     "description_en": "A deeply layered idle incremental. Manage your Trimp army, explore, unlock tech, reincarnate.",
     "published": "2026-07-02",
     "image": "/assets/images/games/trimps.avif",
-    "tags": [
-      "游戏",
-      "Web"
-    ],
-    "category": "游戏作品",
-    "pinned": false
-  },
-  {
-    "slug": "apocalypse-queen",
-    "title": "末世重生：囤货女王",
-    "title_en": "Apocalypse Queen: Hoarder Reborn",
-    "description": "一款末世题材的互动叙事游戏，你将扮演重生者，在末日降临前囤积物资、建立关系、改变命运。",
-    "description_en": "An apocalyptic interactive narrative. Reborn before the end, hoard supplies, change fate.",
-    "published": "2026-05-05",
-    "image": "/assets/images/games/apocalypse-queen.avif",
     "tags": [
       "游戏",
       "Web"
