@@ -68,6 +68,26 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* 加载失败时的重试入口 */
+#loadingRetry {
+    margin-top: 22px;
+    padding: 12px 28px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+#loadingRetry:hover {
+    background: rgba(255, 255, 255, 0.26);
+    transform: translateY(-2px);
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     body {

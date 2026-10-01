@@ -37,7 +37,19 @@ const config = {
 };
 
 // 创建游戏实例
-const game = new Phaser.Game(config);
+let game;
+try {
+    game = new Phaser.Game(config);
+} catch (err) {
+    // 渲染器初始化失败时立刻给出可重试提示，不必等超时
+    window.__fruitMergeFail();
+    throw err;
+}
+
+// 加载屏由真实启动结果驱动，而非 window.load 后的固定延时
+game.events.once('ready', () => {
+    window.__fruitMergeReady();
+});
 
 // 窗口大小调整处理
 window.addEventListener('resize', () => {
