@@ -1,15 +1,20 @@
 /* ============================================================
    JieDimension — 界维互动
    Design: 樱色物语 Sakura Story
-   浅色 · 樱花粉 · 手写体 · 花瓣飘落 · 贴纸感卡片
+   日间 · 樱花粉 · 手写体 · 花瓣飘落 · 贴纸感卡片
+   夜间 · 夜樱物语 Yozakura · 深紫夜空 · 月晕樱枝 · 萤火虫
+   主题由 <html data-theme="night"> 切换，见文件末「夜间主题」段
    ============================================================ */
 
-/* ---------- Design Tokens ---------- */
+/* ---------- Design Tokens（日间） ---------- */
 :root {
+  color-scheme: light;
+
   --bg: #fff8fa;
   --bg-2: #ffeef4;
   --bg-3: #ffe3ee;
   --card: #ffffff;
+  --surface: #ffffff;
   --ink: #584a54;
   --ink-2: #8a7580;
   --ink-3: #b9a5b0;
@@ -24,6 +29,39 @@
   --grad-sky: linear-gradient(180deg, #d8f1ff 0%, #ffeef4 100%);
   --shadow-card: 0 10px 30px -12px rgba(255, 77, 148, 0.25);
   --shadow-pop: 0 16px 40px -14px rgba(255, 77, 148, 0.4);
+
+  /* 结构色（日间为纯白，夜间转为玻璃面板） */
+  --border-card: #ffffff;
+  --brand-ring: #ffffff;
+  --header-bg: rgba(255, 248, 250, 0.85);
+  --header-bg-solid: rgba(255, 248, 250, 0.97);
+  --overlay: rgba(88, 74, 84, 0.45);
+  --cloud: #ffffff;
+  --badge-bg: rgba(255, 255, 255, 0.92);
+  --tape: rgba(255, 217, 138, 0.85);
+  --code-bg: #42333e;
+  --code-ink: #ffeef4;
+  --footer-bg: #584a54;
+  --footer-ink: #cbb8c2;
+  --footer-link-bg: rgba(255, 255, 255, 0.08);
+  --footer-link-ink: #e8d5de;
+  --tba-bg-1: #fff6df;
+  --tba-bg-2: #ffefc9;
+  --tba-ink: #a0792a;
+  --jam-ink: #8a5d13;
+  --dev-ink: #0e6b55;
+  --hero-glow-1: rgba(143, 211, 255, 0.35);
+  --hero-glow-2: rgba(255, 183, 207, 0.5);
+  --games-glow-1: rgba(255, 214, 230, 0.5);
+  --games-glow-2: rgba(216, 241, 255, 0.5);
+  --chip-ink: var(--pink-deep);
+
+  /* 花瓣 */
+  --petal-1: #ffd1e3;
+  --petal-2: #ff9ec4;
+  --petal-inner: inset -2px -2px 4px rgba(255, 77, 148, 0.18);
+  --petal-glow: 0 0 0 rgba(0, 0, 0, 0);
+
   --r-lg: 24px;
   --r-md: 16px;
   --r-sm: 10px;
@@ -53,6 +91,12 @@ ul { list-style: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 ::selection { background: var(--pink-soft); color: var(--pink-deep); }
 
+/* 仅供读屏器 */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
 /* ---------- Layout ---------- */
 .container { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 .section { padding: 90px 0; position: relative; }
@@ -70,10 +114,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   position: absolute;
   top: -8vh;
   border-radius: 62% 38% 55% 45% / 55% 48% 52% 45%;
-  background: linear-gradient(135deg, #ffd1e3, #ff9ec4);
+  background: linear-gradient(135deg, var(--petal-1), var(--petal-2));
   opacity: 0.85;
   animation: fall linear infinite;
-  box-shadow: inset -2px -2px 4px rgba(255, 77, 148, 0.18);
+  box-shadow: var(--petal-inner), var(--petal-glow);
 }
 @keyframes fall {
   0%   { transform: translateY(-6vh) translateX(0) rotate(0deg); }
@@ -86,7 +130,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ---------- 顶部导航 ---------- */
 .site-header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(255, 248, 250, 0.85);
+  background: var(--header-bg);
   backdrop-filter: blur(16px) saturate(150%);
   -webkit-backdrop-filter: blur(16px) saturate(150%);
   border-bottom: 2px dashed var(--pink-soft);
@@ -105,7 +149,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .brand-mark::after {
   content: ""; position: absolute; top: -4px; right: -4px;
   width: 14px; height: 14px; border-radius: 50%;
-  background: var(--butter); border: 2.5px solid #fff;
+  background: var(--butter); border: 2.5px solid var(--brand-ring);
 }
 .nav-links { display: flex; gap: 6px; }
 .nav-links a {
@@ -113,12 +157,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-weight: 700; font-size: 0.95rem; color: var(--ink-2);
   transition: all 0.25s ease;
 }
-.nav-links a:hover { color: var(--pink-deep); background: var(--pink-soft); transform: translateY(-2px); }
+.nav-links a:hover { color: var(--chip-ink); background: var(--pink-soft); transform: translateY(-2px); }
 .nav-actions { display: flex; align-items: center; gap: 10px; }
 .lang-toggle {
   display: flex; align-items: center; gap: 8px;
   padding: 7px 16px; border-radius: 999px;
-  background: #fff; border: 2px solid var(--pink-soft);
+  background: var(--surface); border: 2px solid var(--pink-soft);
   font-weight: 700; font-size: 0.85rem; color: var(--pink-deep);
   transition: all 0.25s;
 }
@@ -127,12 +171,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .icon-btn {
   width: 38px; height: 38px; border-radius: 50%;
   display: grid; place-items: center;
-  background: #fff; border: 2px solid var(--pink-soft); color: var(--pink-deep);
+  background: var(--surface); border: 2px solid var(--pink-soft); color: var(--pink-deep);
   transition: all 0.25s;
 }
 .icon-btn:hover { background: var(--pink-soft); transform: translateY(-2px) rotate(-6deg); }
 .icon-btn svg { width: 18px; height: 18px; }
 .menu-btn { display: none; }
+
+/* 主题切换按钮：日间显示月亮（点击入夜），夜间显示太阳 */
+.theme-toggle .ico-sun { display: none; }
+:root[data-theme="night"] .theme-toggle .ico-moon { display: none; }
+:root[data-theme="night"] .theme-toggle .ico-sun { display: block; }
+.theme-toggle:hover { transform: translateY(-2px) rotate(12deg); }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; overflow: hidden; }
@@ -146,15 +196,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hero-scene::before {
   content: ""; position: absolute; inset: 0;
   background:
-    radial-gradient(circle 300px at 15% 20%, rgba(143, 211, 255, 0.35), transparent 70%),
-    radial-gradient(circle 360px at 85% 15%, rgba(255, 183, 207, 0.5), transparent 70%);
+    radial-gradient(circle 300px at 15% 20%, var(--hero-glow-1), transparent 70%),
+    radial-gradient(circle 360px at 85% 15%, var(--hero-glow-2), transparent 70%);
 }
 .cloud {
-  position: absolute; background: #fff; border-radius: 999px; opacity: 0.9;
+  position: absolute; background: var(--cloud); border-radius: 999px; opacity: 0.9;
   filter: blur(1px);
   animation: drift 30s linear infinite;
 }
-.cloud::before, .cloud::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+.cloud::before, .cloud::after { content: ""; position: absolute; background: var(--cloud); border-radius: 50%; }
 .cloud.c1 { width: 140px; height: 44px; top: 12%; left: -160px; animation-duration: 42s; }
 .cloud.c1::before { width: 60px; height: 60px; top: -26px; left: 22px; }
 .cloud.c1::after { width: 44px; height: 44px; top: -18px; left: 70px; }
@@ -166,11 +216,62 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .cloud.c3::after { width: 52px; height: 52px; top: -22px; left: 84px; }
 @keyframes drift { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 260px)); } }
 
+/* ---------- 夜景装饰层（默认隐藏，data-theme="night" 时淡入） ---------- */
+.night-layer {
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none; opacity: 0;
+  transition: opacity 0.7s ease;
+}
+:root[data-theme="night"] .night-layer { opacity: 1; }
+
+.stars { position: absolute; inset: 0; overflow: hidden; }
+.star {
+  position: absolute; border-radius: 50%; background: #fff;
+  animation: twinkle ease-in-out infinite;
+}
+@keyframes twinkle { 0%, 100% { opacity: 0.18; } 50% { opacity: 0.85; } }
+
+.moon {
+  position: absolute; top: 7%; right: 13%;
+  width: 92px; height: 92px; border-radius: 50%;
+  background: radial-gradient(circle at 34% 32%, #fffdf5 0%, #ffe9b8 45%, #ffd98a 78%, #f0c76a 100%);
+  box-shadow:
+    0 0 60px 18px rgba(255, 233, 184, 0.3),
+    0 0 150px 70px rgba(255, 217, 138, 0.13);
+}
+.moon::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background:
+    radial-gradient(circle 9px at 30% 62%, rgba(214, 176, 108, 0.28), transparent),
+    radial-gradient(circle 6px at 62% 34%, rgba(214, 176, 108, 0.22), transparent),
+    radial-gradient(circle 5px at 48% 74%, rgba(214, 176, 108, 0.2), transparent);
+}
+
+.branch {
+  position: absolute; top: -16px; right: -30px;
+  width: 400px; height: 296px; opacity: 0.92;
+}
+
+.fireflies { position: absolute; inset: 0; overflow: hidden; }
+.firefly {
+  position: absolute; border-radius: 50%;
+  background: #ffe9b8;
+  box-shadow: 0 0 10px 3px rgba(255, 217, 138, 0.75);
+  animation: driftUp linear infinite;
+}
+@keyframes driftUp {
+  0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  15%  { opacity: 1; }
+  50%  { transform: translate(26px, -46px) scale(1); opacity: 0.75; }
+  85%  { opacity: 0.9; }
+  100% { transform: translate(-14px, -100px) scale(0.6); opacity: 0; }
+}
+
 .hero-inner { position: relative; text-align: center; z-index: 2; }
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 8px 22px; border-radius: 999px;
-  background: #fff; border: 2px dashed var(--sakura);
+  background: var(--surface); border: 2px dashed var(--sakura);
   color: var(--pink-deep); font-weight: 700; font-size: 0.9rem;
   box-shadow: var(--shadow-card);
   margin-bottom: 28px;
@@ -214,7 +315,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .btn--primary:hover { transform: translateY(-4px) scale(1.03); box-shadow: var(--shadow-pop); }
 .btn--ghost {
-  background: #fff; color: var(--pink-deep);
+  background: var(--surface); color: var(--pink-deep);
   border: 2.5px solid var(--pink-soft);
 }
 .btn--ghost:hover { transform: translateY(-4px); border-color: var(--pink); background: var(--pink-soft); }
@@ -222,10 +323,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* 拍立得统计卡 */
 .hero-stats { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; }
 .hero-stat {
-  background: #fff; border-radius: var(--r-md);
+  background: var(--surface); border-radius: var(--r-md);
   padding: 20px 30px; min-width: 150px;
   box-shadow: var(--shadow-card);
-  border: 3px solid #fff;
+  border: 3px solid var(--border-card);
   transition: all 0.3s var(--ease-spring);
   position: relative;
 }
@@ -236,7 +337,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hero-stat::before {
   content: ""; position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-4deg);
   width: 64px; height: 20px;
-  background: rgba(255, 217, 138, 0.85);
+  background: var(--tape);
   border-radius: 2px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
 }
@@ -250,7 +351,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* 看板娘气泡 */
 .mascot-bubble {
   position: absolute; right: 6%; bottom: 90px;
-  background: #fff; border: 2.5px solid var(--pink-soft);
+  background: var(--surface); border: 2.5px solid var(--pink-soft);
   border-radius: 18px; padding: 12px 18px;
   font-family: var(--font-hand); font-size: 0.95rem; color: var(--ink);
   box-shadow: var(--shadow-card);
@@ -259,20 +360,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .mascot-bubble::after {
   content: ""; position: absolute; bottom: -10px; left: 28px;
-  width: 16px; height: 16px; background: #fff;
+  width: 16px; height: 16px; background: var(--surface);
   border-right: 2.5px solid var(--pink-soft); border-bottom: 2.5px solid var(--pink-soft);
   transform: rotate(45deg); border-radius: 0 0 4px 0;
 }
 @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-/* 波浪分隔 */
+/* 波浪分隔（填充色随主题切换，见 HTML 中的 .wave-a / .wave-b） */
 .wave { display: block; width: 100%; height: 70px; margin-top: -70px; position: relative; z-index: 4; }
+.wave-a { fill: var(--bg); }
+.wave-b { fill: var(--bg-2); }
 
 /* ---------- 通用 Section 头 ---------- */
 .section-head { text-align: center; margin-bottom: 52px; }
 .section-eyebrow {
   display: inline-block; padding: 6px 18px; border-radius: 999px;
-  background: var(--pink-soft); color: var(--pink-deep);
+  background: var(--pink-soft); color: var(--chip-ink);
   font-weight: 800; font-size: 0.82rem; letter-spacing: 0.12em;
   margin-bottom: 16px;
 }
@@ -290,15 +393,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ---------- 已上线游戏 ---------- */
 #games {
   background:
-    radial-gradient(circle 500px at 90% 10%, rgba(255, 214, 230, 0.5), transparent 70%),
-    radial-gradient(circle 400px at 5% 90%, rgba(216, 241, 255, 0.5), transparent 70%);
+    radial-gradient(circle 500px at 90% 10%, var(--games-glow-1), transparent 70%),
+    radial-gradient(circle 400px at 5% 90%, var(--games-glow-2), transparent 70%);
 }
 .games-featured { margin-top: 8px; }
 .featured-card {
   display: grid; grid-template-columns: 1.15fr 1fr;
   background: var(--card); border-radius: var(--r-lg);
   overflow: hidden; box-shadow: var(--shadow-card);
-  border: 3px solid #fff;
+  border: 3px solid var(--border-card);
   margin-bottom: 36px;
   transition: opacity 0.8s var(--ease-out), transform 0.5s var(--ease-spring), box-shadow 0.35s ease;
 }
@@ -310,7 +413,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   position: absolute; top: 18px; left: 18px; z-index: 2;
   display: inline-flex; align-items: center; gap: 8px;
   padding: 7px 16px; border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(6px);
+  background: var(--badge-bg); backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   color: var(--pink-deep); font-weight: 800; font-size: 0.85rem;
   border: 2px solid var(--pink-soft);
@@ -334,14 +437,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border: 1.5px dashed var(--sakura);
   transition: all 0.25s;
 }
-.tag:hover { background: var(--pink-soft); color: var(--pink-deep); border-style: solid; }
+.tag:hover { background: var(--pink-soft); color: var(--chip-ink); border-style: solid; }
 
 /* ---------- 原型 / 开发中 卡片网格 ---------- */
 .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
 .game-card {
   background: var(--card); border-radius: var(--r-lg);
   overflow: hidden; box-shadow: var(--shadow-card);
-  border: 3px solid #fff;
+  border: 3px solid var(--border-card);
   transition: opacity 0.8s var(--ease-out), transform 0.5s var(--ease-spring), box-shadow 0.35s ease;
   position: relative;
 }
@@ -354,8 +457,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 5px 14px; border-radius: 999px;
   font-family: var(--font-disp); font-weight: 800; font-size: 0.75rem; letter-spacing: 0.1em;
 }
-.game-status.jam { background: var(--butter); color: #8a5d13; border: 2px solid #fff; }
-.game-status.dev { background: var(--mint); color: #0e6b55; border: 2px solid #fff; }
+.game-status.jam { background: var(--butter); color: var(--jam-ink); border: 2px solid var(--border-card); }
+.game-status.dev { background: var(--mint); color: var(--dev-ink); border: 2px solid var(--border-card); }
 .play-overlay {
   position: absolute; inset: 0; display: grid; place-items: center;
   background: rgba(255, 77, 148, 0);
@@ -376,7 +479,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .game-links .primary {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 9px 20px; border-radius: 999px;
-  background: var(--pink-soft); color: var(--pink-deep);
+  background: var(--pink-soft); color: var(--chip-ink);
   font-weight: 800; font-size: 0.88rem;
   transition: all 0.25s;
 }
@@ -384,8 +487,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .game-links .primary svg { width: 15px; height: 15px; }
 .game-links .tba {
   display: inline-flex; padding: 9px 20px; border-radius: 999px;
-  background: repeating-linear-gradient(-45deg, #fff6df, #fff6df 8px, #ffefc9 8px, #ffefc9 16px);
-  color: #a0792a; font-weight: 800; font-size: 0.88rem; border: 2px dashed var(--butter);
+  background: repeating-linear-gradient(-45deg, var(--tba-bg-1), var(--tba-bg-1) 8px, var(--tba-bg-2) 8px, var(--tba-bg-2) 16px);
+  color: var(--tba-ink); font-weight: 800; font-size: 0.88rem; border: 2px dashed var(--butter);
 }
 
 /* 开发中占位缩略图 */
@@ -404,7 +507,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .blog-card {
   background: var(--card); border-radius: var(--r-md);
   overflow: hidden; box-shadow: var(--shadow-card);
-  border: 3px solid #fff; cursor: pointer;
+  border: 3px solid var(--border-card); cursor: pointer;
   transition: opacity 0.8s var(--ease-out), transform 0.5s var(--ease-spring), box-shadow 0.3s ease;
   position: relative;
 }
@@ -415,15 +518,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .blog-pin {
   position: absolute; top: 12px; right: 12px; z-index: 2;
   width: 30px; height: 30px; border-radius: 50%;
-  background: var(--butter); border: 2.5px solid #fff;
-  display: grid; place-items: center; color: #8a5d13; font-size: 0.85rem;
+  background: var(--butter); border: 2.5px solid var(--border-card);
+  display: grid; place-items: center; color: var(--jam-ink); font-size: 0.85rem;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12); transform: rotate(12deg);
 }
 .blog-body { padding: 20px 22px 24px; }
 .blog-meta { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--ink-3); margin-bottom: 10px; }
 .blog-meta .cat {
   padding: 3px 12px; border-radius: 999px;
-  background: var(--pink-soft); color: var(--pink-deep); font-weight: 800;
+  background: var(--pink-soft); color: var(--chip-ink); font-weight: 800;
 }
 .blog-title { font-family: var(--font-hand); font-size: 1.12rem; font-weight: 900; color: var(--ink); margin-bottom: 8px; line-height: 1.5; }
 .blog-excerpt {
@@ -443,7 +546,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .blog-modal.open { display: block; }
 .blog-modal-backdrop {
   position: absolute; inset: 0;
-  background: rgba(88, 74, 84, 0.45);
+  background: var(--overlay);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   animation: fadeIn 0.25s ease;
@@ -458,7 +561,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   width: 100%; max-width: 780px;
   background: var(--card); border-radius: var(--r-lg);
   box-shadow: var(--shadow-pop);
-  border: 3px solid #fff;
+  border: 3px solid var(--border-card);
   position: relative;
   align-self: flex-start;
   animation: popIn 0.35s var(--ease-spring);
@@ -467,7 +570,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   position: sticky; top: 16px; z-index: 5;
   margin-left: auto; margin-right: 16px;
   width: 42px; height: 42px; border-radius: 50%;
-  background: #fff; border: 2px solid var(--pink-soft); color: var(--pink-deep);
+  background: var(--surface); border: 2px solid var(--pink-soft); color: var(--pink-deep);
   display: grid; place-items: center;
   box-shadow: var(--shadow-card);
   transition: all 0.25s;
@@ -480,7 +583,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .blog-modal-meta { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--ink-3); margin-bottom: 12px; }
 .blog-modal-meta .cat {
   padding: 3px 12px; border-radius: 999px;
-  background: var(--pink-soft); color: var(--pink-deep); font-weight: 800;
+  background: var(--pink-soft); color: var(--chip-ink); font-weight: 800;
 }
 .blog-modal-title { font-family: var(--font-hand); font-size: 1.6rem; font-weight: 900; color: var(--ink); line-height: 1.45; margin-bottom: 20px; }
 @keyframes fadeIn { from { opacity: 0; } }
@@ -520,11 +623,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .markdown-body code {
   font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.88em;
-  background: var(--pink-soft); color: var(--pink-deep);
+  background: var(--pink-soft); color: var(--chip-ink);
   padding: 2px 7px; border-radius: 6px;
 }
 .markdown-body pre {
-  background: #42333e; color: #ffeef4;
+  background: var(--code-bg); color: var(--code-ink);
   border-radius: var(--r-md);
   padding: 18px 20px; overflow-x: auto;
   margin: 0 0 1.2em;
@@ -541,7 +644,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .about-card {
   position: relative; border-radius: var(--r-lg);
   background: var(--grad-sky);
-  border: 3px solid #fff;
+  border: 3px solid var(--border-card);
   box-shadow: var(--shadow-card);
   padding: 42px 28px 34px; text-align: center;
   transition: opacity 0.8s var(--ease-out), transform 0.5s var(--ease-spring), box-shadow 0.35s ease;
@@ -557,7 +660,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .avatar-core {
   width: 100%; height: 100%; border-radius: 50%;
-  background: #fff; display: grid; place-items: center;
+  background: var(--surface); display: grid; place-items: center;
   font-family: var(--font-disp); font-size: 2.8rem; font-weight: 800;
   background-image: var(--grad-main);
   -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -567,7 +670,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .about-divider { width: 56px; height: 4px; border-radius: 999px; background: var(--grad-main); margin: 0 auto 18px; }
 .about-mini-stats { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
 .mini-stat {
-  background: #fff; border: 2px solid var(--pink-soft); border-radius: var(--r-sm);
+  background: var(--surface); border: 2px solid var(--pink-soft); border-radius: var(--r-sm);
   padding: 8px 14px; font-size: 0.8rem; font-weight: 700; color: var(--ink-2);
 }
 .mini-stat b { color: var(--pink-deep); font-family: var(--font-disp); }
@@ -578,7 +681,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .skill-lv { color: var(--pink-deep); font-family: var(--font-disp); }
 .skill-bar {
   height: 14px; border-radius: 999px; background: var(--bg-3);
-  overflow: hidden; border: 2px solid #fff; box-shadow: inset 0 2px 4px rgba(255, 77, 148, 0.12);
+  overflow: hidden; border: 2px solid var(--border-card); box-shadow: inset 0 2px 4px rgba(255, 77, 148, 0.12);
 }
 .skill-fill {
   height: 100%; border-radius: 999px;
@@ -598,16 +701,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .about-links a {
   display: inline-flex; align-items: center; gap: 9px;
   padding: 11px 22px; border-radius: 999px;
-  background: #fff; border: 2px solid var(--pink-soft);
+  background: var(--surface); border: 2px solid var(--pink-soft);
   font-weight: 800; font-size: 0.9rem; color: var(--ink-2);
   transition: all 0.25s var(--ease-spring);
 }
-.about-links a:hover { transform: translateY(-4px) rotate(-2deg); background: var(--pink-soft); color: var(--pink-deep); border-color: var(--pink); }
+.about-links a:hover { transform: translateY(-4px) rotate(-2deg); background: var(--pink-soft); color: var(--chip-ink); border-color: var(--pink); }
 .about-links a svg { width: 17px; height: 17px; }
 
 /* ---------- Footer ---------- */
 .site-footer {
-  background: var(--ink); color: #cbb8c2;
+  background: var(--footer-bg); color: var(--footer-ink);
   border-radius: 44px 44px 0 0;
   padding: 46px 0 38px; margin-top: 70px;
 }
@@ -617,7 +720,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .footer-links a {
   width: 40px; height: 40px; border-radius: 50%;
   display: grid; place-items: center;
-  background: rgba(255, 255, 255, 0.08); color: #e8d5de;
+  background: var(--footer-link-bg); color: var(--footer-link-ink);
   transition: all 0.25s;
 }
 .footer-links a:hover { background: var(--pink-deep); color: #fff; transform: translateY(-4px); }
@@ -642,6 +745,92 @@ body.lang-switching main,
 body.lang-switching .site-header { opacity: 0; transition: opacity 0.18s ease; }
 main, .site-header { transition: opacity 0.18s ease; }
 
+/* ---------- 主题切换过渡（切换瞬间挂载，避免污染常驻 transition） ---------- */
+html.theme-anim,
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition: background-color 0.45s ease, color 0.45s ease,
+              border-color 0.45s ease, box-shadow 0.45s ease, fill 0.45s ease !important;
+}
+
+/* ============================================================
+   夜间主题 · 夜樱物语 Yozakura
+   深紫夜空 · 月晕樱枝 · 发光花瓣与萤火虫 · 夜色玻璃卡
+   ============================================================ */
+:root[data-theme="night"] {
+  color-scheme: dark;
+
+  --bg: #0d0a1a;
+  --bg-2: #150f28;
+  --bg-3: #1e1636;
+  --card: rgba(30, 22, 52, 0.78);
+  --surface: rgba(40, 30, 68, 0.72);
+  --ink: #f3eaf6;
+  --ink-2: #c4b4d6;
+  --ink-3: #8d7ba6;
+  --pink: #ff7ec4;
+  --pink-deep: #ff5fa8;
+  --pink-soft: rgba(255, 95, 168, 0.18);
+  --sakura: #ffb7cf;
+  --mint: #7ee0c8;
+  --sky: #9fd8ff;
+  --butter: #ffe9b8;
+  --grad-main: linear-gradient(135deg, #ffb0d8 0%, #ff5fa8 55%, #c95cff 100%);
+  --grad-sky: linear-gradient(180deg, #150f28 0%, #241a3f 55%, #3d2154 100%);
+  --shadow-card: 0 14px 40px -18px rgba(0, 0, 0, 0.85);
+  --shadow-pop: 0 20px 52px -18px rgba(255, 95, 168, 0.42);
+
+  --border-card: rgba(255, 183, 207, 0.2);
+  --brand-ring: #150f28;
+  --header-bg: rgba(13, 10, 26, 0.82);
+  --header-bg-solid: rgba(13, 10, 26, 0.97);
+  --overlay: rgba(6, 4, 14, 0.66);
+  --cloud: rgba(167, 139, 250, 0.16);
+  --badge-bg: rgba(21, 15, 40, 0.88);
+  --tape: rgba(255, 183, 207, 0.55);
+  --code-bg: #1a1230;
+  --code-ink: #ffd9ec;
+  --footer-bg: #08060f;
+  --footer-ink: #b8a6c6;
+  --footer-link-bg: rgba(255, 183, 207, 0.1);
+  --footer-link-ink: #f0dcea;
+  --tba-bg-1: rgba(255, 233, 184, 0.08);
+  --tba-bg-2: rgba(255, 233, 184, 0.16);
+  --tba-ink: #ffd98a;
+  --jam-ink: #3a2405;
+  --dev-ink: #04352a;
+  --hero-glow-1: rgba(120, 90, 220, 0.4);
+  --hero-glow-2: rgba(255, 95, 168, 0.28);
+  --games-glow-1: rgba(255, 95, 168, 0.14);
+  --games-glow-2: rgba(120, 90, 220, 0.18);
+  --chip-ink: #ffc9e2;
+
+  --petal-1: #ffd6e6;
+  --petal-2: #ff8ec4;
+  --petal-inner: inset -1px -1px 3px rgba(255, 255, 255, 0.12);
+  --petal-glow: 0 0 10px rgba(255, 142, 196, 0.75);
+}
+
+/* 夜樱花瓣：叠加发光 */
+:root[data-theme="night"] .petal { mix-blend-mode: screen; }
+
+/* 夜云：更柔和、更弥散 */
+:root[data-theme="night"] .cloud { filter: blur(3px); }
+
+/* 夜色玻璃卡：半透明卡片补一层背景模糊 */
+:root[data-theme="night"] .featured-card,
+:root[data-theme="night"] .game-card,
+:root[data-theme="night"] .blog-card,
+:root[data-theme="night"] .blog-modal-sheet {
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+/* 半透明粉底上的文字统一走 --chip-ink 令牌，夜间自动转为浅粉，无需重复覆盖 */
+
+:root[data-theme="night"] ::selection { background: rgba(255, 95, 168, 0.35); color: #fff; }
+
 /* ---------- 响应式 ---------- */
 @media (max-width: 1020px) {
   .game-grid, .blog-grid { grid-template-columns: repeat(2, 1fr); }
@@ -651,17 +840,27 @@ main, .site-header { transition: opacity 0.18s ease; }
   .about-card { max-width: 460px; margin: 0 auto; }
   .mascot-bubble { display: none; }
   .blog-modal-body { padding: 24px 26px 34px; }
+  .moon { width: 76px; height: 76px; right: 9%; }
+  .branch { width: 320px; height: 238px; opacity: 0.75; }
 }
 @media (max-width: 640px) {
   .game-grid, .blog-grid { grid-template-columns: 1fr; }
+  /* 导航新增主题按钮后共 4 个控件，窄屏需收紧尺寸 */
+  .nav { gap: 10px; }
+  .nav-actions { gap: 6px; }
+  .brand { gap: 8px; font-size: 1.05rem; }
+  .brand-mark { width: 34px; height: 34px; font-size: 1rem; }
+  .lang-toggle { padding: 6px 12px; font-size: 0.78rem; }
+  .icon-btn { width: 34px; height: 34px; }
+  .icon-btn svg { width: 16px; height: 16px; }
   .nav-links { display: none; }
   .menu-btn {
-    display: grid; width: 38px; height: 38px; place-items: center;
-    border-radius: 50%; background: #fff; border: 2px solid var(--pink-soft); color: var(--pink-deep);
+    display: grid; width: 34px; height: 34px; place-items: center;
+    border-radius: 50%; background: var(--surface); border: 2px solid var(--pink-soft); color: var(--pink-deep);
   }
   .nav-links.mobile-open {
     display: flex; position: absolute; top: 68px; left: 0; right: 0;
-    flex-direction: column; background: rgba(255, 248, 250, 0.97);
+    flex-direction: column; background: var(--header-bg-solid);
     padding: 18px 24px; gap: 4px; border-bottom: 2px dashed var(--pink-soft);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -673,15 +872,27 @@ main, .site-header { transition: opacity 0.18s ease; }
   .blog-modal-hero { margin-top: -54px; }
   .blog-modal-body { padding: 20px 20px 28px; }
   .back-to-top { right: 16px; bottom: 20px; }
+  .moon { width: 58px; height: 58px; right: 8%; top: 5%; }
+  .branch { width: 220px; height: 164px; top: -10px; right: -40px; opacity: 0.5; }
+}
+/* 极窄屏：先舍弃导航里的 GitHub 图标（关于区与页脚仍有入口），再舍弃文字标识 */
+@media (max-width: 420px) {
+  .nav-actions > a.icon-btn { display: none; }
+}
+@media (max-width: 360px) {
+  .brand > span:last-child { display: none; }
 }
 
 /* ---------- 动效减弱 ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .petal, .cloud, .mascot-bubble, .avatar-ring, .hero-title .accent::after { animation: none; }
+  .petal, .cloud, .mascot-bubble, .avatar-ring, .hero-title .accent::after,
+  .star, .firefly { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .reveal.visible { transform: none; }
   .about-card.reveal, .about-card.reveal.visible { transform: none; }
   .about-card:hover { transform: none; }
+  .night-layer { transition: none; }
+  html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after { transition: none !important; }
   html { scroll-behavior: auto; }
 }
 

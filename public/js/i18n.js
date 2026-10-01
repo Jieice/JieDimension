@@ -10,6 +10,7 @@ window.I18N = {
     "nav.blog": "博客",
     "nav.about": "关于",
     "nav.github": "GitHub",
+    "theme.toggle": "切换日间 / 夜间主题",
 
     // Hero
     "hero.eyebrow": "独立游戏开发者 · 界维互动",
@@ -81,6 +82,7 @@ window.I18N = {
     "nav.blog": "Blog",
     "nav.about": "About",
     "nav.github": "GitHub",
+    "theme.toggle": "Toggle day / night theme",
 
     // Hero
     "hero.eyebrow": "Indie Game Developer · JieDimension",

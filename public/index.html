@@ -20,8 +20,21 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-dark-32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/favicon-dark-180.png" />
 
-  <!-- Theme -->
+  <!-- Theme（内联脚本须在样式表之前执行，避免夜间模式首屏闪白） -->
   <meta name="theme-color" content="#fff8fa" />
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("jiedim.theme");
+        var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day");
+        if (theme === "night") {
+          document.documentElement.setAttribute("data-theme", "night");
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", "#0d0a1a");
+        }
+      } catch (e) {}
+    })();
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,6 +67,11 @@
       </nav>
 
       <div class="nav-actions">
+        <button class="icon-btn theme-toggle" id="themeToggle" aria-pressed="false">
+          <svg class="ico-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M4.2 4.2l1.9 1.9M17.9 17.9l1.9 1.9M2 12h2.6M19.4 12H22M4.2 19.8l1.9-1.9M17.9 6.1l1.9-1.9"/></svg>
+          <span class="sr-only" data-i18n="theme.toggle">切换日间 / 夜间主题</span>
+        </button>
         <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
           <span class="dot"></span>
           <span id="langLabel">EN</span>
@@ -76,6 +94,48 @@
         <div class="cloud c1" aria-hidden="true"></div>
         <div class="cloud c2" aria-hidden="true"></div>
         <div class="cloud c3" aria-hidden="true"></div>
+
+        <!-- 夜景装饰层：仅夜间主题显示，星空与萤火虫由 main.js 生成 -->
+        <div class="night-layer" aria-hidden="true">
+          <div class="stars" id="stars"></div>
+          <div class="moon"></div>
+          <svg class="branch" viewBox="0 0 460 340">
+            <defs>
+              <filter id="bloom" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="5" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g stroke="#4a3660" fill="none" stroke-linecap="round">
+              <path d="M460 6 C382 32 340 72 292 98 C240 126 190 118 140 158" stroke-width="7"/>
+              <path d="M356 54 C330 78 306 94 268 102" stroke-width="4.5"/>
+              <path d="M292 98 C288 140 266 166 234 188" stroke-width="4.5"/>
+              <path d="M228 130 C206 148 188 154 162 156" stroke-width="3.5"/>
+              <path d="M320 76 C312 108 300 128 286 140" stroke-width="3"/>
+            </g>
+            <g filter="url(#bloom)">
+              <g fill="#ffb7cf" opacity="0.95">
+                <circle cx="292" cy="98" r="9"/>
+                <circle cx="268" cy="102" r="6.5"/>
+                <circle cx="234" cy="188" r="8"/>
+                <circle cx="162" cy="156" r="6.5"/>
+                <circle cx="140" cy="158" r="7.5"/>
+                <circle cx="356" cy="54" r="5.5"/>
+                <circle cx="206" cy="148" r="5.5"/>
+                <circle cx="286" cy="140" r="5"/>
+                <circle cx="320" cy="76" r="5"/>
+              </g>
+              <g fill="#ffe9f4" opacity="0.85">
+                <circle cx="292" cy="98" r="3.8"/>
+                <circle cx="234" cy="188" r="3.4"/>
+                <circle cx="140" cy="158" r="3.2"/>
+                <circle cx="268" cy="102" r="2.6"/>
+              </g>
+            </g>
+          </svg>
+          <div class="fireflies" id="fireflies"></div>
+        </div>
+
         <div class="container hero-inner">
           <div class="hero-eyebrow reveal">
             <span class="dot"></span>
@@ -117,8 +177,8 @@
         <div class="mascot-bubble" data-i18n="mascot.hello">欢迎来到界维的小站～ 每一款游戏都可以直接玩哦！(≧▽≦)</div>
       </div>
       <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,40 C240,80 480,0 720,30 C960,60 1200,10 1440,45 L1440,70 L0,70 Z" fill="#fff8fa"/>
-        <path d="M0,52 C260,20 520,70 760,45 C1000,20 1240,65 1440,40 L1440,70 L0,70 Z" fill="#ffeef4" opacity="0.6"/>
+        <path class="wave-a" d="M0,40 C240,80 480,0 720,30 C960,60 1200,10 1440,45 L1440,70 L0,70 Z"/>
+        <path class="wave-b" d="M0,52 C260,20 520,70 760,45 C1000,20 1240,65 1440,40 L1440,70 L0,70 Z" opacity="0.6"/>
       </svg>
     </section>
 

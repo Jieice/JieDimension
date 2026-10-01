@@ -31,6 +31,43 @@
   // Initial language
   setLang(getLang());
 
+  /* ---------- Theme toggle (day / night) ---------- */
+  // data-theme 已由 <head> 内联脚本按 localStorage / 系统偏好预设，此处只负责切换与持久化
+  const THEME_KEY = "jiedim.theme";
+  const THEME_COLOR = { day: "#fff8fa", night: "#0d0a1a" };
+  const themeToggle = document.getElementById("themeToggle");
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+  function currentTheme() {
+    return document.documentElement.getAttribute("data-theme") === "night" ? "night" : "day";
+  }
+
+  let themeAnimTimer;
+  function applyTheme(theme, animate) {
+    if (theme === "night") {
+      document.documentElement.setAttribute("data-theme", "night");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+    if (themeMeta) themeMeta.setAttribute("content", THEME_COLOR[theme]);
+    themeToggle.setAttribute("aria-pressed", theme === "night" ? "true" : "false");
+    if (animate) {
+      document.documentElement.classList.add("theme-anim");
+      clearTimeout(themeAnimTimer);
+      themeAnimTimer = setTimeout(() => {
+        document.documentElement.classList.remove("theme-anim");
+      }, 520);
+    }
+  }
+
+  themeToggle.addEventListener("click", () => {
+    const next = currentTheme() === "night" ? "day" : "night";
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+    applyTheme(next, true);
+  });
+
+  applyTheme(currentTheme(), false);
+
   /* ---------- 樱花飘落 ---------- */
   const petalsBox = document.getElementById("petals");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -51,6 +88,54 @@
       frag.appendChild(p);
     }
     petalsBox.appendChild(frag);
+  }
+
+  /* ---------- 夜景装饰：星空 + 萤火虫 ---------- */
+  // 元素始终生成，显隐完全由 .night-layer 的 CSS 控制，避免切换主题时重建 DOM
+  if (!reduceMotion) {
+    const starsBox = document.getElementById("stars");
+    const firefliesBox = document.getElementById("fireflies");
+
+    if (starsBox) {
+      const starCount = window.innerWidth < 640 ? 26 : 54;
+      const starFrag = document.createDocumentFragment();
+      for (let i = 0; i < starCount; i++) {
+        const s = document.createElement("i");
+        s.className = "star";
+        const size = 1.2 + Math.random() * 1.8;
+        s.style.width = size.toFixed(2) + "px";
+        s.style.height = size.toFixed(2) + "px";
+        s.style.left = (Math.random() * 100).toFixed(2) + "%";
+        s.style.top = (Math.random() * 62).toFixed(2) + "%";
+        s.style.animationDuration = (2.4 + Math.random() * 3.2).toFixed(2) + "s";
+        s.style.animationDelay = (-Math.random() * 4).toFixed(2) + "s";
+        starFrag.appendChild(s);
+      }
+      starsBox.appendChild(starFrag);
+    }
+
+    if (firefliesBox) {
+      const flyCount = window.innerWidth < 640 ? 8 : 16;
+      const flyFrag = document.createDocumentFragment();
+      for (let i = 0; i < flyCount; i++) {
+        const f = document.createElement("i");
+        f.className = "firefly";
+        const size = 2.5 + Math.random() * 3;
+        f.style.width = size.toFixed(2) + "px";
+        f.style.height = size.toFixed(2) + "px";
+        f.style.left = (Math.random() * 100).toFixed(2) + "%";
+        f.style.top = (30 + Math.random() * 65).toFixed(2) + "%";
+        const dur = 7 + Math.random() * 9;
+        f.style.animationDuration = dur.toFixed(2) + "s";
+        f.style.animationDelay = (-Math.random() * dur).toFixed(2) + "s";
+        if (Math.random() > 0.65) {
+          f.style.background = "#ffc9e2";
+          f.style.boxShadow = "0 0 10px 3px rgba(255, 142, 196, 0.75)";
+        }
+        flyFrag.appendChild(f);
+      }
+      firefliesBox.appendChild(flyFrag);
+    }
   }
 
   /* ---------- Sticky header shadow ---------- */
