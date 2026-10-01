@@ -39,7 +39,7 @@ class BootScene extends Phaser.Scene {
             strokeThickness: 6
         }).setOrigin(0.5);
 
-        this.add.text(width / 2, height / 2 - 50, '水果合成狂热', {
+        this.add.text(width / 2, height / 2 - 50, FT("fruit.boot.subtitle"), {
             fontSize: '32px',
             color: '#ffffff'
         }).setOrigin(0.5);

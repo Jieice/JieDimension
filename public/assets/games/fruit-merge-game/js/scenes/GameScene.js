@@ -116,7 +116,7 @@ class GameScene extends Phaser.Scene {
         const width = this.cameras.main.width;
 
         // 分数显示 - 左上角
-        this.scoreText = this.add.text(30, 30, 'Score: 0', {
+        this.scoreText = this.add.text(30, 30, FT("fruit.hud.score", { score: 0 }), {
             fontSize: '36px',
             fontStyle: 'bold',
             color: '#333333',
@@ -125,7 +125,7 @@ class GameScene extends Phaser.Scene {
         }).setDepth(100);  // UI在最上层
 
         // 最高分显示
-        this.highScoreText = this.add.text(30, 90, `Best: ${this.scoreManager.getHighScore()}`, {
+        this.highScoreText = this.add.text(30, 90, FT("fruit.hud.best", { score: this.scoreManager.getHighScore() }), {
             fontSize: '24px',
             color: '#666666',
             backgroundColor: '#ffffff',
@@ -136,7 +136,7 @@ class GameScene extends Phaser.Scene {
         const rightX = width - 30;
 
         // Next 标签
-        this.add.text(rightX, 30, 'Next:', {
+        this.add.text(rightX, 30, FT("fruit.hud.next"), {
             fontSize: '24px',
             fontStyle: 'bold',
             color: '#666666',
@@ -151,7 +151,7 @@ class GameScene extends Phaser.Scene {
         }).setOrigin(0.5).setDepth(100);
 
         // 暂停按钮 - 确保可见
-        this.pauseButton = this.add.text(rightX, 180, '⏸\n暂停', {
+        this.pauseButton = this.add.text(rightX, 180, FT("fruit.hud.pause"), {
             fontSize: '24px',
             fontStyle: 'bold',
             color: '#ffffff',
@@ -372,15 +372,15 @@ class GameScene extends Phaser.Scene {
     }
 
     updateScore() {
-        this.scoreText.setText(`Score: ${this.scoreManager.getScore()}`);
-        this.highScoreText.setText(`Best: ${this.scoreManager.getHighScore()}`);
+        this.scoreText.setText(FT("fruit.hud.score", { score: this.scoreManager.getScore() }));
+        this.highScoreText.setText(FT("fruit.hud.best", { score: this.scoreManager.getHighScore() }));
     }
 
     showCongrats() {
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
 
-        const text = this.add.text(centerX, centerY, '🎉 西瓜！WATERMELON! 🎉', {
+        const text = this.add.text(centerX, centerY, FT("fruit.hud.watermelon"), {
             fontSize: '48px',
             fontStyle: 'bold',
             color: '#2ecc71',

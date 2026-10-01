@@ -48,7 +48,7 @@ class MenuScene extends Phaser.Scene {
         const scoreManager = new ScoreManager();
         const highScore = scoreManager.getHighScore();
 
-        this.add.text(width / 2, 400, '最高分 High Score', {
+        this.add.text(width / 2, 400, FT("fruit.menu.highScore"), {
             fontSize: '24px',
             color: '#666666'
         }).setOrigin(0.5);
@@ -60,12 +60,12 @@ class MenuScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // 开始按钮
-        this.createButton(width / 2, 580, '开始游戏 START', () => {
+        this.createButton(width / 2, 580, FT("fruit.menu.start"), () => {
             this.scene.start('GameScene');
         });
 
         // 说明文字
-        this.add.text(width / 2, 720, '点击屏幕投放水果\nTap to drop fruits', {
+        this.add.text(width / 2, 720, FT("fruit.menu.hint"), {
             fontSize: '20px',
             color: '#999999',
             align: 'center'

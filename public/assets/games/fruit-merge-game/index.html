@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Fruit Merge Mania - Addictive merge puzzle game! Drop fruits and merge them!">
+    <meta name="description" content="水果合成：投放水果、同级相撞合成更大的水果，别让果堆越过红线。"
+        data-i18n-attr="content:fruit.doc.description">
     <meta name="keywords" content="fruit, merge, puzzle, game, casual, html5">
-    <title>Fruit Merge Mania - 水果合成</title>
+    <title data-i18n="fruit.doc.title">水果合成狂热 Fruit Merge Mania</title>
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- 语言桥：读取主站同一个 jiedim.lang 键，让游戏界面跟随站点语言 -->
+    <script src="../shared/game-i18n.js"></script>
+    <script src="./i18n.js"></script>
 
     <!-- Phaser 3 引擎：本地优先，避免国内访问 CDN 失败导致白屏 -->
     <script src="js/lib/phaser.min.js"></script>
@@ -24,8 +29,8 @@
         <div id="game"></div>
         <div id="loading" class="loading-screen">
             <div class="loading-spinner"></div>
-            <p id="loadingText">Loading...</p>
-            <button id="loadingRetry" type="button" hidden>重新加载 / Reload</button>
+            <p id="loadingText" data-i18n="fruit.loading">加载中…</p>
+            <button id="loadingRetry" type="button" hidden data-i18n="fruit.reload">重新加载</button>
         </div>
     </div>
 
@@ -48,7 +53,7 @@
                 if (settled) return;
                 settled = true;
                 if (spinner) spinner.style.display = 'none';
-                if (text) text.textContent = '游戏加载失败，请检查网络后重试 / Failed to load';
+                if (text) text.textContent = FT("fruit.loadFail");
                 if (retry) retry.hidden = false;
             };
 
@@ -57,6 +62,8 @@
             }
             setTimeout(window.__fruitMergeFail, 8000);
         })();
+
+        GameI18N.apply(window.FRUIT_MERGE_I18N);
     </script>
 
     <!-- Game Scripts -->

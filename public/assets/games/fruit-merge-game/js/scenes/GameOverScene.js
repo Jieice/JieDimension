@@ -21,7 +21,7 @@ class GameOverScene extends Phaser.Scene {
         this.add.rectangle(width / 2, height / 2, width, height, 0xf0f0f0);
 
         // 游戏结束标题
-        const gameOverText = this.add.text(width / 2, 150, 'Game Over', {
+        const gameOverText = this.add.text(width / 2, 150, FT("fruit.over.title"), {
             fontSize: '64px',
             fontStyle: 'bold',
             color: '#ff4757',
@@ -40,7 +40,7 @@ class GameOverScene extends Phaser.Scene {
 
         // 新纪录提示
         if (this.isNewRecord) {
-            const newRecordText = this.add.text(width / 2, 230, '🎉 NEW RECORD! 新纪录! 🎉', {
+            const newRecordText = this.add.text(width / 2, 230, FT("fruit.over.record"), {
                 fontSize: '32px',
                 fontStyle: 'bold',
                 color: '#ffa502',
@@ -62,11 +62,11 @@ class GameOverScene extends Phaser.Scene {
         this.createScorePanel();
 
         // 按钮
-        this.createButton(width / 2, 550, '再来一次 RETRY', () => {
+        this.createButton(width / 2, 550, FT("fruit.over.retry"), () => {
             this.scene.start('GameScene');
         }, 0xff4757);
 
-        this.createButton(width / 2, 650, '返回菜单 MENU', () => {
+        this.createButton(width / 2, 650, FT("fruit.over.menu"), () => {
             this.scene.start('MenuScene');
         }, 0x4b7bec);
 
@@ -83,7 +83,7 @@ class GameOverScene extends Phaser.Scene {
         panel.setStrokeStyle(4, 0xcccccc);
 
         // 你的分数
-        this.add.text(width / 2, panelY, 'Your Score', {
+        this.add.text(width / 2, panelY, FT("fruit.over.yourScore"), {
             fontSize: '24px',
             color: '#666666'
         }).setOrigin(0.5);
@@ -107,7 +107,7 @@ class GameOverScene extends Phaser.Scene {
         });
 
         // 最高分
-        this.add.text(width / 2, panelY + 120, `High Score: ${this.highScore}`, {
+        this.add.text(width / 2, panelY + 120, FT("fruit.over.highScore", { score: this.highScore }), {
             fontSize: '20px',
             color: '#999999'
         }).setOrigin(0.5);
@@ -208,18 +208,16 @@ class GameOverScene extends Phaser.Scene {
         const height = this.cameras.main.height;
 
         // 根据分数给出不同的鼓励语
-        let message = '';
+        let messageKey = 'fruit.over.praise.keep';
         if (this.finalScore >= 1000) {
-            message = '太厉害了！Master Level! 🏆';
+            messageKey = 'fruit.over.praise.master';
         } else if (this.finalScore >= 500) {
-            message = '很棒！Great Job! 🌟';
+            messageKey = 'fruit.over.praise.great';
         } else if (this.finalScore >= 200) {
-            message = '不错！Nice Try! 👍';
-        } else {
-            message = '继续加油！Keep Going! 💪';
+            messageKey = 'fruit.over.praise.nice';
         }
 
-        this.add.text(width / 2, height - 50, message, {
+        this.add.text(width / 2, height - 50, FT(messageKey), {
             fontSize: '20px',
             color: '#999999'
         }).setOrigin(0.5);

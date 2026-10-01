@@ -30,7 +30,7 @@ class PauseScene extends Phaser.Scene {
         statusBg.setDepth(1001);
 
         // 暂停标题 - 更大更明显
-        const pauseText = this.add.text(width / 2, 180, '⏸️ 游戏已暂停', {
+        const pauseText = this.add.text(width / 2, 180, FT("fruit.pause.title"), {
             fontSize: '56px',
             fontStyle: 'bold',
             color: '#ffffff',
@@ -39,7 +39,7 @@ class PauseScene extends Phaser.Scene {
         }).setOrigin(0.5).setDepth(1002);
 
         // 英文提示
-        const pauseSubText = this.add.text(width / 2, 230, 'GAME PAUSED', {
+        const pauseSubText = this.add.text(width / 2, 230, FT("fruit.pause.subtitle"), {
             fontSize: '28px',
             fontStyle: 'bold',
             color: '#ffffff',
@@ -62,33 +62,33 @@ class PauseScene extends Phaser.Scene {
         tipsBg.setStrokeStyle(3, 0x666666);
         tipsBg.setDepth(1001);
 
-        const tipsText = this.add.text(width / 2, 340, '💡 点击下方按钮继续游戏或选择其他操作\nClick button below to continue or choose other options', {
+        const tipsText = this.add.text(width / 2, 340, FT("fruit.pause.tips"), {
             fontSize: '18px',
             color: '#ffffff',
             align: 'center'
         }).setOrigin(0.5).setDepth(1002);
 
         // 继续按钮 - 更大更明显
-        this.createButton(width / 2, 450, '▶️ 继续游戏 RESUME', () => {
+        this.createButton(width / 2, 450, FT("fruit.pause.resume"), () => {
             this.resumeGame();
         }, 0x2ecc71, 500, 90);
 
         // 重新开始按钮
-        this.createButton(width / 2, 570, '🔄 重新开始 RESTART', () => {
+        this.createButton(width / 2, 570, FT("fruit.pause.restart"), () => {
             this.scene.stop('PauseScene');
             this.scene.stop('GameScene');
             this.scene.start('GameScene');
         }, 0xffa502, 400, 70);
 
         // 返回菜单按钮
-        this.createButton(width / 2, 670, '🏠 返回菜单 MENU', () => {
+        this.createButton(width / 2, 670, FT("fruit.pause.menu"), () => {
             this.scene.stop('PauseScene');
             this.scene.stop('GameScene');
             this.scene.start('MenuScene');
         }, 0xff4757, 400, 70);
 
         // 底部提示
-        this.add.text(width / 2, 780, '游戏进度已保存，可以安全退出\nProgress saved, safe to exit', {
+        this.add.text(width / 2, 780, FT("fruit.pause.footer"), {
             fontSize: '16px',
             color: '#999999',
             align: 'center'
