@@ -1,7 +1,0 @@
-**/*.pyc
-**/*.zip
-
-# Build artifacts (excluded from source repo, but we need them for static deploy)
-# /candybox2.js
-# /candybox2_uncompressed.js
-/code/gen/

@@ -21,7 +21,6 @@ public/                 # Static site root (deployed as-is)
 │   ├── images/         # Game cover images & screenshots
 │   ├── games/          # Browser-playable web games
 │   └── js/             # Vendored marked.js + highlight.js
-├── play/               # Hosted open-source games (A Dark Room, etc.)
 ├── favicon/
 └── og/
 .github/workflows/deploy.yml  # GitHub Pages deployment
