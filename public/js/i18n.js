@@ -32,9 +32,9 @@ window.I18N = {
     "qq.label": "QQ 群号",
     "qq.copy": "复制群号",
     "qq.copied": "已复制群号 ✓",
-    "qq.join": "打开 QQ 加群",
+    "qq.join": "点击加群 →",
     "qq.entry": "QQ 群 756205360",
-    "qq.hint": "手机端可直接唤起 QQ 加群；电脑端复制群号后在 QQ 搜索框中粘贴即可。",
+    "qq.hint": "点击群号卡片即可唤起 QQ 加群；也可以复制群号，在 QQ 搜索框中粘贴加群。",
 
     // Featured Games
     "games.eyebrow": "Released / 已上线",
@@ -115,9 +115,9 @@ window.I18N = {
     "qq.label": "QQ Group ID",
     "qq.copy": "Copy Group ID",
     "qq.copied": "Group ID copied ✓",
-    "qq.join": "Open in QQ",
+    "qq.join": "Join Group →",
     "qq.entry": "QQ Group 756205360",
-    "qq.hint": "On mobile, this opens QQ directly. On desktop, copy the ID and paste it into QQ's group search.",
+    "qq.hint": "Tap the group card to open QQ and join; or copy the ID and paste it into QQ's group search.",
 
     // Featured Games
     "games.eyebrow": "Released",

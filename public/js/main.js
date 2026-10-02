@@ -231,14 +231,25 @@
   );
   videos.forEach((v) => videoIo.observe(v));
 
-  /* ---------- QQ 群：移动端显示唤起按钮 + 复制群号 ---------- */
+  /* ---------- QQ 群：点击加群链接 + 复制群号 ---------- */
   const qqCopyBtn = document.getElementById("qqCopyBtn");
-  const qqJoinBtn = document.getElementById("qqJoinBtn");
+  const qqJoinLink = document.getElementById("qqJoinLink");
   const qqNumber = document.getElementById("qqNumber");
 
-  if (qqJoinBtn && /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) {
-    // 桌面端点击 mqqapi: 协议会弹出系统「找不到应用」，仅在移动端展示
-    qqJoinBtn.hidden = false;
+  if (qqJoinLink) {
+    // 手机端用 mqqapi 唤起 QQ 群卡片；电脑端用 QQ 客户端的 tencent 协议直接拉起加群窗口
+    const qqUin = (qqNumber && qqNumber.textContent.trim()) || "756205360";
+    const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    let qqHref;
+    if (isMobile) {
+      qqHref = "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=" + qqUin + "&card_type=group&source=qrcode";
+    } else {
+      const payload = JSON.stringify({ groupUin: Number(qqUin), timestamp: Math.floor(Date.now() / 1000) });
+      let hex = "";
+      new TextEncoder().encode(payload).forEach((b) => { hex += b.toString(16).padStart(2, "0"); });
+      qqHref = "tencent://groupwpa/?subcmd=all&param=" + hex;
+    }
+    qqJoinLink.setAttribute("href", qqHref);
   }
 
   if (qqCopyBtn) {
