@@ -708,6 +708,65 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .about-links a:hover { transform: translateY(-4px) rotate(-2deg); background: var(--pink-soft); color: var(--chip-ink); border-color: var(--pink); }
 .about-links a svg { width: 17px; height: 17px; }
 
+/* ---------- 交流群横条 Community ---------- */
+.community-strip { padding: 46px 0 0; }
+.qq-join[hidden] { display: none; }
+.community-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 28px;
+  padding: 30px 38px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 3px solid var(--border-card);
+  box-shadow: var(--shadow-card);
+  position: relative; overflow: hidden;
+}
+.community-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(120deg, var(--pink-soft) 0%, transparent 42%, var(--games-glow-2, transparent) 100%);
+  opacity: 0.75; pointer-events: none;
+}
+.community-card > * { position: relative; }
+.community-mark {
+  width: 62px; height: 62px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 20px;
+  background: var(--grad-main); color: #fff;
+  box-shadow: 0 10px 24px -10px rgba(255, 77, 148, 0.6);
+}
+.community-mark svg { width: 31px; height: 31px; }
+.community-info { min-width: 0; }
+.community-eyebrow {
+  font-size: 0.76rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pink-deep); margin-bottom: 6px;
+}
+.community-title { font-size: 1.42rem; font-weight: 900; line-height: 1.35; }
+.community-desc { color: var(--ink-2); font-size: 0.94rem; font-family: var(--font-hand); margin-top: 8px; max-width: 56ch; }
+.community-actions {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+  justify-content: flex-end; max-width: 400px;
+}
+.qq-badge {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 10px 20px; border-radius: 999px;
+  background: var(--pink-soft); border: 2px dashed var(--pink);
+}
+.qq-badge-label { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; color: var(--chip-ink); text-transform: uppercase; }
+.qq-badge-number {
+  font-family: var(--font-disp); font-weight: 800; font-size: 1.32rem;
+  letter-spacing: 0.04em; color: var(--pink-deep); line-height: 1.15;
+}
+.community-actions .btn { padding: 12px 24px; font-size: 0.92rem; }
+.community-hint {
+  grid-column: 2 / -1;
+  font-size: 0.8rem; color: var(--ink-3);
+  font-family: var(--font-hand);
+  margin-top: -12px;
+}
+.qq-copy.copied { background: var(--mint); color: #06392e; }
+.qq-copy.copied:hover { transform: translateY(-4px) scale(1.03); }
+
 /* ---------- Footer ---------- */
 .site-footer {
   background: var(--footer-bg); color: var(--footer-ink);
@@ -822,6 +881,7 @@ html.theme-anim *::after {
 :root[data-theme="night"] .featured-card,
 :root[data-theme="night"] .game-card,
 :root[data-theme="night"] .blog-card,
+:root[data-theme="night"] .community-card,
 :root[data-theme="night"] .blog-modal-sheet {
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
@@ -842,6 +902,9 @@ html.theme-anim *::after {
   .blog-modal-body { padding: 24px 26px 34px; }
   .moon { width: 76px; height: 76px; right: 9%; }
   .branch { width: 320px; height: 238px; opacity: 0.75; }
+  .community-card { grid-template-columns: auto 1fr; row-gap: 16px; }
+  .community-actions { grid-column: 1 / -1; justify-content: flex-start; max-width: none; }
+  .community-hint { grid-column: 1 / -1; margin-top: 0; }
 }
 @media (max-width: 640px) {
   .game-grid, .blog-grid { grid-template-columns: 1fr; }
@@ -874,6 +937,14 @@ html.theme-anim *::after {
   .back-to-top { right: 16px; bottom: 20px; }
   .moon { width: 58px; height: 58px; right: 8%; top: 5%; }
   .branch { width: 220px; height: 164px; top: -10px; right: -40px; opacity: 0.5; }
+  .community-card { padding: 24px 22px; gap: 18px; }
+  .community-mark { width: 52px; height: 52px; border-radius: 16px; }
+  .community-mark svg { width: 26px; height: 26px; }
+  .community-title { font-size: 1.22rem; }
+  .community-actions { flex-direction: column; align-items: stretch; }
+  .community-actions .btn { justify-content: center; }
+  .qq-badge { align-items: center; }
+  .community-hint { text-align: center; }
 }
 /* 极窄屏：先舍弃导航里的 GitHub 图标（关于区与页脚仍有入口），再舍弃文字标识 */
 @media (max-width: 420px) {

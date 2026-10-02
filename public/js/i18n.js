@@ -9,6 +9,7 @@ window.I18N = {
     "nav.dev": "开发中",
     "nav.blog": "博客",
     "nav.about": "关于",
+    "nav.community": "交流群",
     "nav.github": "GitHub",
     "theme.toggle": "切换日间 / 夜间主题",
 
@@ -23,6 +24,17 @@ window.I18N = {
     "hero.stat.prototypes": "Game Jam 原型",
     "hero.stat.years": "开发年限",
     "mascot.hello": "欢迎来到界维的小站～ 每一款游戏都可以直接玩哦！(≧▽≦)",
+
+    // Community / QQ Group
+    "qq.eyebrow": "Community / 交流群",
+    "qq.title": "界维互动 · 游戏交流群",
+    "qq.desc": "新作测试资格、开发进度与更新公告会第一时间发布在群里，也欢迎来聊聊玩法、提提建议。",
+    "qq.label": "QQ 群号",
+    "qq.copy": "复制群号",
+    "qq.copied": "已复制群号 ✓",
+    "qq.join": "打开 QQ 加群",
+    "qq.entry": "QQ 群 756205360",
+    "qq.hint": "手机端可直接唤起 QQ 加群；电脑端复制群号后在 QQ 搜索框中粘贴即可。",
 
     // Featured Games
     "games.eyebrow": "Released / 已上线",
@@ -80,6 +92,7 @@ window.I18N = {
     "nav.dev": "Dev",
     "nav.blog": "Blog",
     "nav.about": "About",
+    "nav.community": "Community",
     "nav.github": "GitHub",
     "theme.toggle": "Toggle day / night theme",
 
@@ -94,6 +107,17 @@ window.I18N = {
     "hero.stat.prototypes": "Game Jam Prototypes",
     "hero.stat.years": "Years Developing",
     "mascot.hello": "Welcome to JieDimension~ Every game is playable right here! (≧▽≦)",
+
+    // Community / QQ Group
+    "qq.eyebrow": "Community",
+    "qq.title": "JieDimension · Player Group",
+    "qq.desc": "Playtest invites, dev progress and release notes drop in the group first — come talk design and share feedback.",
+    "qq.label": "QQ Group ID",
+    "qq.copy": "Copy Group ID",
+    "qq.copied": "Group ID copied ✓",
+    "qq.join": "Open in QQ",
+    "qq.entry": "QQ Group 756205360",
+    "qq.hint": "On mobile, this opens QQ directly. On desktop, copy the ID and paste it into QQ's group search.",
 
     // Featured Games
     "games.eyebrow": "Released",

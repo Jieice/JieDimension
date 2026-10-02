@@ -231,6 +231,69 @@
   );
   videos.forEach((v) => videoIo.observe(v));
 
+  /* ---------- QQ 群：移动端显示唤起按钮 + 复制群号 ---------- */
+  const qqCopyBtn = document.getElementById("qqCopyBtn");
+  const qqJoinBtn = document.getElementById("qqJoinBtn");
+  const qqNumber = document.getElementById("qqNumber");
+
+  if (qqJoinBtn && /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) {
+    // 桌面端点击 mqqapi: 协议会弹出系统「找不到应用」，仅在移动端展示
+    qqJoinBtn.hidden = false;
+  }
+
+  if (qqCopyBtn) {
+    const qqText = (qqNumber && qqNumber.textContent.trim()) || qqCopyBtn.dataset.qq || "";
+    const copyLabel = qqCopyBtn.querySelector("span");
+    const defaultKey = "qq.copy";
+    let restoreTimer;
+
+    qqCopyBtn.addEventListener("click", async () => {
+      let ok = false;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(qqText);
+          ok = true;
+        }
+      } catch (e) { ok = false; }
+
+      if (!ok) {
+        // 回退：旧浏览器 / 非安全上下文用临时输入框 + execCommand
+        try {
+          const tmp = document.createElement("textarea");
+          tmp.value = qqText;
+          tmp.setAttribute("readonly", "");
+          tmp.style.cssText = "position:fixed;top:-1000px;opacity:0;";
+          document.body.appendChild(tmp);
+          tmp.select();
+          ok = document.execCommand("copy");
+          document.body.removeChild(tmp);
+        } catch (e) { ok = false; }
+      }
+
+      if (!ok) return;
+
+      const lang = localStorage.getItem(STORAGE_KEY) === "en" ? "en" : "zh";
+      qqCopyBtn.classList.add("copied");
+      if (copyLabel) copyLabel.textContent = window.I18N[lang]["qq.copied"];
+      clearTimeout(restoreTimer);
+      restoreTimer = setTimeout(() => {
+        qqCopyBtn.classList.remove("copied");
+        if (copyLabel) copyLabel.setAttribute("data-i18n", defaultKey);
+        window.applyI18n(lang);
+      }, 2000);
+
+      // 同步无障碍状态
+      qqCopyBtn.setAttribute("aria-label", window.I18N[lang]["qq.copied"]);
+    });
+
+    // 语言切换后恢复按钮文案（applyI18n 只处理 [data-i18n]，此处补一次兜底）
+    document.addEventListener("langchange", () => {
+      if (!qqCopyBtn.classList.contains("copied") && copyLabel) {
+        copyLabel.setAttribute("data-i18n", defaultKey);
+      }
+    });
+  }
+
   /* ---------- ESC closes modal ---------- */
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
