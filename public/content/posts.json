@@ -21,8 +21,8 @@
     "slug": "dimension-defender",
     "title": "《界维守卫》：在多维战场活下来",
     "title_en": "Dimension Defender: Survive the Multidimensional Battlefield",
-    "description": "界维互动工作室制作的 Android 单机弹幕生存游戏，自动射击、构筑成长、装备与 MOD 组合，带你在不断升级的怪物潮中守住维度。",
-    "description_en": "An offline Android bullet-hell survivor. Auto-fire, build crafting, gear and MOD combos.",
+    "description": "界维互动工作室制作的弹幕生存游戏，自动射击、构筑成长、装备与 MOD 组合。介绍 Maker 测试版与早期 Android 单机版。",
+    "description_en": "A bullet-hell survivor with auto-fire, build crafting, gear and MOD combos. Covers the Maker test version and the earlier offline Android version.",
     "published": "2026-07-22",
     "image": "/assets/images/dimension-defender/hero.webp",
     "tags": [

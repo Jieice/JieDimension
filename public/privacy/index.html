@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>《界维守卫》隐私政策 · 界维互动</title>
+  <meta name="description" content="界维互动《界维守卫》隐私政策：TapTap Maker 版及早期 Android 单机版的信息处理、云存档、激励广告与个人信息权利。" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://jieice.l.cd/privacy/" />
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <style>
+    :root { color-scheme: light dark; --bg: #fcf7fa; --paper: #fff; --ink: #302a35; --muted: #665c70; --line: #e6dce6; --accent: #8a3769; --soft: #f7edf4; }
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 24px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; font-size: 16px; line-height: 1.85; overflow-wrap: anywhere; }
+    a { color: var(--accent); text-underline-offset: 4px; }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; border-radius: 2px; }
+    .site-nav { max-width: 940px; margin: 0 auto; padding: 20px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; }
+    .brand { font-weight: 700; text-decoration: none; }
+    main { max-width: 884px; margin: 0 auto 40px; padding: 44px 48px; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; }
+    .eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 14px; font-weight: 650; letter-spacing: .08em; }
+    h1 { margin: 0 0 16px; font-size: clamp(26px, 4vw, 36px); line-height: 1.45; }
+    h2 { margin: 36px 0 12px; font-size: 21px; line-height: 1.55; }
+    h3 { margin: 24px 0 8px; font-size: 17px; }
+    p { margin: 10px 0; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .notice { margin: 24px 0; padding: 18px 22px; background: var(--soft); border-left: 4px solid var(--accent); border-radius: 4px 12px 12px 4px; }
+    .notice p { margin: 4px 0; }
+    .toc { margin: 26px 0 30px; padding: 20px 24px; border: 1px solid var(--line); border-radius: 12px; }
+    .toc h2 { margin: 0 0 10px; font-size: 17px; }
+    .toc ol { margin: 0; padding-left: 24px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; }
+    .toc li { padding: 3px 0; }
+    ul, ol { padding-left: 24px; }
+    li + li { margin-top: 7px; }
+    .toc li + li { margin-top: 0; }
+    .data-item { margin: 16px 0; padding: 18px 22px; border: 1px solid var(--line); border-radius: 12px; }
+    .data-item h3 { margin: 0 0 6px; }
+    .data-item p { margin: 6px 0; }
+    footer { max-width: 884px; margin: 0 auto; padding: 0 28px 36px; color: var(--muted); font-size: 14px; }
+    @media (max-width: 600px) {
+      .site-nav { padding: 18px 20px; font-size: 14px; }
+      main { margin: 0 12px 28px; padding: 28px 20px; border-radius: 14px; }
+      h2 { font-size: 20px; }
+      .toc { padding: 16px 18px; }
+      .toc ol { grid-template-columns: 1fr; }
+      .notice, .data-item { padding: 16px; }
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #15111b; --paper: #201b27; --ink: #f0e9f2; --muted: #c0b3c8; --line: #42374a; --accent: #f2afd6; --soft: #302337; }
+    }
+    @media print {
+      :root { --bg: #fff; --paper: #fff; --ink: #000; --muted: #333; --line: #bbb; --accent: #000; --soft: #f6f6f6; }
+      .site-nav, .toc, footer { display: none; }
+      main { max-width: none; margin: 0; padding: 0; border: 0; }
+      h2, h3 { break-after: avoid; }
+      .data-item { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="网站导航">
+    <a class="brand" href="/">JieDimension · 界维互动</a>
+    <a href="#contact">隐私问题与数据请求</a>
+  </nav>
+  <main id="top">
+    <header>
+      <p class="eyebrow">DIMENSION DEFENDER</p>
+      <h1>《界维守卫》隐私政策</h1>
+      <p class="meta">更新日期：2026 年 10 月 29 日<br />生效日期：2026 年 10 月 29 日</p>
+      <p>《界维守卫》（Dimension Defender，以下简称“本游戏”）由<strong>界维互动工作室（JieDimension Studio，开发者：Jieice）</strong>开发和提供。我们重视您的个人信息保护，本政策说明本游戏处理信息的场景、用途、保存方式以及您可以行使的权利。</p>
+    </header>
+    <div class="notice">
+      <p><strong>请先确认您使用的版本。</strong>本政策同时说明 TapTap Maker 版（1.x）和早期 Godot Android 单机版（0.10.x）的数据处理方式。</p>
+      <p><strong>Maker 版使用 TapTap 账号、云存档和主动选择的激励广告；早期单机版的存档保存在设备本地。</strong>两者的数据处理方式不同。仅浏览或预约 TapTap 游戏页面时，预约记录由 TapTap 按其隐私政策处理。</p>
+    </div>
+    <nav class="toc" aria-label="隐私政策目录">
+      <h2>阅读目录</h2>
+      <ol>
+        <li><a href="#scope">适用范围</a></li>
+        <li><a href="#information">我们处理哪些信息</a></li>
+        <li><a href="#services">平台服务与第三方</a></li>
+        <li><a href="#permissions">权限与本地技术</a></li>
+        <li><a href="#storage">存储与保护</a></li>
+        <li><a href="#sharing">共享、转移与披露</a></li>
+        <li><a href="#rights">您的个人信息权利</a></li>
+        <li><a href="#minors">未成年人保护</a></li>
+        <li><a href="#updates">政策更新</a></li>
+        <li><a href="#contact">联系我们</a></li>
+      </ol>
+    </nav>
+
+    <section aria-labelledby="scope">
+      <h2 id="scope">一、适用范围</h2>
+      <p>本政策适用于我们通过本游戏直接处理的信息，以及您主动向我们提交的反馈。TapTap 的账号注册、实名认证、预约、宿主运行和平台广告服务，由相应平台或服务提供方依其隐私政策处理。您通过链接使用邮件、QQ、TapTap 社区等服务时，还应阅读对应服务的隐私说明。</p>
+      <p>Maker 版通过 TapTap 平台运行；早期单机版是独立安装的 Godot Android 应用。仅存在于其中一个版本的功能，不会使另一个版本自动产生相同的数据收集行为。</p>
+    </section>
+
+    <section aria-labelledby="information">
+      <h2 id="information">二、我们处理哪些信息</h2>
+      <h3>1. TapTap Maker 版</h3>
+      <div class="data-item">
+        <h3>账号标识与昵称</h3>
+        <p><strong>信息及来源：</strong>通过 TapTap 平台接口读取您当前登录账号的用户 ID 和昵称。</p>
+        <p><strong>用途：</strong>识别对应玩家、读取和保存其游戏进度，以及显示玩家名称和缩短后的玩家编号。昵称在当前游戏会话中缓存，不写入游戏云存档。</p>
+        <p><strong>您的选择：</strong>账号授权由平台管理；未登录或授权不可用时，账号关联的云存档功能可能无法正常使用。本游戏不直接要求您提供 TapTap 密码、手机号、真实姓名或身份证号码。</p>
+      </div>
+      <div class="data-item">
+        <h3>游戏进度与偏好</h3>
+        <p><strong>信息及来源：</strong>您游玩时产生的关卡与任务进度、装备、游戏货币、MOD、紫卡、升级与解锁记录、奖励记录、广告领奖计数及游戏偏好设置。</p>
+        <p><strong>用途：</strong>通过 TapTap 云存档服务读取和保存游戏状态、恢复进度、结算奖励，并避免重复领取。上述记录与您的平台账号关联，不是完全离线的本机存档。</p>
+        <p><strong>您的选择：</strong>停止游戏后不会继续产生新的游玩记录。卸载 TapTap、清除设备缓存或重新进入游戏，通常不等于删除账号关联的云存档；需要删除时请按第七节联系我们。</p>
+      </div>
+      <div class="data-item">
+        <h3>主动选择的激励广告</h3>
+        <p><strong>触发场景：</strong>您选择观看激励广告以获得游戏内奖励时，本游戏调用 TapTap 宿主提供的广告接口。</p>
+        <p><strong>我们处理的信息：</strong>广告接口返回的成功或失败结果，以及对应的奖励和次数记录，用于判断是否发奖和控制领取次数。</p>
+        <p><strong>您的选择：</strong>您可以不选择观看激励广告；未完成广告时可能无法领取该项广告奖励。平台及其广告合作方可能另行处理设备、网络或广告交互信息，详见第三节。</p>
+      </div>
+      <h3>2. 早期 Godot Android 单机版</h3>
+      <p>早期单机版无需注册游戏账号。进度、解锁、成就、游戏内统计、设置和隐私提示同意状态保存在设备的应用私有空间，存档使用 Godot 加密配置文件保存，不通过 Maker 云存档上传。</p>
+      <p>该版本会在本地使用屏幕尺寸、方向等信息以适配画面。引擎或系统可能生成本地运行日志、错误信息；当前单机配置没有自动上传这些日志的功能，也没有接入 Maker 版的账号、广告、云存档或统计分析服务。</p>
+      <h3>3. 您主动提供的反馈</h3>
+      <p>当您通过邮件、TapTap 或 QQ 联系我们时，我们会处理您主动提供的联系方式、玩家编号、问题描述、设备型号、系统版本、日志或截图，仅用于回复、核实存档问题及定位和修复异常。反馈是自愿的；请尽量遮挡与问题无关的个人信息，不要发送密码、验证码或身份证件。</p>
+    </section>
+
+    <section aria-labelledby="services">
+      <h2 id="services">三、平台服务与第三方</h2>
+      <p><strong>TapTap 平台 / TapTap Maker 宿主：</strong>由易玩（上海）网络科技有限公司提供平台服务。Maker 版使用其账号身份接口、云存档与宿主广告能力。我们通过接口处理的信息见第二节；平台为运行、安全、实名认证或广告服务自行处理的信息，应以其对应隐私政策和具体功能提示为准。</p>
+      <p>TapTap 官方政策说明，其平台服务在相应场景可能处理账号信息、设备标识符（如 AndroidID、OAID、IDFA）、设备品牌和型号、系统或产品版本、IP 地址、网络信息及广告交互信息。<strong>这是平台层面的场景说明，不表示本游戏开发者直接读取这些全部信息。</strong>实际广告合作方及其信息处理范围以当前平台的服务提示和第三方清单为准。</p>
+      <ul>
+        <li><a href="https://www.taptap.cn/doc/privacy-policy/" target="_blank" rel="noopener noreferrer">TapTap 隐私政策</a></li>
+        <li><a href="https://www.taptap.cn/privacy-third-sdk" target="_blank" rel="noopener noreferrer">TapTap 第三方信息共享清单</a></li>
+        <li><a href="https://www.taptap.cn/doc/children-privacy/" target="_blank" rel="noopener noreferrer">TapTap 儿童个人信息保护规则</a></li>
+      </ul>
+      <p><strong>早期单机版的本地组件：</strong>Godot 引擎，以及 AndroidX、Material Components、Markwon、Gson 和本地隐私提示插件用于本机运行、兼容和展示政策，其当前单机用途不包括向我们上传数据。</p>
+      <p>我们不出售您的个人信息，也不将游戏云存档主动提供给广告合作方用于广告画像。如果未来增加由我们直接接入、处理个人信息的新服务，将在启用前更新服务清单，并依法告知和取得必要同意。</p>
+    </section>
+
+    <section aria-labelledby="permissions">
+      <h2 id="permissions">四、权限与本地技术</h2>
+      <p>Maker 版通过平台联网运行。本游戏的玩法代码没有直接读取通讯录、精确位置、相机、麦克风、电话内容或剪贴板的功能；这不等同于 TapTap 宿主应用不申请任何权限。平台权限以其当次请求、用途说明和系统设置为准，您可在设备或 TapTap 的隐私设置中管理。</p>
+      <p>早期 Godot Android 单机配置不申请互联网、定位、通讯录、相机、麦克风、电话、外部存储或广告跟踪权限。</p>
+      <p>本政策网页以静态页面展示，无账号登录、广告或分析脚本，也不设置跟踪 Cookie。网页托管方 GitHub Pages 在提供访问服务时可能处理网络请求信息；有关托管服务的处理规则请参阅 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub 隐私声明</a>。</p>
+    </section>
+
+    <section aria-labelledby="storage">
+      <h2 id="storage">五、存储与保护</h2>
+      <p><strong>Maker 版：</strong>游戏进度存放于 TapTap 云存档服务，游戏运行时还会在内存中保存当前状态。平台服务的存储地点、安全措施及平台账号信息的保存规则见其隐私政策；TapTap 官方政策说明，在中国境内获取的个人信息存储于中国境内。</p>
+      <p><strong>早期单机版：</strong>存档、设置及同意状态存放于您设备的应用私有空间，通常保留到您清除游戏数据或卸载应用为止。</p>
+      <p>我们仅在提供游戏存档、处理反馈或履行法律义务所必需的期限内保留信息。您提出有效删除请求、信息不再必要或停止提供相关服务时，我们会删除或匿名化我们控制的信息；涉及平台管理的数据，将协助您通过平台处理。法律要求保留的信息仅用于法定用途，超出必要期限后处理。</p>
+      <p>我们限制信息的使用目的和访问范围，并使用平台提供的账号及数据保护能力。请妥善保护账号和设备，避免公开完整存档、联系方式或验证信息。如发生影响您个人信息安全的事件，我们将采取措施减少影响，并依法通知您及有关主管部门。</p>
+    </section>
+
+    <section aria-labelledby="sharing">
+      <h2 id="sharing">六、共享、转移与披露</h2>
+      <p>为提供 Maker 版账号关联与进度保存，本游戏通过平台接口处理第二节所列信息。除此之外，我们不会将您未公开的反馈或存档提供给无关第三方，也不会公开披露这些信息，除非取得您的适当同意或法律另有要求。</p>
+      <p>如因业务转移等原因需要转移我们控制的个人信息，我们将依法告知接收方及联系方式，并要求接收方继续履行保护义务；处理目的或方式发生变化时，应重新取得必要同意。我们不会以本政策概括授权未来新增的数据用途。</p>
+    </section>
+
+    <section aria-labelledby="rights">
+      <h2 id="rights">七、您的个人信息权利</h2>
+      <ul>
+        <li><strong>访问、更正和复制：</strong>您可在游戏内查看进度及偏好；如需查询、更正或复制我们处理的账号关联游戏信息或反馈，请通过第十节联系方式提出请求。</li>
+        <li><strong>删除游戏信息：</strong>Maker 云存档或已提交反馈的删除请求请联系我们。删除云存档可能导致游戏进度、装备和奖励无法恢复。早期单机版可通过游戏的“清除所有数据”、Android 的“清除存储数据”或卸载删除本机数据。</li>
+        <li><strong>撤回授权：</strong>可停止使用对应功能，在 TapTap 的“设置—隐私—授权管理 / 系统权限设置”或设备设置中管理平台授权。不看激励广告不会产生该次广告奖励。撤回授权不影响撤回前依法开展的处理。</li>
+        <li><strong>平台账号与广告偏好：</strong>昵称及账号资料可通过 TapTap 管理；账号注销在 TapTap“设置—账号与安全—永久注销账号”中办理；个性化广告可在其“设置—隐私—广告推荐管理”中管理。具体入口随平台版本可能变化。</li>
+      </ul>
+      <p>我们会在收到请求并完成必要的账号归属核实后，<strong>15 个工作日内回复处理结果或处理进展</strong>；如需平台协助或依法不能满足某项请求，会向您说明原因。核实原则上使用玩家编号及已有授权渠道，不要求您把账号密码或身份证件发送给开发者。</p>
+    </section>
+
+    <section aria-labelledby="minors">
+      <h2 id="minors">八、未成年人保护</h2>
+      <p><strong>未满 18 周岁的用户，请在监护人的指导下阅读本政策；未满 14 周岁的儿童，须取得监护人对涉及儿童个人信息处理的同意。</strong>儿童个人信息属于敏感个人信息，我们仅在法律允许、取得监护人必要同意或为保护儿童所必需的情况下处理。</p>
+      <p>使用 TapTap 平台的账号及实名认证功能时，请同时阅读其儿童个人信息保护规则，并遵守平台及游戏适用的防沉迷限制。本游戏开发者不直接要求您提交实名证件；实名认证所需的信息应通过平台的正式流程提供。</p>
+      <p>监护人可联系我们查询、更正或删除我们处理的相关信息。如发现未按要求取得监护人同意而处理儿童个人信息，我们将核实并依法删除或采取其他保护措施。</p>
+    </section>
+
+    <section aria-labelledby="updates">
+      <h2 id="updates">九、政策更新</h2>
+      <p>我们会根据实际功能和法律要求更新本政策，并在本网页公布更新日期。若处理目的、方式、信息种类或接收方发生重大变化，将通过游戏提示或平台公告另行告知，并在法律要求时重新取得同意。仅浏览本网页不表示您已同意新增的信息处理。</p>
+    </section>
+
+    <section aria-labelledby="contact">
+      <h2 id="contact">十、联系我们</h2>
+      <p>个人信息保护及游戏数据请求联系人：<strong>界维互动工作室 · Jieice</strong></p>
+      <p>邮箱：<a href="mailto:3348149202@qq.com">3348149202@qq.com</a><br />政策地址：<a href="https://jieice.l.cd/privacy/">https://jieice.l.cd/privacy/</a></p>
+      <p>您也可通过 TapTap《界维守卫》社区或官方游戏交流群（QQ 群 756205360）联系开发者。涉及个人信息的数据请求建议使用邮件或私信，避免在公开评论或群聊中披露。</p>
+    </section>
+  </main>
+  <footer>© 2026 Jieice · 界维互动工作室 · <a href="/">返回网站首页</a> · <a href="#top">回到政策顶部</a></footer>
+</body>
+</html>
